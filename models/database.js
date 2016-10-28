@@ -1,5 +1,5 @@
 var pg = require('pg');
-var connectionString = process.env.DATABASE_URL || 'postgres://postgres:postgres@localhost:5432/LingoDingo';
+var connectionString = process.env.DATABASE_URL || 'postgres://postgres:Sonyericson@localhost:5432/LingoDingo';
 
 var client = new pg.Client(connectionString);
 client.connect();
