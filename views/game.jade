@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  script(src='/javascripts/JS/Boot.js')
+  script(src='/javascripts/JS/Preloader.js')
+  script(src='/javascripts/JS/Game.js')
+  script(src='/javascripts/jquery-3.1.1.min.js')
+  div(id="game")
+  div(id="orientation")
+    script.
+      window.onload = function () {
+        var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game');
+        game.state.add('Boot', Lingo.Boot);
+        game.state.add('Preloader', Lingo.Preloader);
+        //game.state.add('MainMenu', Rox.MainMenu);
+        game.state.add('Game', Lingo.Game);
+        game.state.start('Boot');
+      }
+  h1: a(href='/logout') Útskrá

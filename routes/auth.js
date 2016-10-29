@@ -28,7 +28,7 @@ function logoutHandler(req, res){
 
 function redirectIfLoggedIn(req, res, next) {
 	if(req.session.user){
-		res.redirect('/index'); //fara í leikinn
+		res.redirect('/game'); //fara í leikinn
 	} else{
 		next();
 	}
@@ -41,7 +41,7 @@ function loginHandler(req, res){
       	if (passwordHash.verify(pass, result[0].hash)) {
       		req.session.regenerate(function(){
       			req.session.user = result[0].email;
-      			res.redirect('/index');
+      			res.redirect('/game');
       		});
       	} else {
       		res.send("neibb");
