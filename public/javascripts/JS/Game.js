@@ -11,6 +11,7 @@ Lingo.Game = function(game) {
 	this.text1;
 };
 
+
 Lingo.Game.prototype = {
 	create: function () {
 
@@ -18,7 +19,7 @@ Lingo.Game.prototype = {
     
     //------------------------
     //---------Level----------
-    this.map = this.add.tilemap('tilemap');
+    //this.map = this.add.tilemap('tilemap');
 
     this.map.addTilesetImage('hell?', 'tiles');
     
@@ -34,6 +35,6 @@ Lingo.Game.prototype = {
 	},
 	update: function() {
 
-	}
+	}	
 
-}
+};

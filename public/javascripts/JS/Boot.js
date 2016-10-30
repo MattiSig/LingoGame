@@ -32,14 +32,14 @@ Lingo.Boot.prototype = {
 
         if (this.game.device.desktop)
         {
-            // this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-            // this.scale.minWidth = 320;
-            // this.scale.minHeight = 200;
-            // this.scale.maxWidth = 800;
-            // this.scale.maxHeight = 600;
-            // this.scale.pageAlignHorizontally = true;
-            // this.scale.pageAlignVertically = true;
-            // this.scale.setScreenSize(true);
+            this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+            this.scale.minWidth = 320;
+            this.scale.minHeight = 200;
+            this.scale.maxWidth = 800;
+            this.scale.maxHeight = 600;
+            this.scale.pageAlignHorizontally = true;
+            this.scale.pageAlignVertically = true;
+            //this.scale.setScreenSize(true);
         }
         else
         {
@@ -54,7 +54,7 @@ Lingo.Boot.prototype = {
             this.scale.hasResized.add(this.gameResized, this);
             this.scale.enterIncorrectOrientation.add(this.enterIncorrectOrientation, this);
             this.scale.leaveIncorrectOrientation.add(this.leaveIncorrectOrientation, this);
-            this.scale.setScreenSize(true);
+            //this.scale.setScreenSize();
         }
 
         this.state.start('Preloader');
@@ -62,7 +62,7 @@ Lingo.Boot.prototype = {
     },
 
     gameResized: function (width, height) {
-        
+
     },
 
     enterIncorrectOrientation: function () {

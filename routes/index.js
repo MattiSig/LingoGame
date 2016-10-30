@@ -4,6 +4,11 @@ var router = express.Router();
 var prufa = require('../models/post-prufa');
 var isLoggedIn = require('../middleware/isLoggedIn');
 
+//
+//	Mjög líklega orðinn úreltur fæll má deleta held ég bara
+//					MS
+
+
 /* GET home page. */
 router.get('/index', isLoggedIn, function(req, res, next) {
   res.render('index', { title: 'Express' });
