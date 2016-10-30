@@ -2,9 +2,8 @@ var query = require('./query');
 var passwordHash = require('password-hash');
 
 module.exports.addUser =
-function addUser(userData, cb){
-	var values = [userData.email, passwordHash.generate(userData.password1)];
-	console.log(values);
+function addUser(email, password, cb){
+	var values = [email, passwordHash.generate(password)];
 	var q ='INSERT INTO users(email, hash) values($1, $2)'
 
 	query(q, values, function(err, result){
@@ -18,8 +17,7 @@ function addUser(userData, cb){
 
 module.exports.findUser = 
 function findUser(userData, cb){
-	var values = [userData.email];
-	//console.log(values);
+	var values = [userData];
 	var q = 'SELECT email, hash FROM users WHERE email = $1';
 
 	query(q, values, function(err, result){

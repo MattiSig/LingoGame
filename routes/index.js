@@ -2,7 +2,7 @@
 var router = express.Router();
 
 var prufa = require('../models/post-prufa');
-var isLoggedIn = require('../middleware/isLoggedIn');
+var loggedInStatus = require('../lib/middleware/loggedInStatus');
 
 //
 //	Mjög líklega orðinn úreltur fæll má deleta held ég bara
@@ -10,7 +10,7 @@ var isLoggedIn = require('../middleware/isLoggedIn');
 
 
 /* GET home page. */
-router.get('/index', isLoggedIn, function(req, res, next) {
+router.get('/index', loggedInStatus.isLoggedIn, function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
