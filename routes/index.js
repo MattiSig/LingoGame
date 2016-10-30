@@ -1,8 +1,13 @@
-var express = require('express');
+/*var express = require('express');
 var router = express.Router();
 
 var prufa = require('../models/post-prufa');
 var loggedInStatus = require('../lib/middleware/loggedInStatus');
+
+//
+//	Mjög líklega orðinn úreltur fæll má deleta held ég bara
+//					MS
+
 
 /* GET home page. */
 router.get('/index', loggedInStatus.isLoggedIn, function(req, res, next) {
