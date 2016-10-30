@@ -19,7 +19,7 @@ Lingo.Game.prototype = {
     
     //------------------------
     //---------Level----------
-    //this.map = this.add.tilemap('tilemap');
+    this.map = this.add.tilemap('tilemap');
 
     this.map.addTilesetImage('hell?', 'tiles');
     
