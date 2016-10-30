@@ -5,7 +5,7 @@ var passwordHash = require('password-hash');
 
 var sqlUsers = require('../models/sql-user');
 
-router.get('/', redirectIfLoggedIn, function(req, res, next){
+	router.get('/', redirectIfLoggedIn, function(req, res, next){
 	res.render('login', {title: 'Forsíða'});
 });
 router.get('/login', function(req, res, next){
