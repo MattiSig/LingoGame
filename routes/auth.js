@@ -33,44 +33,66 @@ var form = [
 router.get('/', loggedInStatus.redirectIfLoggedIn, login);
 router.get('/login', loggedInStatus.redirectIfLoggedIn, login);
 
-router.get('/signUp', signup);
+router.get('/signUp', loggedInStatus.redirectIfLoggedIn, signup);
 router.get('/logout', logoutHandler);
 
 router.post('/login', loginHandler);
 router.post('/signup', signUpHandler);
 
+/**
+* Renders login site
+* @param {Object} req - request object
+* @param {Object} res - response object
+*/
 function login(req, res){
 	var info = {title: 'Login', form: form, submitted: false};
 	res.render('login', info);
 }
 
+/**
+* Renders signup site
+* @param {Object} req - request object
+* @param {Object} res - response object
+*/
 function signup(req, res){
 	var info = {title:'SignUp', form: form, submitted: false};
 	res.render('signup', info);
 }
 
+
+/**
+* Ends user session when logging out
+* @param {Object} req - request object
+* @param {Object} res - response object
+*/
 function logoutHandler(req, res){
 	req.session.destroy(function(){
 		res.redirect('/');
 	});
 }
 
+/**
+* Takes information from user and validates before handling
+* when user is logging in
+* @param {Object} req - request object
+* @param {Object} res - response object
+*/
 function loginHandler(req, res){
 	var pass = req.body.password;
 	
 	var data = formValidator(form, req.body);
 
-	var hasErrors = data.hasErrors;
-	var processedForm = data.processedForm;
+	var formErrors = data.hasErrors;
+	var validatedForm = data.processedForm;
 
 	var info = {
 		title: 'Login', 
-		form: processedForm, 
+		form: validatedForm, 
 		submitted: true,
-		errors: hasErrors
+		errors: formErrors
 	};
-	if(!hasErrors){
-		sqlUsers.findUser(processedForm[0].value, function (err, result) {
+	if(!formErrors){
+		sqlUsers.findUser(validatedForm[0].value, function (err, result) {
 	      	if(result.length > 0){
   		      	if (passwordHash.verify(pass, result[0].hash)) {
   		      		req.session.regenerate(function(){
@@ -93,20 +115,26 @@ function loginHandler(req, res){
 
 }
 
+/**
+* Takes information from user and validates before handling
+* when a new user registers
+* @param {Object} req - request object
+* @param {Object} res - response object
+*/
 function signUpHandler(req, res){
 	var data = formValidator(form, req.body);
 
-	var hasErrors = data.hasErrors;
-	var processedForm = data.processedForm;
+	var formErrors = data.hasErrors;
+	var validatedForm = data.processedForm;
 
 	var info = {
 		title: 'SignUp',
-		form: processedForm,
+		form: validatedForm,
 		submitted: true,
-		errors: hasErrors
+		errors: formErrors
 	};
-	if(!hasErrors){
-		sqlUsers.addUser(processedForm[0].value, processedForm[1].value, function (err, result) {
+	if(!formErrors){
+		sqlUsers.addUser(validatedForm[0].value, validatedForm[1].value, function (err, result) {
 	      if (result) {
 	        res.redirect('login');
 	      } else {
@@ -119,6 +147,12 @@ function signUpHandler(req, res){
 	}
 }
 
+/**
+* Takes information from user and validates before handling
+* when user is logging in
+* @param {Integer} n - an integer indicating length
+* @return {function} - function that returns bool function
+*/
 function boundLengthValidation(n) {
   return function (s) {
     return validation.length(s, n);
