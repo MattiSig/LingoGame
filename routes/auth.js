@@ -33,7 +33,7 @@ var form = [
 router.get('/', loggedInStatus.redirectIfLoggedIn, login);
 router.get('/login', loggedInStatus.redirectIfLoggedIn, login);
 
-router.get('/signUp', signup);
+router.get('/signUp', loggedInStatus.redirectIfLoggedIn, signup);
 router.get('/logout', logoutHandler);
 
 router.post('/login', loginHandler);
@@ -82,17 +82,17 @@ function loginHandler(req, res){
 	
 	var data = formValidator(form, req.body);
 
-	var hasErrors = data.hasErrors;
-	var processedForm = data.processedForm;
+	var formErrors = data.hasErrors;
+	var validatedForm = data.processedForm;
 
 	var info = {
 		title: 'Login', 
-		form: processedForm, 
+		form: validatedForm, 
 		submitted: true,
-		errors: hasErrors
+		errors: formErrors
 	};
-	if(!hasErrors){
-		sqlUsers.findUser(processedForm[0].value, function (err, result) {
+	if(!formErrors){
+		sqlUsers.findUser(validatedForm[0].value, function (err, result) {
 	      	if(result.length > 0){
   		      	if (passwordHash.verify(pass, result[0].hash)) {
   		      		req.session.regenerate(function(){
@@ -124,17 +124,17 @@ function loginHandler(req, res){
 function signUpHandler(req, res){
 	var data = formValidator(form, req.body);
 
-	var hasErrors = data.hasErrors;
-	var processedForm = data.processedForm;
+	var formErrors = data.hasErrors;
+	var validatedForm = data.processedForm;
 
 	var info = {
 		title: 'SignUp',
-		form: processedForm,
+		form: validatedForm,
 		submitted: true,
-		errors: hasErrors
+		errors: formErrors
 	};
-	if(!hasErrors){
-		sqlUsers.addUser(processedForm[0].value, processedForm[1].value, function (err, result) {
+	if(!formErrors){
+		sqlUsers.addUser(validatedForm[0].value, validatedForm[1].value, function (err, result) {
 	      if (result) {
 	        res.redirect('login');
 	      } else {
