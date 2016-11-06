@@ -15,7 +15,7 @@ Lingo.Preloader.prototype ={
     this.load.image('tiles', '../../images/titlestilraun.png');
     this.load.image('player', '../../images/dick.png');
     this.load.spritesheet('ms', '../../images/mummy.png', 37, 45, 18);
-
+    this.load.image('city', '../../images/city.jpg');
 	},
 
 	create: function () {
