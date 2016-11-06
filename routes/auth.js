@@ -39,22 +39,44 @@ router.get('/logout', logoutHandler);
 router.post('/login', loginHandler);
 router.post('/signup', signUpHandler);
 
+/**
+* Renders login site
+* @param {Object} req - request object
+* @param {Object} res - response object
+*/
 function login(req, res){
 	var info = {title: 'Login', form: form, submitted: false};
 	res.render('login', info);
 }
 
+/**
+* Renders signup site
+* @param {Object} req - request object
+* @param {Object} res - response object
+*/
 function signup(req, res){
 	var info = {title:'SignUp', form: form, submitted: false};
 	res.render('signup', info);
 }
 
+
+/**
+* Ends user session when logging out
+* @param {Object} req - request object
+* @param {Object} res - response object
+*/
 function logoutHandler(req, res){
 	req.session.destroy(function(){
 		res.redirect('/');
 	});
 }
 
+/**
+* Takes information from user and validates before handling
+* when user is logging in
+* @param {Object} req - request object
+* @param {Object} res - response object
+*/
 function loginHandler(req, res){
 	var pass = req.body.password;
 	
@@ -93,6 +115,12 @@ function loginHandler(req, res){
 
 }
 
+/**
+* Takes information from user and validates before handling
+* when a new user registers
+* @param {Object} req - request object
+* @param {Object} res - response object
+*/
 function signUpHandler(req, res){
 	var data = formValidator(form, req.body);
 
@@ -119,6 +147,12 @@ function signUpHandler(req, res){
 	}
 }
 
+/**
+* Takes information from user and validates before handling
+* when user is logging in
+* @param {Integer} n - an integer indicating length
+* @return {function} - function that returns bool function
+*/
 function boundLengthValidation(n) {
   return function (s) {
     return validation.length(s, n);

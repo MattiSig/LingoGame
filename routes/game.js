@@ -41,6 +41,12 @@ router.get('/addword', loggedInStatus.isLoggedIn, function(req, res){
 router.post('/addword', loggedInStatus.isLoggedIn, addWordHandler);
 router.post('/getword', loggedInStatus.isLoggedIn, getWordHandler);
 
+/**
+* Takes information from user and validates before handling
+* when user is adding a new word to database
+* @param {Object} req - request object
+* @param {Object} res - response object
+*/
 function addWordHandler(req, res){
 	var body = {
 		islenska: req.body.islenska, 
@@ -74,6 +80,11 @@ function addWordHandler(req, res){
 	}
 }
 
+/**
+* Handles request for new words from game
+* @param {Object} req - request object
+* @param {Object} res - response object
+*/
 function getWordHandler(req, res){
 
 	sqlDictionary.findWord(req.session.user, function(err, result){
@@ -86,6 +97,12 @@ function getWordHandler(req, res){
 	})
 }
 
+/**
+* Takes information from user and validates before handling
+* when user is logging in
+* @param {Integer} n - an integer indicating length
+* @return {function} - function that returns bool function
+*/
 function boundLengthValidation(n) {
   return function (s) {
     return validation.length(s, n);

@@ -1,6 +1,12 @@
 var query = require('./query');
 var passwordHash = require('password-hash');
 
+/**
+* Inserts email and a hashed password into database
+* @param {String} email - email address
+* @param {String} password - String in english
+* @param {function} cb - callback function
+*/
 module.exports.addUser =
 function addUser(email, password, cb){
 	var values = [email, passwordHash.generate(password), 1];
@@ -15,9 +21,14 @@ function addUser(email, password, cb){
 	})
 }
 
+/**
+* Looks for a users email address and password in database
+* @param {String} email - email address
+* @param {function} cb - callback function
+*/
 module.exports.findUser = 
-function findUser(userData, cb){
-	var values = [userData];
+function findUser(email, cb){
+	var values = [email];
 	var q = 'SELECT email, hash FROM users WHERE email = $1';
 
 	query(q, values, function(err, result){
