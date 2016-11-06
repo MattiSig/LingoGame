@@ -1,0 +1,23 @@
+extends layout
+include mixins
+
+block content
+    h1= title
+
+    form(method='post', action='/addword')
+        label(for='button1')= 1
+        input(type='radio', name='difficulty', value=1, id='button1')
+        label(for='button2')= 2
+        input(type='radio', name='difficulty', value=2, id='button2')
+        label(for='button3')= 3
+        input(type='radio', name='difficulty', value=3, id='button3')
+        label(for='button4')= 4
+        input(type='radio', name='difficulty', value=4, id='button4')
+        label(for='button5')= 5
+        input(type='radio', name='difficulty', value=5, id='button5')
+        each field in form
+            +field(field, submitted)
+        button() Bæta við orði
+
+    form(method='post', action='/getword')
+        button() Ná í orð

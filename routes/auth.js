@@ -31,7 +31,7 @@ var form = [
 ];
 
 router.get('/', loggedInStatus.redirectIfLoggedIn, login);
-router.get('/login', login);
+router.get('/login', loggedInStatus.redirectIfLoggedIn, login);
 
 router.get('/signUp', signup);
 router.get('/logout', logoutHandler);
@@ -57,8 +57,8 @@ function logoutHandler(req, res){
 
 function loginHandler(req, res){
 	var pass = req.body.password;
+	
 	var data = formValidator(form, req.body);
-	console.log(pass);
 
 	var hasErrors = data.hasErrors;
 	var processedForm = data.processedForm;
@@ -70,19 +70,26 @@ function loginHandler(req, res){
 		errors: hasErrors
 	};
 	if(!hasErrors){
-		console.log(processedForm[0].value);
 		sqlUsers.findUser(processedForm[0].value, function (err, result) {
-			console.log(result);
-	      	if (passwordHash.verify(pass, result[0].hash)) {
-	      		req.session.regenerate(function(){
-	      			req.session.user = result[0].email;
-	      			res.redirect('/game');
-	      		});
-	      	} else {
-	      		res.render('login', info);
-	    	}
+	      	if(result.length > 0){
+  		      	if (passwordHash.verify(pass, result[0].hash)) {
+  		      		req.session.regenerate(function(){
+  		      			req.session.user = result[0].email;
+  		      			res.redirect('/game');
+  		      		});
+  		      	} else {
+  		      		info.title = 'Rangt lykilorð motherfucker';
+  		      		res.render('login', info);
+  		    	}
+  		    } else {
+  		    	info.title = 'Notandi fannst ekki';
+  		    	res.render('login', info)
+  		    }
 	    });
-	} else {res.render('login', info)}
+	} else {
+		info.title = 'Villa við innskráningu';
+		res.render('login', info)
+	}
 
 }
 
@@ -103,11 +110,13 @@ function signUpHandler(req, res){
 	      if (result) {
 	        res.redirect('login');
 	      } else {
-	      	info.hasErrors = true;
+	      	info.title = 'Email er þegar í notkun';
 	        res.render('signup', info);
 	      }
 	    });
-	} else {res.render('signup', info)}
+	} else {
+		res.render('signup', info)
+	}
 }
 
 function boundLengthValidation(n) {
