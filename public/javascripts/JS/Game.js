@@ -16,7 +16,7 @@ Lingo.Game = function(game) {
 Lingo.Game.prototype = {
 	create: function () {
 
-	//game.stage.backgroundColor = '#0500FF';
+	this.stage.backgroundColor = '#989898';
     
     //------------------------
     //---------Level----------
@@ -28,14 +28,12 @@ Lingo.Game.prototype = {
     this.layer2 = this.map.createLayer('background');
     this.layer3 = this.map.createLayer('bgMountains');
     this.layer = this.map.createLayer('base');
-    console.log(this.layer3);
-    this.layer3.y = -16;
     this.layer.resizeWorld();
     this.layer2.resizeWorld();
     this.layer3.resizeWorld();
 
     this.map.setCollision([1,2,3,4,5,8,9,10,11,12,15,16,17],true,'base');
-    //this.layer.debug = true;
+
     //------------------------------
     //-----------player-------------
     this.player = this.add.sprite(250, 2800, 'player');
@@ -43,7 +41,7 @@ Lingo.Game.prototype = {
     this.player.enableBody = true;
     this.player.physicsBodyType = Phaser.Physics.ARCADE;
 
-    this.player.body.setSize(4, 4, 14, 14);
+    this.player.body.setSize(4, 4, 14, 46);
     this.player.body.tilePadding.set(32);
     this.player.body.collideWorldBounds = true;
 
