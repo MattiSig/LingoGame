@@ -4,50 +4,21 @@ var router = express.Router();
 var passwordHash = require('password-hash');
 
 var sqlUsers = require('../models/sql-user');
-var loggedInStatus = require('../lib/middleware/loggedInStatus')
-var formValidator = require('../lib/formValidator');
-var validation = require('../lib/validate');
 
-var form = [
-  {
-    name: 'email',
-    label: 'Email',
-    type: 'email',
-    required: true,
-    value: '',
-    validation: [boundLengthValidation(3)],
-    valid: false,
-    validationString: 'Email þarf að vera a.m.k. þrír stafir'
-  },
-  {
-    name: 'password',
-    label: 'Lykilorð',
-    type: 'password',
-    required: true,
-    validation: [boundLengthValidation(5)],
-    valid: false,
-    validationString: 'Lykilorð þarf að vera a.m.k. fimm stafir'
-  }
-];
+	router.get('/', redirectIfLoggedIn, function(req, res, next){
+	res.render('login', {title: 'Forsíða'});
+});
+router.get('/login', function(req, res, next){
+	res.render('login', {title: 'login'});
+})
 
-router.get('/', loggedInStatus.redirectIfLoggedIn, login);
-router.get('/login', login);
-
-router.get('/signUp', signup);
+router.get('/signUp', function(req, res, next){
+	res.render('signup', {title: 'signup'});
+});
 router.get('/logout', logoutHandler);
 
 router.post('/login', loginHandler);
 router.post('/signup', signUpHandler);
-
-function login(req, res){
-	var info = {title: 'Login', form: form, submitted: false};
-	res.render('login', info);
-}
-
-function signup(req, res){
-	var info = {title:'SignUp', form: form, submitted: false};
-	res.render('signup', info);
-}
 
 function logoutHandler(req, res){
 	req.session.destroy(function(){
@@ -55,64 +26,40 @@ function logoutHandler(req, res){
 	});
 }
 
+function redirectIfLoggedIn(req, res, next) {
+	if(req.session.user){
+		res.redirect('/index'); //fara í leikinn
+	} else{
+		next();
+	}
+}
+
 function loginHandler(req, res){
-	var pass = req.body.password;
-	var data = formValidator(form, req.body);
-	console.log(pass);
-
-	var hasErrors = data.hasErrors;
-	var processedForm = data.processedForm;
-
-	var info = {
-		title: 'Login', 
-		form: processedForm, 
-		submitted: true,
-		errors: hasErrors
-	};
-	if(!hasErrors){
-		console.log(processedForm[0].value);
-		sqlUsers.findUser(processedForm[0].value, function (err, result) {
-			console.log(result);
-	      	if (passwordHash.verify(pass, result[0].hash)) {
-	      		req.session.regenerate(function(){
-	      			req.session.user = result[0].email;
-	      			res.redirect('/game');
-	      		});
-	      	} else {
-	      		res.render('login', info);
-	    	}
-	    });
-	} else {res.render('login', info)}
+	var data = req.body;
+	var pass = data.password;
+	sqlUsers.findUser(data, function (err, result) {
+      	if (passwordHash.verify(pass, result[0].hash)) {
+      		req.session.regenerate(function(){
+      			req.session.user = result[0].email;
+      			res.redirect('/index');
+      		});
+      	} else {
+      		res.send("neibb");
+        //res.redirect('/signup', data);
+    	}
+    });
 
 }
 
 function signUpHandler(req, res){
-	var data = formValidator(form, req.body);
-
-	var hasErrors = data.hasErrors;
-	var processedForm = data.processedForm;
-
-	var info = {
-		title: 'SignUp',
-		form: processedForm,
-		submitted: true,
-		errors: hasErrors
-	};
-	if(!hasErrors){
-		sqlUsers.addUser(processedForm[0].value, processedForm[1].value, function (err, result) {
-	      if (result) {
-	        res.redirect('login');
-	      } else {
-	      	info.hasErrors = true;
-	        res.render('signup', info);
-	      }
-	    });
-	} else {res.render('signup', info)}
+	var data = req.body;
+	sqlUsers.addUser(data, function (err, result) {
+      if (result) {
+        res.send("skráning tókst"); //má vel senda til baka JSON t.d.
+      } else {
+        res.redirect('/signup', data);
+      }
+    });
 }
 
-function boundLengthValidation(n) {
-  return function (s) {
-    return validation.length(s, n);
-  };
-}
 module.exports = router;
