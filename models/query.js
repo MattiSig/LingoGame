@@ -23,7 +23,6 @@ module.exports = function query (q, values, cb) {
 
     client.query(q, values, function (err, result) {
       done();
-
       if (err) {
         console.error('Error running query', q, values, err);
         return cb(err);

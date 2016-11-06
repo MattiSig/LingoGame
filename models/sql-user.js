@@ -3,8 +3,8 @@ var passwordHash = require('password-hash');
 
 module.exports.addUser =
 function addUser(email, password, cb){
-	var values = [email, passwordHash.generate(password)];
-	var q ='INSERT INTO users(email, hash) values($1, $2)'
+	var values = [email, passwordHash.generate(password), 1];
+	var q ='INSERT INTO users(email, hash, level) values($1, $2, $3)'
 
 	query(q, values, function(err, result){
 		if(err){

@@ -2,6 +2,17 @@ extends layout
 include mixins
 
 block content
+
+  if errors && submitted
+    h1= title
+    p Welcome to #{title}
+    h2 Villa kom upp
+
+    form(method='post', action='/login')
+      each field in form
+        if !field.valid && field.validationString
+          label(for=field.name)= field.validationString
+
   h1= title
   p Welcome to #{title}
 
