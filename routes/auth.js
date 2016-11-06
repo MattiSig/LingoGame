@@ -4,13 +4,31 @@ var router = express.Router();
 var passwordHash = require('password-hash');
 
 var sqlUsers = require('../models/sql-user');
+var loggedInStatus = require('../lib/middleware/loggedInStatus')
+var formValidator = require('../lib/formValidator');
+var validation = require('../lib/validate');
 
-	router.get('/', redirectIfLoggedIn, function(req, res, next){
-	res.render('login', {title: 'Forsíða'});
-});
-router.get('/login', function(req, res, next){
-	res.render('login', {title: 'login'});
-})
+var form = [
+  {
+    name: 'email',
+    label: 'Email',
+    type: 'email',
+    required: true,
+    value: '',
+    validation: [boundLengthValidation(3)],
+    valid: false,
+    validationString: 'Email þarf að vera a.m.k. þrír stafir'
+  },
+  {
+    name: 'password',
+    label: 'Lykilorð',
+    type: 'password',
+    required: true,
+    validation: [boundLengthValidation(5)],
+    valid: false,
+    validationString: 'Lykilorð þarf að vera a.m.k. fimm stafir'
+  }
+];
 
 router.get('/', loggedInStatus.redirectIfLoggedIn, login);
 router.get('/login', loggedInStatus.redirectIfLoggedIn, login);
@@ -20,6 +38,16 @@ router.get('/logout', logoutHandler);
 
 router.post('/login', loginHandler);
 router.post('/signup', signUpHandler);
+
+function login(req, res){
+	var info = {title: 'Login', form: form, submitted: false};
+	res.render('login', info);
+}
+
+function signup(req, res){
+	var info = {title:'SignUp', form: form, submitted: false};
+	res.render('signup', info);
+}
 
 function logoutHandler(req, res){
 	req.session.destroy(function(){
@@ -91,4 +119,9 @@ function signUpHandler(req, res){
 	}
 }
 
+function boundLengthValidation(n) {
+  return function (s) {
+    return validation.length(s, n);
+  };
+}
 module.exports = router;
