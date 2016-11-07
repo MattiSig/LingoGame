@@ -7,6 +7,8 @@ block content
     h1= title
     p Welcome to #{title}
     h2 Villa kom upp
+  if errorMessage
+    p= errorMessage
 
     form(method='post', action='/login')
       each field in form

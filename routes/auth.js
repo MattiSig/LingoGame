@@ -15,18 +15,25 @@ var form = [
     type: 'email',
     required: true,
     value: '',
-    validation: [boundLengthValidation(3)],
+    //validation: [boundLengthValidation(3)],
     valid: false,
-    validationString: 'Email þarf að vera a.m.k. þrír stafir'
+    //validationString: 'Email þarf að vera a.m.k. þrír stafir'
   },
   {
-    name: 'password',
+    name: 'password1',
     label: 'Lykilorð',
     type: 'password',
     required: true,
-    validation: [boundLengthValidation(5)],
+    //validation: [boundLengthValidation(5)],
     valid: false,
-    validationString: 'Lykilorð þarf að vera a.m.k. fimm stafir'
+    //validationString: 'Lykilorð þarf að vera a.m.k. fimm stafir'
+  },
+  {
+  	name: 'password2',
+  	label: 'Lykilorð aftur',
+  	type: 'password',
+  	required: true,
+  	valid: false
   }
 ];
 
@@ -45,7 +52,8 @@ router.post('/signup', signUpHandler);
 * @param {Object} res - response object
 */
 function login(req, res){
-	var info = {title: 'Login', form: form, submitted: false};
+	loginform = [form[0], form[1]];
+	var info = {title: 'Login', form: loginform, submitted: false};
 	res.render('login', info);
 }
 
@@ -78,7 +86,7 @@ function logoutHandler(req, res){
 * @param {Object} res - response object
 */
 function loginHandler(req, res){
-	var pass = req.body.password;
+	var pass = req.body.password1;
 	
 	var data = formValidator(form, req.body);
 
@@ -89,10 +97,14 @@ function loginHandler(req, res){
 		title: 'Login', 
 		form: validatedForm, 
 		submitted: true,
-		errors: formErrors
+		errors: formErrors,
+		errorMessage: ''
 	};
+
+	var email = validatedForm[0].value;
+
 	if(!formErrors){
-		sqlUsers.findUser(validatedForm[0].value, function (err, result) {
+		sqlUsers.findUser(email, function (err, result) {
 	      	if(result.length > 0){
   		      	if (passwordHash.verify(pass, result[0].hash)) {
   		      		req.session.regenerate(function(){
@@ -100,16 +112,19 @@ function loginHandler(req, res){
   		      			res.redirect('/game');
   		      		});
   		      	} else {
-  		      		info.title = 'Rangt lykilorð motherfucker';
+  		      		info.errorMessage = 'Rangt lykilorð motherfucker';
+  		      		info.form = [form[0], form[1]];
   		      		res.render('login', info);
   		    	}
   		    } else {
-  		    	info.title = 'Notandi fannst ekki';
+  		    	info.errorMessage = 'Notandi fannst ekki';
+  		    	info.form = [form[0], form[1]];
   		    	res.render('login', info)
   		    }
 	    });
 	} else {
-		info.title = 'Villa við innskráningu';
+		info.errorMessage = 'Villa við innskráningu';
+		info.form = [form[0], form[1]];
 		res.render('login', info)
 	}
 
@@ -131,17 +146,28 @@ function signUpHandler(req, res){
 		title: 'SignUp',
 		form: validatedForm,
 		submitted: true,
-		errors: formErrors
+		errors: formErrors,
+		errorMessage: ''
 	};
+
+	var email = validatedForm[0].value;
+	var password1 = validatedForm[1].value;
+	var password2 = validatedForm[2].value;
+
 	if(!formErrors){
-		sqlUsers.addUser(validatedForm[0].value, validatedForm[1].value, function (err, result) {
-	      if (result) {
-	        res.redirect('login');
-	      } else {
-	      	info.title = 'Email er þegar í notkun';
-	        res.render('signup', info);
-	      }
-	    });
+		if(password1 === password2){
+			sqlUsers.addUser(email, password1, function (err, result) {
+			      if (result) {
+			        res.redirect('login');
+			      } else {
+			      	info.errorMessage = 'Email er þegar í notkun';
+			        res.render('signup', info);
+			      }
+			    });
+		} else {
+			info.errorMessage = 'Mismunandi lykilorð slegin inn';
+			res.render('signup', info);
+		}
 	} else {
 		res.render('signup', info)
 	}
@@ -153,9 +179,9 @@ function signUpHandler(req, res){
 * @param {Integer} n - an integer indicating length
 * @return {function} - function that returns bool function
 */
-function boundLengthValidation(n) {
+/*function boundLengthValidation(n) {
   return function (s) {
     return validation.length(s, n);
   };
-}
+}*/
 module.exports = router;

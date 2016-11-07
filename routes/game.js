@@ -3,6 +3,7 @@ var router = express.Router();
 var loggedInStatus = require('../lib/middleware/loggedInStatus');
 var formValidator = require('../lib/formValidator');
 var sqlDictionary = require('../models/sql-dictionary');
+var sqlUser = require('../models/sql-user');
 var validation = require('../lib/validate');
 
 
@@ -48,9 +49,7 @@ var form = [
 		type: 'text',
 		required: true,
 		value: '',
-		validation: [boundLengthValidation(1)],
 		valid: false,
-		validationString: 'Íslenskt orð þarf að vera a.m.k. 1 stafur'
 	},
 	{
 		name: 'enska',
@@ -58,9 +57,7 @@ var form = [
 		type: 'text',
 		required: true,
 		value: '',
-		validation: [boundLengthValidation(1)],
 		valid: false,
-		validationString: 'Enskt orð þarf að vera a.m.k. 1 stafur'
 	}
 ];
 
@@ -75,6 +72,7 @@ router.get('/addword', loggedInStatus.isLoggedIn, function(req, res){
 
 router.post('/addword', loggedInStatus.isLoggedIn, addWordHandler);
 router.post('/getword', loggedInStatus.isLoggedIn, getWordHandler);
+router.post('/updatelevel', updateLevel);
 
 /**
 * Takes information from user and validates before handling
@@ -134,16 +132,18 @@ function getWordHandler(req, res){
 	})
 }
 
-/**
-* Takes information from user and validates before handling
-* when user is logging in
-* @param {Integer} n - an integer indicating length
-* @return {function} - function that returns bool function
-*/
-function boundLengthValidation(n) {
-  return function (s) {
-    return validation.length(s, n);
-  };
+function updateLevel(req, res){
+	var testBool = false;//Math.random() < 0.5;
+	sqlUser.updateUserLevel(req.session.user, testBool, function(err, result){
+		if(result){
+			console.log(result);
+			console.log(testBool);
+			res.redirect('/addword');
+		} else{
+			console.log('eitthvað er að');
+			res.redirect('/addword');
+		}
+	})
 }
 
 module.exports = router;
