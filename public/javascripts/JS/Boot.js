@@ -1,35 +1,26 @@
 Lingo = {
 
-    /* Here we've just got some global level vars that persist regardless of State swaps */
-    score: 0,
-
-    /* If the music in your game needs to play through-out a few State swaps, then you could reference it here */
-    music: null,
-
-    /* Your game can check Lingo.orientated in internal loops to know if it should pause or not */
     orientated: false
 
 };
-
+//Starts the Boot state, takes in Phaser.game
 Lingo.Boot = function (game) {
-};
+};  
 
 Lingo.Boot.prototype = {
-
+    //Preloades image to display while whateing for the rest of images to be preloaded
     preload: function () {
 
         this.load.image('preloaderBar', '../../images/preload.png');
 
     },
-
+    //Creates objects within Boot and renders on screen/canvas
     create: function () {
 
-        // this.stage.smoothed = false;
         this.physics.startSystem(Phaser.Physics.ARCADE);
         this.input.maxPointers = 1;
 
-        // this.stage.disableVisibilityChange = true;
-
+        //positions canvas within desktop browser window and scales approriately
         if (this.game.device.desktop)
         {
             this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -39,11 +30,11 @@ Lingo.Boot.prototype = {
             this.scale.maxHeight = 600;
             this.scale.pageAlignHorizontally = true;
             this.scale.pageAlignVertically = true;
-            //this.scale.setScreenSize(true);
         }
+        //posible canvas edits to play on phone
         else
         {
-            this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+            /*this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
             this.scale.minWidth = 480;
             this.scale.minHeight = 260;
             this.scale.maxWidth = 1024;
@@ -54,30 +45,10 @@ Lingo.Boot.prototype = {
             this.scale.hasResized.add(this.gameResized, this);
             this.scale.enterIncorrectOrientation.add(this.enterIncorrectOrientation, this);
             this.scale.leaveIncorrectOrientation.add(this.leaveIncorrectOrientation, this);
-            //this.scale.setScreenSize();
+            this.scale.setScreenSize();*/
         }
-
+        //start new state Preloader.js
         this.state.start('Preloader');
-
-    },
-
-    gameResized: function (width, height) {
-
-    },
-
-    enterIncorrectOrientation: function () {
-
-        Lingo.orientated = false;
-
-        document.getElementById('orientation').style.display = 'block';
-
-    },
-
-    leaveIncorrectOrientation: function () {
-
-        Lingo.orientated = true;
-
-        document.getElementById('orientation').style.display = 'none';
 
     }
 
