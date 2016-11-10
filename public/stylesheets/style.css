@@ -7,3 +7,8 @@ body {
 a {
   color: #00B7FF;
 }
+
+.input-error {
+	background-color: #ff4d4d;
+	border-color: #ff4d4d; 
+}

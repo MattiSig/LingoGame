@@ -17,6 +17,7 @@
     "morgan": "~1.7.0",
     "password-hash": "^1.2.2",
     "serve-favicon": "~2.3.0",
+    "socket.io": "^1.5.1",
     "xss": "^0.2.16"
   },
   "devDependencies": {

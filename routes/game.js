@@ -50,6 +50,7 @@ var form = [
 		required: true,
 		value: '',
 		valid: false,
+		id: 'islenska'
 	},
 	{
 		name: 'enska',
@@ -58,6 +59,7 @@ var form = [
 		required: true,
 		value: '',
 		valid: false,
+		id: 'enska'
 	}
 ];
 
@@ -65,13 +67,15 @@ router.get('/game', loggedInStatus.isLoggedIn, function(req, res) {
   res.render('game', { title: 'LingoDick' });
 });
 
+//router.get('/game', loggedInStatus.isLoggedIn, getWordHandler);
+
 router.get('/addword', loggedInStatus.isLoggedIn, function(req, res){
 	var info = {title: 'Bæta við orði', form: form, submitted: false};
 	res.render('addword', info);
 });
 
 router.post('/addword', loggedInStatus.isLoggedIn, addWordHandler);
-router.post('/getword', loggedInStatus.isLoggedIn, getWordHandler);
+router.get('/getword', getWordHandler);
 router.post('/updatelevel', updateLevel);
 
 /**
@@ -125,7 +129,7 @@ function getWordHandler(req, res){
 	sqlDictionary.findWord(req.session.user, function(err, result){
 		if(result){
 			console.log(result.rows);
-			res.redirect('/addword');
+			res.send(result.rows);
 		} else{
 			res.redirect('/addword');
 		}
@@ -133,15 +137,14 @@ function getWordHandler(req, res){
 }
 
 function updateLevel(req, res){
-	var testBool = false;//Math.random() < 0.5;
+	var testBool = Math.random() < 0.5;
 	sqlUser.updateUserLevel(req.session.user, testBool, function(err, result){
 		if(result){
-			console.log(result);
 			console.log(testBool);
-			res.redirect('/addword');
+			res.send('success');
 		} else{
 			console.log('eitthvað er að');
-			res.redirect('/addword');
+			res.send('not success');
 		}
 	})
 }
