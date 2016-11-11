@@ -2,23 +2,24 @@ extends layout
 include mixins
 
 block content
-
+  
   if errors && submitted
-    h1= title
-    p Welcome to #{title}
-    h2 Villa kom upp
+    .container
+      h1= title
+      p Welcome to #{title}
+      h2 Villa kom upp
 
     form(method='post', action='/login')
       each field in form
         if !field.valid && field.validationString
           label(for=field.name)= field.validationString
 
-  h1= title
-  p Welcome to #{title}
-
-    form(method='post', action='/login')
-      each field in form
-        +field(field, submitted)
-      div: button() Innskrá
-    p: a(href='/signup') Búa til notanda
-    
+  .container
+    h1= title
+    p Welcome to #{title}
+        form(method='post', action='/login')
+          each field in form
+            +field(field, submitted)
+          div: button() Innskrá
+        p: a(href='/signup' class='btn btn-default btn-large' role='button') Búa til notanda
+        

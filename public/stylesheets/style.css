@@ -1,9 +1,18 @@
 body {
-  padding: 50px;
+  padding: 5px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: gray;
+  /*background-image: url(/../images/gaming.jpg);*/
 }
 
 a {
-  color: #00B7FF;
+  color: #20B7FF;
+}
+
+h1 {
+  color: white;
+}
+
+p {
+  color: white;
 }
