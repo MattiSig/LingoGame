@@ -1,8 +1,10 @@
 body {
   padding: 5px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: gray;
-  /*background-image: url(/../images/gaming.jpg);*/
+  background-size: cover;
+  background-repeat: no-repeat;
+  /*background-color: black;*/
+  background-image: url(/../images/gaming.jpg);
 }
 
 a {
@@ -17,7 +19,11 @@ p {
   color: white;
 }
 
+h2.override {
+  color: green;
+}
+
 .input-error {
 	background-color: #ff4d4d;
-	border-color: #ff4d4d; 
+	border-color: #ff4d4d;
 }

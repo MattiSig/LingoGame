@@ -3,19 +3,29 @@ include mixins
 
 block content
 
-  h1= title
+  
   if errors && submitted
     h2 Villa kom upp
     p= errorMessage
 
-  p Welcome to #{title}
 
-  form(method='post', action='/login')
-    each field in form
-      +field(field, submitted)
-    div: button() Innskrá
-    div(id='emailWarning')
-    div(id='password1Warning')
-  p: a(href='/signup') Búa til notanda
-  script(src='/javascripts/jquery-3.1.1.min.js')
-  script(src='/javascripts/ajaxForm.js')
+
+
+  div.container
+    div.col-md-4
+    div.col-md-4
+      h1.override Skráðu þig inn!
+      p Skráðu þig inn!
+      form(id="login" method='post', action='/login' class="bg-warning")
+        each field in form
+          +field(field, submitted)
+        div: button() Innskrá
+        div(id='emailWarning')
+        div(id='password1Warning')
+      p: a(href='/signup') Búa til notanda
+    div.col-md-4
+    
+    
+    
+    script(src='/javascripts/jquery-3.1.1.min.js')
+    script(src='/javascripts/ajaxForm.js')
