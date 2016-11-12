@@ -4,9 +4,16 @@ include mixins
 block content
   h1= title
   p Welcome to #{title}
+  if errorMessage
+    p= errorMessage
 
-    form(method='post', action='/signup')
-      each field in form
-        +field(field, submitted)
-      div: button() Útbúa
-    p: a(href='/login') Innskrá notanda
+  form(method='post', action='/signup')
+    each field in form
+      +field(field, submitted)
+    div: button() Útbúa
+    div(id='emailWarning')
+    div(id='password1Warning')
+    div(id='password2Warning')
+  p: a(href='/login') Innskrá notanda
+  script(src='/javascripts/jquery-3.1.1.min.js')
+  script(src='/javascripts/ajaxForm.js')

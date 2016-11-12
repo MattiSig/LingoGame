@@ -26,7 +26,7 @@ function addWord(difficulty, icelandic, english, cb){
 /**
 * Selects 4 icelandic words randomly and their english translation,
 * Word difficulty score is matched with users level
-* @param {String} email - 
+* @param {String} email - email address
 * @param {function} cb - callback function
 */
 module.exports.findWord =

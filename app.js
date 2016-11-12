@@ -15,6 +15,9 @@ var game = require('./routes/game');
 
 var app = express();
 
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
 var cookie = { domain: '',
                httpOnly: true,
                secure: false };
@@ -27,6 +30,11 @@ app.use(session({
   name: SESSION_NAME
 }));
 
+//This middleware is no longer used, though it could be later
+app.use(function(req, res, next){
+  req.io = io;
+  next();
+})
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -76,4 +84,4 @@ app.use(function(err, req, res, next) {
 });
 
 
-module.exports = app;
+module.exports = {app: app, server: server};

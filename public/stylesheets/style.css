@@ -16,3 +16,8 @@ h1 {
 p {
   color: white;
 }
+
+.input-error {
+	background-color: #ff4d4d;
+	border-color: #ff4d4d; 
+}

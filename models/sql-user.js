@@ -39,3 +39,21 @@ function findUser(email, cb){
 		}
 	});
 }
+
+module.exports.updateUserLevel = 
+function updateUserLevel(email, toIncrement, cb){
+	var values = [email]
+	if(toIncrement){
+		var q = 'UPDATE users SET level = level + 1 WHERE email = $1 AND level != 5';
+	} else {
+		var q = 'UPDATE users SET level = level - 1 WHERE email = $1 AND level != 1';
+	}
+
+	query(q, values, function(err, result){
+		if(err){
+			return cb(err);
+		} else {
+			cb (null, result);
+		}
+	})
+}
