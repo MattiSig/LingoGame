@@ -4,6 +4,7 @@ block content
   script(src='/javascripts/JS/Boot.js')
   script(src='/javascripts/JS/Preloader.js')
   script(src='/javascripts/JS/Game.js')
+  script(src='/javascripts/JS/MainMenu.js')
   script(src='/javascripts/jquery-3.1.1.min.js')
   div(id="game")
   div(id="orientation")
@@ -12,7 +13,7 @@ block content
         var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game');
       	game.state.add('Boot', Lingo.Boot);
         game.state.add('Preloader', Lingo.Preloader);
-        //game.state.add('MainMenu', Rox.MainMenu);
+        game.state.add('MainMenu', Lingo.MainMenu);
         game.state.add('Game', Lingo.Game);
         game.state.start('Boot');
       }
