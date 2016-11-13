@@ -29,6 +29,7 @@ Lingo.Game = function(game) {
 Lingo.Game.prototype = {
     //create game objects to be renderd on screen
 	create: function () {
+
     this.time.advancedTiming = true;
 	
     this.stage.backgroundColor = '#989898';
@@ -47,7 +48,7 @@ Lingo.Game.prototype = {
     //this.layer.debug = true;
     this.map.setCollision([1,2,3,4,5,8,9,10,11,12,15,16,17],true,'base');
 
-    //-------Items
+    //-------Items(scripts)--------
     this.script = this.add.group();
     this.script.enableBody = true;
 
