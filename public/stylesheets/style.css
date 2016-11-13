@@ -1,29 +1,51 @@
 body {
-  padding: 5px;
+  padding: 15px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-size: cover;
+  background-image: url(/../images/game2.PNG);
   background-repeat: no-repeat;
+  background-size: cover;
   /*background-color: black;*/
-  background-image: url(/../images/gaming.jpg);
 }
 
 a {
   color: #20B7FF;
 }
 
-h1 {
+h1{
   color: white;
+
 }
 
 p {
   color: white;
 }
 
-h2.override {
-  color: green;
+h2{
+  color: #333333;
+  font-family: Century Gothic, sans-serif;
+  font-weight: bold;
+  text-align: center;
 }
 
 .input-error {
 	background-color: #ff4d4d;
 	border-color: #ff4d4d;
+}
+
+.titill{
+  font-weight: bold;
+}
+
+img {
+    display: block;
+    margin: auto;
+    width: 40%;
+}
+
+.login {
+  background-color: white;
+  border: 2px;
+  border-color: black;
+  border-radius: 9px;
+
 }

@@ -11,21 +11,27 @@ block content
 
 
 
-  div.container
-    div.col-md-4
-    div.col-md-4
-      h1.override Skráðu þig inn!
-      p Skráðu þig inn!
-      form(id="login" method='post', action='/login' class="bg-warning")
-        each field in form
-          +field(field, submitted)
-        div: button() Innskrá
-        div(id='emailWarning')
-        div(id='password1Warning')
-      p: a(href='/signup') Búa til notanda
-    div.col-md-4
-    
-    
+  div.container.background
+    div.row
+      div.col-md-1
+      div.col-md-10
+        img(src='/../images/lingo2.png', alt='Lingo Logo', style='width:348px;height:318px;')
+
+        h2.titill Lingo Dingo is all about having fun and learning languages at the same time!
+      div.col-md-1
+
+    div.row
+      div.col-md-4
+      div.col-md-4
+        form(id="login" method='post', action='/login' class="login")
+          each field in form
+            +field(field, submitted)
+          div: button() Innskrá
+          div(id='emailWarning')
+          div(id='password1Warning')
+        p: a(href='/signup') Búa til notanda
+
+
     
     script(src='/javascripts/jquery-3.1.1.min.js')
     script(src='/javascripts/ajaxForm.js')
