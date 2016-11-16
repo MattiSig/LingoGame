@@ -1,0 +1,21 @@
+extends layout
+include mixins
+
+block content
+
+  h1= title
+  if errors && submitted
+    h2 Villa kom upp
+    p= errorMessage
+
+  p Welcome to #{title}
+
+  form(method='post', action='/login')
+    each field in form
+      +field(field, submitted)
+    div: button() Innskrá
+    div(id='emailWarning')
+    div(id='password1Warning')
+  p: a(href='/signup') Búa til notanda
+  script(src='/javascripts/jquery-3.1.1.min.js')
+  script(src='/javascripts/ajaxForm.js')

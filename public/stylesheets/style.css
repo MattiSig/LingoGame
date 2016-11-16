@@ -1,0 +1,23 @@
+body {
+  padding: 5px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: gray;
+  /*background-image: url(/../images/gaming.jpg);*/
+}
+
+a {
+  color: #20B7FF;
+}
+
+h1 {
+  color: white;
+}
+
+p {
+  color: white;
+}
+
+.input-error {
+	background-color: #ff4d4d;
+	border-color: #ff4d4d; 
+}
