@@ -14,6 +14,7 @@ var DATABASE = process.env.DB_HOST;
  * @returns {undefined}
  */
 module.exports = function query (q, values, cb) {
+  pg.defaults.ssl = true;
   pg.connect(DATABASE, function (error, client, done) {
 
     if (error) {
