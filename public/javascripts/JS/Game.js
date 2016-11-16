@@ -15,6 +15,7 @@ Lingo.Game = function(game) {
 	
     this.enemy;
 	this.text1;
+    this.text2;
     this.game = game;
     this.button;
     
@@ -23,7 +24,7 @@ Lingo.Game = function(game) {
     
     this.script;
     this.showScript = false;
-    this.tempScriptTime
+    this.tempScriptTime =0;
 };
 
 Lingo.Game.prototype = {
@@ -59,7 +60,7 @@ Lingo.Game.prototype = {
     //this.player.anchor.setTo(.5,.5);
     this.physics.enable(this.player, Phaser.Physics.ARCADE);
     this.player.enableBody = true;
-    this.player.physicsBodyType = Phaser.Physics.ARCADE;
+    //this.player.physicsBodyType = Phaser.Physics.ARCADE;
 
     this.player.body.tilePadding.set(32);
     this.player.body.collideWorldBounds = true;
@@ -78,17 +79,22 @@ Lingo.Game.prototype = {
 
     this.physics.enable(this.enemy, Phaser.Physics.ARCADE);
     this.enemy.enableBody = true;
-    this.enemy.physicsBodyType = Phaser.Physics.ARCADE;
+    //this.enemy.physicsBodyType = Phaser.Physics.ARCADE;
     //this.enemy.body.setSize(4, 4, 14, 26);
     this.enemy.body.tilePadding.set(32);
     this.enemy.body.collideWorldBounds = true;
     this.enemy.body.velocity.x = 50;
     this.enemy.body.bounce.x = 1;
+    this.enemy.body.gravity.y = 700;
+    this.enemy.anchor.setTo(.5,.5);
+    this.enemy.scale.setTo(-1,1);
     //------------------------------
     //-----------text-------------
     this.text1 = this.add.text(this.enemy.body.x, this.enemy.body.y, "afturganga", { font: "14px Arial Black", fill: "#FFFFFF" });
     this.text1.anchor.setTo(0.5, 0.5);
 
+    this.text2 = this.add.text(700, 2700,"lærðir nýtt orð",{ font: "18px Arial Black", fill: "#FFFFFF" });
+    this.text2.alpha = 0;
 
     //------------------------------
     //-----------controls-------------
@@ -137,8 +143,11 @@ Lingo.Game.prototype = {
         {
             this.player.body.velocity.y = -500;
             this.jumpTimer = this.time.now + 750;
+            this.player.frame = 5;
         }
-        if (this.showScript)
+        if(this.time.now > this.tempScriptTime){
+            this.hideScript();
+        }
         
         this.physics.arcade.collide(this.enemy, this.layer);
         this.physics.arcade.collide(this.enemy,this.player,function(player, enemy) {
@@ -149,6 +158,10 @@ Lingo.Game.prototype = {
 
         this.pauseButton.onDown.add(this.pause, this);        
 
+
+        /*if (this.enemy.body.blocked.left === true || this.enemy.body.blocked.right === true) {
+
+        }*/
 	},
     //render debug text
     render: function(){
@@ -166,10 +179,13 @@ Lingo.Game.prototype = {
     collectScript: function(player, script) {
         script.destroy();
         this.tempScriptTime = this.time.now + 3000;
-        this.showScript = true;
+        this.text2.x = script.x -100;
+        this.text2.y = script.y -200;
+        this.text2.alpha = 1;
+        console.log(this.text2);
     },
-    displayScript: function(){
-
+    hideScript: function(){
+        this.text2.alpha = 0;
     }
 
 };
