@@ -2,19 +2,39 @@ extends layout
 include mixins
 
 block content
-  h1= title
+
   if errors && submitted
     h2 Villa kom upp
     p= errorMessage
 
-  p Welcome to #{title}
+  div.container.background
+    div.row
+      div.col-md-1
+      div.col-md-10
+        img(src='/../images/lingo2.png', alt='Lingo Logo', style='width:348px;height:318px;')
 
-  form(method='post', action='/login')
-    each field in form
-      +field(field, submitted)
-    div: button() Innskrá
-    div(id='emailWarning')
-    div(id='password1Warning')
-  p: a(href='/signup') Búa til notanda
-  script(src='/javascripts/jquery-3.1.1.min.js')
-  script(src='/javascripts/ajaxForm.js')
+        h2.titill Lingo Dingo is all about having fun and learning languages at the same time!
+      div.col-md-1
+    div.col-xs-12(style='height:60px;')
+    div.row
+      div.col-md-4
+      div.col-md-4.card.seethrough
+        form(id="login" method='post', action='/login' class="login")
+          each field in form
+            +field(field, submitted)
+          
+          div: button() Innskrá
+          a(type="submit" href='/login' method='post' action='/login' role="button" class="btn btn-danger top-buffer")
+            span.glyphicon.glyphicon-exclamation-sign
+            |  Innskrá
+
+          div(id='emailWarning')
+          div(id='password1Warning')
+        //- p: a(href='/signup' class="btn-primary") Búa til notanda
+        a( href='/signup' role="button" class="btn btn-primary top-buffer")
+          span.glyphicon.glyphicon-lock
+          |  Gera nýjan aðgang
+
+
+    script(src='/javascripts/jquery-3.1.1.min.js')
+    script(src='/javascripts/ajaxForm.js')

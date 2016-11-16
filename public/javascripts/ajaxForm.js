@@ -1,5 +1,8 @@
 $(document).ready(function() {
 
+	$('#'+innskra-button).addClass('input-error');
+
+
 	$('input').focusout(function() {
 		var id = $(this).attr('id');
 		$.ajax({
