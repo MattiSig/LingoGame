@@ -25,7 +25,22 @@ Lingo.Game = function(game) {
     this.script;
     this.showScript = false;
     this.tempScriptTime =0;
+    //8===========================D
+    this.button1;
+    this.button2;
+    this.button3;
+    this.button4;
+
+    this.aButton;
+    this.sButton;
+    this.dButton;
+    this.fButton;
+    //8==============================D
+
 };
+//8===========================D
+var dictionary;
+//8===========================D
 
 Lingo.Game.prototype = {
     //create game objects to be renderd on screen
@@ -88,9 +103,54 @@ Lingo.Game.prototype = {
     this.enemy.body.gravity.y = 700;
     this.enemy.anchor.setTo(.5,.5);
     this.enemy.scale.setTo(-1,1);
+    //8==========================================D
+    $.ajax({
+        type: 'GET',
+        url: '/getword',
+        async: false,
+        success: function(data){
+            setDictionary(data);
+            //Sækir 4 orð, til að sækja fleir þarf að breyta fjölda
+            //í sql-dictionary
+        }
+    });
+
+    function setDictionary(data){
+        dictionary = data;
+    }
+
+    function setArray(){
+        var array = [];
+        var length = dictionary.length;
+        for(let i = 0; i < length; i++){
+            array[i] = dictionary[i].islenska;
+        }
+        return array;
+    }
+
+    function shuffleWords(array){
+        for(let i = array.length; i; i--){
+            let j = Math.floor(Math.random()*i);
+            [array[i-1], array[j]] = [array[j], array[i-1]];
+        }
+    }
+
+    var wordArray = setArray();
+    shuffleWords(wordArray);
+
+    this.button1 = new Lingo.Button(this.game, 0, 550, wordArray[0]);
+    this.add.existing(this.button1);
+    this.button2 = new Lingo.Button(this.game, 200, 550, wordArray[1]);
+    this.add.existing(this.button2);
+    this.button3 = new Lingo.Button(this.game, 400, 550, wordArray[2]);
+    this.add.existing(this.button3);
+    this.button4 = new Lingo.Button(this.game, 600, 550, wordArray[3]);
+    this.add.existing(this.button4);
+    //8==============================================================D
+
     //------------------------------
     //-----------text-------------
-    this.text1 = this.add.text(this.enemy.body.x, this.enemy.body.y, "afturganga", { font: "14px Arial Black", fill: "#FFFFFF" });
+    this.text1 = this.add.text(this.enemy.body.x, this.enemy.body.y, dictionary[0].enska, { font: "14px Arial Black", fill: "#FFFFFF" });
     this.text1.anchor.setTo(0.5, 0.5);
 
     this.text2 = this.add.text(700, 2700,"lærðir nýtt orð",{ font: "18px Arial Black", fill: "#FFFFFF" });
@@ -101,6 +161,12 @@ Lingo.Game.prototype = {
     this.cursors = this.input.keyboard.createCursorKeys();
     this.jumpButton = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     this.pauseButton = this.input.keyboard.addKey(Phaser.Keyboard.P);
+    //8===============================================================D
+    this.aButton = this.input.keyboard.addKey(Phaser.Keyboard.A);
+    this.sButton = this.input.keyboard.addKey(Phaser.Keyboard.S);
+    this.dButton = this.input.keyboard.addKey(Phaser.Keyboard.D);
+    this.fButton = this.input.keyboard.addKey(Phaser.Keyboard.F);
+    //8===============================================================D
     console.log(this.pauseButton);
 	},
     //game update loop
@@ -157,7 +223,11 @@ Lingo.Game.prototype = {
         this.physics.arcade.overlap(this.player, this.script, this.collectScript, null, this);
 
         this.pauseButton.onDown.add(this.pause, this);        
-
+        //8====================================D
+        this.aButton.onDown.add(this.isCorrect, this.button1);
+        this.sButton.onDown.add(this.isCorrect, this.button2);
+        this.dButton.onDown.add(this.isCorrect, this.button3);
+        this.fButton.onDown.add(this.isCorrect, this.button4);
 
         /*if (this.enemy.body.blocked.left === true || this.enemy.body.blocked.right === true) {
 
@@ -175,6 +245,14 @@ Lingo.Game.prototype = {
     pause: function(){
         this.physics.arcade.isPaused = (this.physics.arcade.isPaused) ? false : true;
 
+    },
+    isCorrect: function(){
+        var buttonText = this.buttonText._text;
+        if(buttonText===dictionary[0].islenska){
+            console.log('réttur takki');
+        } else{
+            console.log('vitlaus takki');
+        }
     },
     collectScript: function(player, script) {
         script.destroy();

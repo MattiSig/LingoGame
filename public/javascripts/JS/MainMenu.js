@@ -7,7 +7,7 @@ Lingo.MainMenu.prototype = {
 
 	create: function() {
 		this.stage.backgroundColor = '#989898';
-		this.button =  this.add.button(this.world.centerX, 400, 'button', this.clickNewGame, this, 2, 1, 0);
+		this.button =  this.add.button(this.world.centerX, 400, 'main-button', this.clickNewGame, this, 2, 1, 0);
 		this.button.onInputOver.add(this.over, this);
     this.button.onInputOut.add(this.out, this);
 		this.button.anchor.setTo(0.5,0.5);	
