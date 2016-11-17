@@ -86,9 +86,8 @@ function logoutHandler(req, res){
 */
 function formHandler(req, res){
 	var subject = req.body.value;
-	console.log(subject);
 	var id = req.body.id;
-	console.log(id);
+	
 	if(id==='email'){
 		if(validation.isEmail(subject)){
 			res.send(true);

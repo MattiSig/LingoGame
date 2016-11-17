@@ -30,6 +30,7 @@ app.use(session({
   name: SESSION_NAME
 }));
 
+
 //This middleware is no longer used, though it could be later
 app.use(function(req, res, next){
   req.io = io;
