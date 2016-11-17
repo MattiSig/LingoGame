@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	$('#'+innskra-button).addClass('input-error');
+	//$('#'+innskra-button).addClass('input-error');
 
 
 	$('input').focusout(function() {
