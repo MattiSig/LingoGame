@@ -1,10 +1,44 @@
 $(document).ready(function() {
 
-	$('#'+innskra-button).addClass('input-error');
+	// $("#theForm").load("login.jade");
+	// $('#loginform').load('loginform');
 
+	$(document).on('click', '#signUp', function() {
+		$('#loginform').load('signup');
+		$("#emailWarning").empty();
+		$("#password1Warning").empty();
+		// $("#password2Warning").empty();
+
+	 });
+
+	 $(document).on('click', '#logIn', function() {
+ 		$('#loginform').load('login #loginform');
+		$("#emailWarning").empty();
+		$("#password1Warning").empty();
+		// $("#password2Warning").empty();
+
+ 	 });
+
+	$("#signUp").click(function(){
+
+		// segjum bakendanum að það sé signup mode og birtum signup formið.
+		$('#loginform').load('signup');
+
+		console.log("fjandinn");
+		});
+
+	// $("#logIn").click(function(){
+
+			// $('#signupForm').load('login #loginform');
+			// $(this).attr('id', '#signUp');
+		// 	console.log(this.id);
+		//
+		// });
 
 	$('input').focusout(function() {
+
 		var id = $(this).attr('id');
+
 		$.ajax({
 			type: 'POST',
 			data: {id: id, value: $('#'+id).val()},
@@ -15,6 +49,15 @@ $(document).ready(function() {
 					$('#'+id).addClass('input-error');
 					if(isEmpty($('#' + id + 'Warning'))){
 						$('#' + id + 'Warning').append('<p>' + message(id) + '<p>');
+						if(id === 'email'){
+							$('#emailWarning').fadeIn(500);
+						}
+						if(id === 'password1'){
+							$('#password1Warning').fadeIn(500);
+						}
+						// if(id === 'errorMsg'){
+						// 	$('#errorMsg').fadeIn(500);
+						// }
 					}
 				} else{
 					$('#' + id ).removeClass('input-error');
@@ -26,12 +69,12 @@ $(document).ready(function() {
 	});
 
 	function message(id){
-		if(id==='email'){
-			return 'Tölvupóstfang ófullnægjandi'
+		if(id === 'email'){
+			return 'Check if your email is correct'
 		}else if(id === 'password1'){
-			return 'Lykilorð þarf að vera a.m.k. 5 stafir'
+			return 'Password has to be at least 5 characters'
 		}else if(id === 'password2'){
-			return 'Endurtekið lykilorð þarf að vera a.m.k. 5 stafir'
+			return 'Retyped password has to be at least 5 characters'
 		} else{
 			return ''
 		}
