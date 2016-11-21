@@ -40,6 +40,20 @@ function findUser(email, cb){
 	});
 }
 
+module.exports.getUserLevel =
+function getUserLevel(email, cb){
+	var values = [email];
+	var q = 'SELECT level FROM users WHERE email = $1';
+
+	query(q, values, function(err, result){
+		if(err){
+			return cb(err);
+		} else {
+			cb(null, result);
+		}
+	})
+}
+
 module.exports.updateUserLevel = 
 function updateUserLevel(email, toIncrement, cb){
 	var values = [email]

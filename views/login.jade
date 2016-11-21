@@ -13,7 +13,7 @@ block content
       div.col-md-10
         img(src='/../images/lingo2.png', alt='Lingo Logo', style='width:348px;height:318px;')
 
-        h2.titill Lingo Dingo is all about having fun and learning languages at the same time!
+        h2.titill= title
       div.col-md-1
     div.col-xs-12(style='height:60px;')
     div.row
@@ -23,18 +23,18 @@ block content
           each field in form
             +field(field, submitted)
           
-          div: button() Innskrá
-          a(type="submit" href='/login' method='post' action='/login' role="button" class="btn btn-danger top-buffer")
+          div: button(class="btn btn-danger top-buffer"): span.glyphicon.glyphicon-exclamation-sign  Innskrá
+          //-a(type="submit" href='/login' method='post' action='/login' role="button" class="btn btn-danger top-buffer")
             span.glyphicon.glyphicon-exclamation-sign
             |  Innskrá
 
           div(id='emailWarning')
           div(id='password1Warning')
         //- p: a(href='/signup' class="btn-primary") Búa til notanda
-        a( href='/signup' role="button" class="btn btn-primary top-buffer")
+        a( role="button" class="btn btn-primary top-buffer authBtn")
           span.glyphicon.glyphicon-lock
           |  Gera nýjan aðgang
 
 
-    script(src='/javascripts/jquery-3.1.1.min.js')
-    script(src='/javascripts/ajaxForm.js')
+  script(src='/javascripts/jquery-3.1.1.min.js')
+  script(src='/javascripts/ajaxForm.js')

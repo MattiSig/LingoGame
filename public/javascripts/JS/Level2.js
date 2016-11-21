@@ -1,7 +1,7 @@
 //game is a new state of Phaser.game. Takes Phaser.game as input
 //creates "private" variables to be called privately within 
 //game.prototype object
-Lingo.Game = function(game) {
+Lingo.Level2 = function(game) {
 	this.map;
 	this.layer;
 	this.layer2;
@@ -12,7 +12,6 @@ Lingo.Game = function(game) {
 	this.jumpTimer = 0;
 	this.player;
     this.playerFacing = 'right';
-    this.lifeTimer= 0;
 	
     this.enemy;
 	this.text1;
@@ -45,8 +44,8 @@ var textNumber = 0;
 var isWithinRange;
 //8===========================D
 
-Lingo.Game.prototype = {
-    //create game objects to be renderd on screen
+Lingo.Level2.prototype = {
+    //create level2 objects to be renderd on screen
 	create: function () {
 
     this.time.advancedTiming = true;
@@ -65,40 +64,46 @@ Lingo.Game.prototype = {
 
     //this.layer.debug = true;
     this.map.setCollision([1,2,3,4,5,8,9,10,11,12,15,16,17],true,'base');
-    this.map.setCollision([36,37,38,39,40],true,'bgMountains');
+
     //-------Items(scripts)--------
     this.script = this.add.group();
     this.script.enableBody = true;
 
-    this.map.createFromObjects('objectsSpawn', 27, 'script', 0, true, false, this.script);
+    this.map.createFromObjects('scriptSpawn', 27, 'script', 0, true, false, this.script);
     //------------------------------
     //-----------player-------------
-    this.player = new Lingo.Player(this.game,250, 2800);
-    this.add.existing(this.player);
-    this.add.existing(this.player.tounges);
+    this.player = this.add.sprite(250, 2800, 'rundog');
+    //this.player.anchor.setTo(.5,.5);
+    this.physics.enable(this.player, Phaser.Physics.ARCADE);
+    this.player.enableBody = true;
+    //this.player.physicsBodyType = Phaser.Physics.ARCADE;
+
+    this.player.body.tilePadding.set(32);
+    this.player.body.collideWorldBounds = true;
+    this.player.body.gravity.y = 700;
+    this.player.body.setSize(70, 50, 4, 0);
     this.camera.follow(this.player);
 
+    this.player.animations.add('right',[0,1,2,3,4,5,6,7], 12, true);
+    this.player.animations.add('left',[15,14,13,12,11,10,9,8], 12, true);
+    this.player.animations.add('sit',[16,17,18,19,20], 12, true);
     //------------------------------
     //-----------Enemy--------------
-    this.enemy = this.add.group();
-    this.enemy.enableBody = true;
-    this.map.createFromObjects('objectsSpawn', 35, 'ms', 0, true, false, this.enemy);
-
-    this.enemy.callAll('animations.add', 'animations', 'walk', [0, 1, 2, 3, 4, 5,6,7,8,9,10,11,12,13,14,15,16,17,18], 17, true);
-    this.enemy.callAll('animations.play', 'animations', 'walk');
+    this.enemy = this.add.sprite(2325, 2700, 'ms');
+    this.enemy.animations.add('walk');
+    this.enemy.animations.play('walk', 50, true);
 
     this.physics.enable(this.enemy, Phaser.Physics.ARCADE);
-    console.log(this.enemy.children[0]);
-
-    for (var i = 0; i < this.enemy.children.length; i++)
-        {
-            var aEnemy = this.enemy.children[i];
-            aEnemy.body.velocity.x = 50;
-            aEnemy.body.bounce.x = 1;
-            aEnemy.body.gravity.y = 100;
-            aEnemy.anchor.setTo(.5,.5);
-        }
-
+    this.enemy.enableBody = true;
+    //this.enemy.physicsBodyType = Phaser.Physics.ARCADE;
+    //this.enemy.body.setSize(4, 4, 14, 26);
+    this.enemy.body.tilePadding.set(32);
+    this.enemy.body.collideWorldBounds = true;
+    this.enemy.body.velocity.x = 50;
+    this.enemy.body.bounce.x = 1;
+    this.enemy.body.gravity.y = 700;
+    this.enemy.anchor.setTo(.5,.5);
+    this.enemy.scale.setTo(-1,1);
     //8==========================================D
     $.ajax({
         type: 'GET',
@@ -174,26 +179,34 @@ Lingo.Game.prototype = {
 
         this.deltaTime = this.time.elapsedMS / 1000;
 		
-        //this.player.body.velocity.x = 0; -----------------------------------
+        this.player.body.velocity.x = 0;
         //stick text to enemy
         this.text1.x = this.enemy.body.x ;
         this.text1.y = this.enemy.body.y - 40;
         //handle controler events
         if (this.cursors.left.isDown){
-            this.player.moveLeft(this.deltaTime);
+            this.player.body.x = this.player.body.x + (-300 * this.deltaTime);
+            this.player.animations.play('left');
+            this.playerFacing = 'left';
+
         }else if (this.cursors.right.isDown){
-            this.player.moveRight(this.deltaTime);
+            this.player.body.x = this.player.body.x + 300 * this.deltaTime;
+            this.player.animations.play('right');
+            this.playerFacing = 'right';
+        
         }else{
-            if (this.player.playerFacing != 'idle'){
+            if (this.playerFacing != 'idle'){
                 this.player.animations.stop();
-                if (this.player.playerFacing == 'left'){
+                if (this.playerFacing == 'left'){
                     this.player.frame = 21;
                 }else{
                     this.player.frame = 16;
+                    
                 }
-                this.player.playerFacing = 'idle';
+                this.playerFacing = 'idle';
             }
-        }    
+        }
+    
         
         this.physics.arcade.collide(this.player, this.layer);
 
@@ -215,21 +228,19 @@ Lingo.Game.prototype = {
         )
         if(isWithinRange && (this.button1.alpha === 0)){
             this.makeVisible(true);
+            console.log('true')
         }else if(!isWithinRange && (this.button1.alpha === 1)) {
             this.makeVisible(false);
+            console.log('false');
         }
         
         this.physics.arcade.collide(this.enemy, this.layer);
-        this.physics.arcade.collide(this.enemy,this.player, function(player, enemy) {
-            this.player.looseLife();
-            console.log("bluh");
+        this.physics.arcade.collide(this.enemy,this.player,function(player, enemy) {
+            this.player.kill();
+            this.physics.arcade.isPaused = (this.physics.arcade.isPaused) ? false : true;
         },null, this);
         this.physics.arcade.overlap(this.player, this.script, this.collectScript, null, this);
-        this.physics.arcade.collide(this.player, this.layer3, function(player, layer3){
-            console.log(this.time.now)
-            this.player.looseLife(this.time.now);
-        },null, this);
-        
+
         this.pauseButton.onDown.add(this.pause, this);        
         //8====================================D
         this.aButton.onDown.add(this.isCorrect, this.button1);
@@ -237,14 +248,14 @@ Lingo.Game.prototype = {
         this.dButton.onDown.add(this.isCorrect, this.button3);
         this.fButton.onDown.add(this.isCorrect, this.button4);
 
-        for (var i = 0; i < this.enemy.children.length; i++){
-            if(this.enemy.children[i].body.blocked.left === true || this.enemy.children[i].body.blocked.right === true){
-                this.enemy.children[i].scale.x *= -1;
-            }
-        }
+        /*if (this.enemy.body.blocked.left === true || this.enemy.body.blocked.right === true) {
+
+        }*/
 	},
     //render debug text
     render: function(){
+        this.game.debug.bodyInfo(this.player, 32, 32);
+        //this.game.debug.body(this.player);
         this.game.debug.text("FPS: " + this.game.time.fps, 2, 14,"#00ff00");
         this.game.debug.text("ms.time: " +  this.deltaTime, 2, 42, "#00ff00" );
         this.game.debug.text(this.game.time.now, 2, 70, "#00ff00");
@@ -252,6 +263,7 @@ Lingo.Game.prototype = {
     },
     pause: function(){
         this.physics.arcade.isPaused = (this.physics.arcade.isPaused) ? false : true;
+
     },
     makeVisible: function(isHidden){
         if(isHidden){
@@ -268,16 +280,17 @@ Lingo.Game.prototype = {
         }
     },
     isCorrect: function(){
+        console.log(this);
         var buttonText = this.buttonText._text;
         if(buttonText===dictionary[0].islenska){
             console.log('réttur takki');
-        } else {
+        } else{
             console.log('vitlaus takki');
         }
     },
     collectScript: function(player, script) {
         script.destroy();
-        this.text2 = this.add.text(700, 2700,dictionary[textNumber].enska+" = "+dictionary[textNumber].islenska,{ font: "18px Arial Black", fill: "#FFFFFF" });
+        this.text2 = this.add.text(700, 2700, 'level 2 stuff',{ font: "18px Arial Black", fill: "#FFFFFF" });
         this.tempScriptTime = this.time.now + 3000;
         this.text2.x = script.x -100;
         this.text2.y = script.y -200;
