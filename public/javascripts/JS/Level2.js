@@ -1,21 +1,21 @@
 //game is a new state of Phaser.game. Takes Phaser.game as input
 //creates "private" variables to be called privately within 
 //game.prototype object
-Lingo.Game = function(game) {
-	this.map;
-	this.layer;
-	this.layer2;
+Lingo.Level2 = function(game) {
+    this.map;
+    this.layer;
+    this.layer2;
     this.layer3;
-	this.p;
-	this.cursors;
-	this.jumpButton;
-	this.jumpTimer = 0;
-	this.player;
+    this.p;
+    this.cursors;
+    this.jumpButton;
+    this.jumpTimer = 0;
+    this.player;
     this.playerFacing = 'right';
     this.lifeTimer= 0;
-	
+    
     this.enemy;
-	this.text1;
+    this.text1;
     this.text2;
     this.game = game;
     this.button;
@@ -45,12 +45,12 @@ var textNumber = 0;
 var isWithinRange;
 //8===========================D
 
-Lingo.Game.prototype = {
+Lingo.Level2.prototype = {
     //create game objects to be renderd on screen
-	create: function () {
+    create: function () {
 
     this.time.advancedTiming = true;
-	
+    
     this.stage.backgroundColor = '#989898';
     
     //------------------------
@@ -150,7 +150,7 @@ Lingo.Game.prototype = {
 
     //------------------------------
     //-----------text-------------
-    this.text1 = this.add.text(this.enemy.body.x, this.enemy.body.y, dictionary[0].enska, { font: "14px Arial Black", fill: "#FFFFFF" });
+    this.text1 = this.add.text(this.enemy.children[0].body.x, this.enemy.children[0].body.y, dictionary[0].enska, { font: "14px Arial Black", fill: "#FFFFFF" });
     this.text1.anchor.setTo(0.5, 0.5);
 
     this.text2 = this.add.text(700, 2700,dictionary[textNumber].enska+" = "+dictionary[textNumber].islenska,{ font: "18px Arial Black", fill: "#FFFFFF" });
@@ -168,16 +168,16 @@ Lingo.Game.prototype = {
     this.fButton = this.input.keyboard.addKey(Phaser.Keyboard.F);
     //8===============================================================D
     console.log(this.pauseButton);
-	},
+    },
     //game update loop
-	update: function() {
+    update: function() {
 
         this.deltaTime = this.time.elapsedMS / 1000;
-		
+        
         //this.player.body.velocity.x = 0; -----------------------------------
         //stick text to enemy
-        this.text1.x = this.enemy.body.x ;
-        this.text1.y = this.enemy.body.y - 40;
+        this.text1.x = this.enemy.children[0].body.x ;
+        this.text1.y = this.enemy.children[0].body.y - 40;
         //handle controler events
         if (this.cursors.left.isDown){
             this.player.moveLeft(this.deltaTime);
@@ -208,10 +208,10 @@ Lingo.Game.prototype = {
         }
 
         isWithinRange = (
-            (this.player.body.x > this.enemy.body.x - 400) && 
-            (this.player.body.x < this.enemy.body.x + 200) && 
-            (this.player.body.y < this.enemy.body.y +500) && 
-            (this.player.body.y > this.enemy.body.y - 500)
+            (this.player.body.x > this.enemy.children[0].body.x - 400) && 
+            (this.player.body.x < this.enemy.children[0].body.x + 200) && 
+            (this.player.body.y < this.enemy.children[0].body.y +500) && 
+            (this.player.body.y > this.enemy.children[0].body.y - 500)
         )
         if(isWithinRange && (this.button1.alpha === 0)){
             this.makeVisible(true);
@@ -226,24 +226,23 @@ Lingo.Game.prototype = {
         },null, this);
         this.physics.arcade.overlap(this.player, this.script, this.collectScript, null, this);
         this.physics.arcade.collide(this.player, this.layer3, function(player, layer3){
-            console.log(this.time.now
-                )
+            console.log(this.time.now)
             this.player.looseLife(this.time.now);
         },null, this);
         
         this.pauseButton.onDown.add(this.pause, this);        
         //8====================================D
-        this.aButton.onDown.add(this.isCorrect, this.button1);
-        this.sButton.onDown.add(this.isCorrect, this.button2);
-        this.dButton.onDown.add(this.isCorrect, this.button3);
-        this.fButton.onDown.add(this.isCorrect, this.button4);
+        this.aButton.onDown.add(this.isCorrect, this, 0, this.button1, this.enemy.children[0]);
+        this.sButton.onDown.add(this.isCorrect, this, 0, this.button2, this.enemy.children[0]);
+        this.dButton.onDown.add(this.isCorrect, this, 0, this.button3, this.enemy.children[0]);
+        this.fButton.onDown.add(this.isCorrect, this, 0, this.button4, this.enemy.children[0]);
 
         for (var i = 0; i < this.enemy.children.length; i++){
             if(this.enemy.children[i].body.blocked.left === true || this.enemy.children[i].body.blocked.right === true){
                 this.enemy.children[i].scale.x *= -1;
             }
         }
-	},
+    },
     //render debug text
     render: function(){
         this.game.debug.text("FPS: " + this.game.time.fps, 2, 14,"#00ff00");
@@ -268,10 +267,13 @@ Lingo.Game.prototype = {
             this.button4.alpha = 0;
         }
     },
-    isCorrect: function(){
-        console.log("getFUUUUUUUUUkkt")
-        var buttonText = this.buttonText._text;
+    isCorrect: function(arg1, arg2, arg3){
+        // console.log(this);
+        // console.log(arg2);
+        // console.log(arg3);
+        var buttonText = arg2.buttonText._text;
         if(buttonText===dictionary[0].islenska){
+            arg3.kill();
             console.log('réttur takki');
         } else {
             console.log('vitlaus takki');
@@ -279,7 +281,7 @@ Lingo.Game.prototype = {
     },
     collectScript: function(player, script) {
         script.destroy();
-        this.text2 = this.add.text(700, 2700,dictionary[textNumber].enska+" = "+dictionary[textNumber].islenska,{ font: "18px Arial Black", fill: "#FFFFFF" });
+        this.text2 = this.add.text(700, 2700, 'level 2 bitch',{ font: "18px Arial Black", fill: "#FFFFFF" });
         this.tempScriptTime = this.time.now + 3000;
         this.text2.x = script.x -100;
         this.text2.y = script.y -200;

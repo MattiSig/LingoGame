@@ -77,6 +77,8 @@ router.get('/addword', loggedInStatus.isLoggedIn, function(req, res){
 router.post('/addword', loggedInStatus.isLoggedIn, addWordHandler);
 router.get('/getword', getWordHandler);
 router.post('/updatelevel', updateLevel);
+router.get('/getLevel', getLevel);
+
 
 /**
 * Takes information from user and validates before handling
@@ -145,6 +147,18 @@ function updateLevel(req, res){
 		} else{
 			console.log('eitthvað er að');
 			res.send('not success');
+		}
+	})
+}
+
+function getLevel(req, res){
+	sqlUser.getUserLevel(req.session.user, function(err, result){
+		if(result){
+			res.send(result.rows[0]);
+			console.log('success');
+		} else{
+			res.send('shit');
+			console.log('not success');
 		}
 	})
 }

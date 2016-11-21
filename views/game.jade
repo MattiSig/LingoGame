@@ -5,10 +5,10 @@ block content
   script(src='/javascripts/JS/Boot.js')
   script(src='/javascripts/JS/Preloader.js')
   script(src='/javascripts/JS/Game.js')
+  script(src='/javascripts/JS/Level2.js')
   script(src='/javascripts/JS/MainMenu.js')
   script(src='/javascripts/JS/Button.js')
   script(src='/javascripts/JS/Player.js')
-  script(src='/javascripts/jquery-3.1.1.min.js')
   div(id="game")
   div(id="orientation")
     script.
@@ -18,6 +18,7 @@ block content
         game.state.add('Preloader', Lingo.Preloader);
         game.state.add('MainMenu', Lingo.MainMenu);
         game.state.add('Game', Lingo.Game);
+        game.state.add('Level2', Lingo.Level2);
         game.state.start('Boot');
       }
   h1: a(href='/logout') Útskrá
