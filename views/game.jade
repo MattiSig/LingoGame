@@ -4,7 +4,7 @@ block content
   script(src='/javascripts/phaser.min.js')
   script(src='/javascripts/JS/Boot.js')
   script(src='/javascripts/JS/Preloader.js')
-  script(src='/javascripts/JS/Game.js')
+  script(src='/javascripts/JS/Level1.js')
   script(src='/javascripts/JS/Level2.js')
   script(src='/javascripts/JS/MainMenu.js')
   script(src='/javascripts/JS/Button.js')
@@ -17,7 +17,7 @@ block content
       	game.state.add('Boot', Lingo.Boot);
         game.state.add('Preloader', Lingo.Preloader);
         game.state.add('MainMenu', Lingo.MainMenu);
-        game.state.add('Game', Lingo.Game);
+        game.state.add('Level1', Lingo.Level1);
         game.state.add('Level2', Lingo.Level2);
         game.state.start('Boot');
       }

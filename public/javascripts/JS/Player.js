@@ -4,7 +4,7 @@ Lingo.Player = function (game, x, y) {
   this.anchor.set(0.5);
   this.life = 2;
   this.lifeTimer = 0;
-
+  this.game = game;
 
   //  Handy physics ref
   this.physics = game.physics.arcade;
@@ -50,7 +50,7 @@ Lingo.Player.prototype.restart = function(){
 Lingo.Player.prototype.looseLife = function(timeNow){
     if(this.lifeTimer < timeNow){
       this.lifeTimer = timeNow + 1000;  
-      console.log('braaaaaaaaaa'+this.lifeTimer);
+      console.log('braaaaaaaaaa'+ this.lifeTimer);
       this.body.velocity.y = -200;
       this.life -= 1;
       this.tounges.kill();
@@ -58,4 +58,7 @@ Lingo.Player.prototype.looseLife = function(timeNow){
         this.restart();
       }
     }
+}
+Lingo.Player.prototype.nextlevel = function(){
+    this.game.state.start('Level2');
 }

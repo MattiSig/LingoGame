@@ -31,7 +31,7 @@ Lingo.MainMenu.prototype = {
 			level = levelasdf;
 		
 		}
-		this.state.start(level);
+		this.state.start('Level1');
 
 	},
 	over: function() {

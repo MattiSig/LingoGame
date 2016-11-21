@@ -24,7 +24,7 @@ function addWord(difficulty, icelandic, english, cb){
 }
 
 /**
-* Selects 4 icelandic words randomly and their english translation,
+* Selects 16 icelandic words randomly and their english translation,
 * Word difficulty score is matched with users level
 * @param {String} email - email address
 * @param {function} cb - callback function
@@ -33,7 +33,7 @@ module.exports.findWord =
 function findWord(email, cb){
 	var values = [email];
 	var q = 'SELECT enska, islenska FROM dictionary WHERE difficulty = (SELECT level from users WHERE email = $1) ' +
-			'ORDER BY RANDOM() LIMIT 4';
+			'ORDER BY RANDOM() LIMIT 16';
 
 	query(q, values, function(err, result){
 		if(err){

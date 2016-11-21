@@ -1,7 +1,7 @@
 //game is a new state of Phaser.game. Takes Phaser.game as input
 //creates "private" variables to be called privately within 
 //game.prototype object
-Lingo.Game = function(game) {
+Lingo.Level1 = function(game) {
 	this.map;
 	this.layer;
 	this.layer2;
@@ -19,6 +19,7 @@ Lingo.Game = function(game) {
     this.text2;
     this.game = game;
     this.button;
+    this.door;
     
     this.pauseButton;
     this.deltaTime;
@@ -45,17 +46,17 @@ var textNumber = 0;
 var isWithinRange;
 //8===========================D
 
-Lingo.Game.prototype = {
+Lingo.Level1.prototype = {
     //create game objects to be renderd on screen
 	create: function () {
 
     this.time.advancedTiming = true;
 	
-    this.stage.backgroundColor = '#989898';
+    this.stage.backgroundColor = '#526ec4';
     
     //------------------------
     //---------Level----------
-    this.map = this.add.tilemap('tilemap');
+    this.map = this.add.tilemap('level1');
     this.map.addTilesetImage('baseSet','tiles');
     
     this.layer2 = this.map.createLayer('background');
@@ -70,10 +71,14 @@ Lingo.Game.prototype = {
     this.script = this.add.group();
     this.script.enableBody = true;
 
+    this.door = this.add.group();
+    this.door.enableBody=true;
+
     this.map.createFromObjects('objectsSpawn', 27, 'script', 0, true, false, this.script);
+    this.map.createFromObjects('objectsSpawn', 7, 'items', 41, true, false, this.door);
     //------------------------------
     //-----------player-------------
-    this.player = new Lingo.Player(this.game,250, 2800);
+    this.player = new Lingo.Player(this.game, 231, 2800);
     this.add.existing(this.player);
     this.add.existing(this.player.tounges);
     this.camera.follow(this.player);
@@ -150,9 +155,17 @@ Lingo.Game.prototype = {
 
     //------------------------------
     //-----------text-------------
+    this.text1 = this.add.group();
+    for(var i = 0; i < this.enemy.children.length; i++){
+        this.text1.add(this.add.text(this.enemy.children[i].body.x, this.enemy.children[i].body.y, dictionary[i].enska,  
+        { font: "14px Arial", fill: this.generateHexColor}));
+    }
+    this.text1.setAll('anchor.x', 0.5);
+    this.text1.setAll('anchor.y', 0.5);
+    /*
     this.text1 = this.add.text(this.enemy.body.x, this.enemy.body.y, dictionary[0].enska, { font: "14px Arial Black", fill: "#FFFFFF" });
     this.text1.anchor.setTo(0.5, 0.5);
-
+    */
     this.text2 = this.add.text(700, 2700,dictionary[textNumber].enska+" = "+dictionary[textNumber].islenska,{ font: "18px Arial Black", fill: "#FFFFFF" });
     this.text2.alpha = 0;
 
@@ -176,8 +189,8 @@ Lingo.Game.prototype = {
 		
         //this.player.body.velocity.x = 0; -----------------------------------
         //stick text to enemy
-        this.text1.x = this.enemy.body.x ;
-        this.text1.y = this.enemy.body.y - 40;
+        //this.text1.x = this.enemy.body.x ;
+        //this.text1.y = this.enemy.body.y - 40;
         //handle controler events
         if (this.cursors.left.isDown){
             this.player.moveLeft(this.deltaTime);
@@ -206,13 +219,13 @@ Lingo.Game.prototype = {
         if((this.time.now > this.tempScriptTime) && this.text2.alpha){
             this.hideScript();
         }
-
+        /*
         isWithinRange = (
             (this.player.body.x > this.enemy.body.x - 400) && 
             (this.player.body.x < this.enemy.body.x + 200) && 
             (this.player.body.y < this.enemy.body.y +500) && 
             (this.player.body.y > this.enemy.body.y - 500)
-        )
+        )*/
         if(isWithinRange && (this.button1.alpha === 0)){
             this.makeVisible(true);
         }else if(!isWithinRange && (this.button1.alpha === 1)) {
@@ -226,10 +239,12 @@ Lingo.Game.prototype = {
         },null, this);
         this.physics.arcade.overlap(this.player, this.script, this.collectScript, null, this);
         this.physics.arcade.collide(this.player, this.layer3, function(player, layer3){
-            console.log(this.time.now
-                )
+            console.log(this.time.now)
             this.player.looseLife(this.time.now);
         },null, this);
+        this.physics.arcade.overlap(this.player, this.door, function(player, door){
+            this.player.nextlevel();
+        }, null, this);
         
         this.pauseButton.onDown.add(this.pause, this);        
         //8====================================D
@@ -239,6 +254,8 @@ Lingo.Game.prototype = {
         this.fButton.onDown.add(this.isCorrect, this.button4);
 
         for (var i = 0; i < this.enemy.children.length; i++){
+            this.text1.children[i].x = this.enemy.children[i].x;
+            this.text1.children[i].y = this.enemy.children[i].y - 50;
             if(this.enemy.children[i].body.blocked.left === true || this.enemy.children[i].body.blocked.right === true){
                 this.enemy.children[i].scale.x *= -1;
             }
@@ -246,6 +263,7 @@ Lingo.Game.prototype = {
 	},
     //render debug text
     render: function(){
+        this.game.debug.spriteInfo(this.player, 32, 32);
         this.game.debug.text("FPS: " + this.game.time.fps, 2, 14,"#00ff00");
         this.game.debug.text("ms.time: " +  this.deltaTime, 2, 42, "#00ff00" );
         this.game.debug.text(this.game.time.now, 2, 70, "#00ff00");
@@ -289,6 +307,8 @@ Lingo.Game.prototype = {
     },
     hideScript: function(){
         this.text2.alpha = 0;
+    },
+    generateHexColor: function() { 
+    return '#' + ((0.5 + 0.5 * Math.random()) * 0xFFFFFF << 0).toString(16);
     }
-
 };
