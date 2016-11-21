@@ -208,7 +208,8 @@ Lingo.Game.prototype = {
         },null, this);
         this.physics.arcade.overlap(this.player, this.script, this.collectScript, null, this);
         this.physics.arcade.collide(this.player, this.layer3, function(player, layer3){
-            console.log(this.time.now)
+            console.log(this.time.now
+                )
             this.player.looseLife(this.time.now);
         },null, this);
         
@@ -236,6 +237,7 @@ Lingo.Game.prototype = {
         this.physics.arcade.isPaused = (this.physics.arcade.isPaused) ? false : true;
     },
     isCorrect: function(){
+        console.log("getFUUUUUUUUUkkt")
         var buttonText = this.buttonText._text;
         if(buttonText===dictionary[0].islenska){
             console.log('réttur takki');
