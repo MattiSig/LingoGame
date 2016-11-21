@@ -12,6 +12,7 @@ Lingo.Game = function(game) {
 	this.jumpTimer = 0;
 	this.player;
     this.playerFacing = 'right';
+    this.lifeTimer= 0;
 	
     this.enemy;
 	this.text1;
@@ -62,7 +63,7 @@ Lingo.Game.prototype = {
 
     //this.layer.debug = true;
     this.map.setCollision([1,2,3,4,5,8,9,10,11,12,15,16,17],true,'base');
-    this.map.setCollision([])
+    this.map.setCollision([36,37,38,39,40],true,'bgMountains');
     //-------Items(scripts)--------
     this.script = this.add.group();
     this.script.enableBody = true;
@@ -72,6 +73,7 @@ Lingo.Game.prototype = {
     //-----------player-------------
     this.player = new Lingo.Player(this.game,250, 2800);
     this.add.existing(this.player);
+    this.add.existing(this.player.tounges);
     this.camera.follow(this.player);
 
     //------------------------------
@@ -80,7 +82,7 @@ Lingo.Game.prototype = {
     this.enemy.enableBody = true;
     this.map.createFromObjects('objectsSpawn', 35, 'ms', 0, true, false, this.enemy);
 
-    this.enemy.callAll('animations.add', 'animations', 'walk', [0, 1, 2, 3, 4, 5,6,7,8,9,10,11,12,13,14,15,16,17,18], 10, true);
+    this.enemy.callAll('animations.add', 'animations', 'walk', [0, 1, 2, 3, 4, 5,6,7,8,9,10,11,12,13,14,15,16,17,18], 17, true);
     this.enemy.callAll('animations.play', 'animations', 'walk');
 
     this.physics.enable(this.enemy, Phaser.Physics.ARCADE);
@@ -89,19 +91,11 @@ Lingo.Game.prototype = {
     for (var i = 0; i < this.enemy.children.length; i++)
         {
             var aEnemy = this.enemy.children[i];
-            aEnemy.body.velocity.x = 200;
+            aEnemy.body.velocity.x = 50;
             aEnemy.body.bounce.x = 1;
             aEnemy.body.gravity.y = 100;
             aEnemy.anchor.setTo(.5,.5);
         }
-    /*this.enemy.body.tilePadding.set(32);
-    this.enemy.body.collideWorldBounds = true;
-    this.enemy.body.velocity.x = 50;
-    this.enemy.body.bounce.x = 1;
-    this.enemy.body.gravity.y = 700;
-    this.enemy.anchor.setTo(.5,.5);
-    this.enemy.scale.setTo(-1,1);*/
-
 
     //8==========================================D
     $.ajax({
@@ -193,8 +187,7 @@ Lingo.Game.prototype = {
                 }
                 this.player.playerFacing = 'idle';
             }
-        }
-    
+        }    
         
         this.physics.arcade.collide(this.player, this.layer);
 
@@ -209,12 +202,16 @@ Lingo.Game.prototype = {
         }
         
         this.physics.arcade.collide(this.enemy, this.layer);
-        this.physics.arcade.collide(this.enemy,this.player,function(player, enemy) {
-            this.player.kill();
-            this.physics.arcade.isPaused = (this.physics.arcade.isPaused) ? false : true;
+        this.physics.arcade.collide(this.enemy,this.player, function(player, enemy) {
+            this.player.looseLife();
+            console.log("bluh");
         },null, this);
         this.physics.arcade.overlap(this.player, this.script, this.collectScript, null, this);
-
+        this.physics.arcade.collide(this.player, this.layer3, function(player, layer3){
+            console.log(this.time.now)
+            this.player.looseLife(this.time.now);
+        },null, this);
+        
         this.pauseButton.onDown.add(this.pause, this);        
         //8====================================D
         this.aButton.onDown.add(this.isCorrect, this.button1);
@@ -222,11 +219,14 @@ Lingo.Game.prototype = {
         this.dButton.onDown.add(this.isCorrect, this.button3);
         this.fButton.onDown.add(this.isCorrect, this.button4);
 
+        for (var i = 0; i < this.enemy.children.length; i++){
+            if(this.enemy.children[i].body.blocked.left === true || this.enemy.children[i].body.blocked.right === true){
+                this.enemy.children[i].scale.x *= -1;
+            }
+        }
 	},
     //render debug text
     render: function(){
-        //this.game.debug.bodyInfo(this.player, 32, 32);
-        //this.game.debug.body(this.player);
         this.game.debug.text("FPS: " + this.game.time.fps, 2, 14,"#00ff00");
         this.game.debug.text("ms.time: " +  this.deltaTime, 2, 42, "#00ff00" );
         this.game.debug.text(this.game.time.now, 2, 70, "#00ff00");
@@ -249,7 +249,7 @@ Lingo.Game.prototype = {
         this.text2.x = script.x -100;
         this.text2.y = script.y -200;
         this.text2.alpha = 1;
-        //console.log(this.text2);
+        console.log('shitt');
     },
     hideScript: function(){
         this.text2.alpha = 0;
