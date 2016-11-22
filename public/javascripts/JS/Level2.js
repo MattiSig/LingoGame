@@ -31,17 +31,18 @@ Lingo.Level2 = function(game) {
     this.button2;
     this.button3;
     this.button4;
-
+ 
     this.aButton;
     this.sButton;
     this.dButton;
     this.fButton;
+    this.textNumber = 0;
     //8==============================D
 
 };
 //8===========================D
 var dictionary;
-var textNumber = 0;
+// var textNumber = 0;
 var isWithinRange;
 //8===========================D
 
@@ -113,6 +114,7 @@ Lingo.Level2.prototype = {
 
     function setDictionary(data){
         dictionary = data;
+        this.textNumber = 0;
     }
 
     function setArray(){
@@ -134,16 +136,16 @@ Lingo.Level2.prototype = {
     var wordArray = setArray();
     shuffleWords(wordArray);
     console.log(wordArray);
-    this.button1 = new Lingo.Button(this.game, 0, 550, wordArray[0]);
+    this.button1 = new Lingo.Button(this.game, 0, 550, wordArray[0], 'button', true);
     this.add.existing(this.button1);
     this.button1.alpha = 0;
-    this.button2 = new Lingo.Button(this.game, 200, 550, wordArray[1]);
+    this.button2 = new Lingo.Button(this.game, 200, 550, wordArray[1], 'button', true);
     this.add.existing(this.button2);
     this.button2.alpha = 0;
-    this.button3 = new Lingo.Button(this.game, 400, 550, wordArray[2]);
+    this.button3 = new Lingo.Button(this.game, 400, 550, wordArray[2], 'button', true);
     this.add.existing(this.button3);
     this.button3.alpha = 0;
-    this.button4 = new Lingo.Button(this.game, 600, 550, wordArray[3]);
+    this.button4 = new Lingo.Button(this.game, 600, 550, wordArray[3], 'button', true);
     this.add.existing(this.button4);
     this.button4.alpha = 0;
     //8==============================================================D
@@ -152,8 +154,8 @@ Lingo.Level2.prototype = {
     //-----------text-------------
     this.text1 = this.add.text(this.enemy.children[0].body.x, this.enemy.children[0].body.y, dictionary[0].enska, { font: "14px Arial Black", fill: "#FFFFFF" });
     this.text1.anchor.setTo(0.5, 0.5);
-
-    this.text2 = this.add.text(700, 2700,dictionary[textNumber].enska+" = "+dictionary[textNumber].islenska,{ font: "18px Arial Black", fill: "#FFFFFF" });
+    console.log(this.textNumber);
+    this.text2 = this.add.text(700, 2700,dictionary[this.textNumber].enska+" = "+dictionary[this.textNumber].islenska,{ font: "18px Arial Black", fill: "#FFFFFF" });
     this.text2.alpha = 0;
 
     //------------------------------
@@ -267,13 +269,13 @@ Lingo.Level2.prototype = {
             this.button4.alpha = 0;
         }
     },
-    isCorrect: function(arg1, arg2, arg3){
-        // console.log(this);
+    isCorrect: function(arg1, button, enemy){
+        console.log(arg1);
         // console.log(arg2);
         // console.log(arg3);
-        var buttonText = arg2.buttonText._text;
+        var buttonText = button.buttonText._text;
         if(buttonText===dictionary[0].islenska){
-            arg3.kill();
+            enemy.destroy();
             console.log('réttur takki');
         } else {
             console.log('vitlaus takki');
@@ -286,7 +288,7 @@ Lingo.Level2.prototype = {
         this.text2.x = script.x -100;
         this.text2.y = script.y -200;
         this.text2.alpha = 1;
-        textNumber++;
+        this.textNumber++;
         console.log(this.text2);
     },
     hideScript: function(){

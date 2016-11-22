@@ -160,6 +160,7 @@ function loginHandler(req, res){
 * @param {Object} res - response object
 */
 function signUpHandler(req, res){
+	console.log(req.body);
 	var data = formValidator(form, req.body);
 
 	var formErrors = data.hasErrors;

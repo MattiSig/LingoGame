@@ -139,7 +139,7 @@ function getWordHandler(req, res){
 }
 
 function updateLevel(req, res){
-	var testBool = Math.random() < 0.5;
+	var testBool = true; //Math.random() < 0.5;
 	sqlUser.updateUserLevel(req.session.user, testBool, function(err, result){
 		if(result){
 			console.log(testBool);

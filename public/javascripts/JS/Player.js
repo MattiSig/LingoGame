@@ -4,6 +4,7 @@ Lingo.Player = function (game, x, y) {
   this.anchor.set(0.5);
   this.life = 2;
   this.lifeTimer = 0;
+  this.game = game;
 
 
   //  Handy physics ref
@@ -55,7 +56,8 @@ Lingo.Player.prototype.looseLife = function(timeNow){
       this.life -= 1;
       this.tounges.kill();
       if(this.life <= 0){
-        this.restart();
+        //this.destroy();
+        this.game.state.restart();
       }
     }
 }
