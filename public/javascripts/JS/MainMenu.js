@@ -28,16 +28,16 @@ Lingo.MainMenu.prototype = {
 
 		this.stage.backgroundColor = this.getRandomColor();
 
-		this.mainButton1 =  this.add.button(this.world.centerX, this.world.centerY - 50, 'main-button', this.clickNewGame, this, 1, 0);
+		this.mainButton1 =  this.add.button(this.world.centerX, this.world.centerY - 50, 'main-button', this.clickNewGame, this, 2, 1, 0);
 		this.mainButton1.anchor.setTo(0.5,0.5);	
 		this.mainButton1.alpha = 1;
 
 
-		this.mainButton2 =  this.add.button(this.world.centerX, this.world.centerY + 50, 'main-button', this.toScore, this, 1, 0);
+		this.mainButton2 =  this.add.button(this.world.centerX, this.world.centerY + 50, 'main-button', this.toScore, this, 2, 1, 0);
 		this.mainButton2.anchor.setTo(0.5,0.5);	
 		this.mainButton2.alpha = 1;
 
-		this.mainButton3 =  this.add.button(this.world.centerX - 250, this.world.centerY + 150, 'main-button', this.back, this, 1, 0);
+		this.mainButton3 =  this.add.button(this.world.centerX - 250, this.world.centerY + 150, 'main-button', this.back, this, 2, 1, 0);
 		this.mainButton3.anchor.setTo(0.5,0.5);	
 		this.mainButton3.alpha = 0;
 		this.mainButton3.input.enabled = false;
@@ -60,7 +60,7 @@ Lingo.MainMenu.prototype = {
 			level = userLevel;
 		
 		}
-		this.state.start('Level1');
+		this.state.start(level);
 
 	},
 	clickScore: function(){

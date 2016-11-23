@@ -67,7 +67,6 @@ router.get('/game', loggedInStatus.isLoggedIn, function(req, res) {
   res.render('game', { title: 'LingoDick' });
 });
 
-//router.get('/game', loggedInStatus.isLoggedIn, getWordHandler);
 
 router.get('/addword', loggedInStatus.isLoggedIn, function(req, res){
 	var info = {title: 'Bæta við orði', form: form, submitted: false};
@@ -140,16 +139,24 @@ function getWordHandler(req, res){
 }
 
 function updateLevel(req, res){
-	var testBool = true; //Math.random() < 0.5;
-	sqlUser.updateUserLevel(req.session.user, testBool, function(err, result){
+	var booleIncrement = new Boolean(true);
+	console.log(req.body.toIncrement);
+	if(req.body.toIncrement==='1'){
+		booleIncrement = true;
+	} else{
+		booleIncrement = false;
+	}
+	console.log(booleIncrement.typeOf);
+	console.log(booleIncrement);
+	sqlUser.updateUserLevel(req.session.user, booleIncrement, function(err, result){
 		if(result){
-			console.log(testBool);
+			console.log(booleIncrement);
 			res.send('success');
 		} else{
 			console.log('eitthvað er að');
 			res.send('not success');
 		}
-	})
+	});
 }
 
 function getLevel(req, res){
