@@ -43,7 +43,7 @@ Lingo.Level1 = function(game) {
 //8===========================D
 var dictionary;
 var textNumber = 0;
-var isWithinRange;
+var isWithinRange = new Array();
 //8===========================D
 
 Lingo.Level1.prototype = {
@@ -66,7 +66,7 @@ Lingo.Level1.prototype = {
 
     //this.layer.debug = true;
     this.map.setCollision([1,2,3,4,5,8,9,10,11,12,15,16,17],true,'base');
-    this.map.setCollision([36,37,38,39,40],true,'bgMountains');
+    this.map.setCollision([36, 37, 38, 39, 40],true,'bgMountains');
     //-------Items(scripts)--------
     this.script = this.add.group();
     this.script.enableBody = true;
@@ -102,6 +102,7 @@ Lingo.Level1.prototype = {
             aEnemy.body.bounce.x = 1;
             aEnemy.body.gravity.y = 100;
             aEnemy.anchor.setTo(.5,.5);
+            isWithinRange[i] = false;
         }
 
     //8==========================================D
@@ -158,15 +159,12 @@ Lingo.Level1.prototype = {
     this.text1 = this.add.group();
     for(var i = 0; i < this.enemy.children.length; i++){
         this.text1.add(this.add.text(this.enemy.children[i].body.x, this.enemy.children[i].body.y, dictionary[i].enska,  
-        { font: "14px Arial", fill: this.generateHexColor}));
+        { font: "14px Arial", fill: this.generateHexColor()}));
     }
     this.text1.setAll('anchor.x', 0.5);
     this.text1.setAll('anchor.y', 0.5);
-    /*
-    this.text1 = this.add.text(this.enemy.body.x, this.enemy.body.y, dictionary[0].enska, { font: "14px Arial Black", fill: "#FFFFFF" });
-    this.text1.anchor.setTo(0.5, 0.5);
-    */
-    this.text2 = this.add.text(700, 2700,dictionary[textNumber].enska+" = "+dictionary[textNumber].islenska,{ font: "18px Arial Black", fill: "#FFFFFF" });
+
+    this.text2 = this.add.text(0, 0,dictionary[textNumber].enska+" = "+dictionary[textNumber].islenska,{ font: "18px Arial Black", fill: "#FFFFFF" });
     this.text2.alpha = 0;
 
     //------------------------------
@@ -216,19 +214,21 @@ Lingo.Level1.prototype = {
             this.jumpTimer = this.time.now + 750;
             this.player.frame = 5;
         }
-        if((this.time.now > this.tempScriptTime) && this.text2.alpha){
+        /*if((this.time.now > this.tempScriptTime) && this.text2.alpha){
             this.hideScript();
+        }*/
+        
+        for (var i = 0; i < this.enemy.children.length; i++){
+            isWithinRange[i] = (
+                (this.player.body.x > this.enemy.children[i].body.x - 400) && 
+                (this.player.body.x < this.enemy.children[i].body.x + 200) && 
+                (this.player.body.y < this.enemy.children[i].body.y +500) && 
+                (this.player.body.y > this.enemy.children[i].body.y - 500)
+            )
         }
-        /*
-        isWithinRange = (
-            (this.player.body.x > this.enemy.body.x - 400) && 
-            (this.player.body.x < this.enemy.body.x + 200) && 
-            (this.player.body.y < this.enemy.body.y +500) && 
-            (this.player.body.y > this.enemy.body.y - 500)
-        )*/
-        if(isWithinRange && (this.button1.alpha === 0)){
+        if((isWithinRange[0]||isWithinRange[1]||isWithinRange[2]) && this.button1.alpha === 0){                
             this.makeVisible(true);
-        }else if(!isWithinRange && (this.button1.alpha === 1)) {
+        }else if(!(isWithinRange[0]||isWithinRange[1]||isWithinRange[2]) && this.button1.alpha === 1){
             this.makeVisible(false);
         }
         
@@ -297,18 +297,21 @@ Lingo.Level1.prototype = {
     },
     collectScript: function(player, script) {
         script.destroy();
-        this.text2 = this.add.text(700, 2700,dictionary[textNumber].enska+" = "+dictionary[textNumber].islenska,{ font: "18px Arial Black", fill: "#FFFFFF" });
-        this.tempScriptTime = this.time.now + 3000;
+        console.log(textNumber);
+        this.text2.setText(dictionary[textNumber].enska+" = "+dictionary[textNumber].islenska,true);
+        this.text2.setStyle({font: "22px Comic Sans MS", fontStyle: "bold", fill: this.generateHexColor()},true);
+        //this.tempScriptTime = this.time.now + 3000;
         this.text2.x = script.x -100;
         this.text2.y = script.y -200;
         this.text2.alpha = 1;
-        textNumber++;
-        console.log(this.text2);
+        if(textNumber<dictionary.length){
+            textNumber++;
+        }
     },
     hideScript: function(){
         this.text2.alpha = 0;
     },
     generateHexColor: function() { 
-    return '#' + ((0.5 + 0.5 * Math.random()) * 0xFFFFFF << 0).toString(16);
+        return '#' + ((0.5 + 0.5 * Math.random()) * 0xFFFFFF << 0).toString(16);
     }
 };

@@ -37,17 +37,18 @@ Lingo.Level2 = function(game) {
     this.dButton;
     this.fButton;
     //8==============================D
-
+    this.tester;
 };
 //8===========================D
 var dictionary;
 var textNumber = 0;
-var isWithinRange;
+var isWithinRange = new Array();
 //8===========================D
 
 Lingo.Level2.prototype = {
     //create game objects to be renderd on screen
     create: function () {
+
 
     this.time.advancedTiming = true;
     
@@ -69,7 +70,7 @@ Lingo.Level2.prototype = {
     //-------Items(scripts)--------
     this.script = this.add.group();
     this.script.enableBody = true;
-    console.log(map.objects)
+    console.log(this.map.objects.objectsSpawn);
     this.door = this.add.group();
     this.door.enableBody=true;
 
@@ -77,11 +78,15 @@ Lingo.Level2.prototype = {
     this.map.createFromObjects('objectsSpawn', 7, 'items', 41, true, false, this.door);
     //------------------------------
     //-----------player-------------
-    this.player = new Lingo.Player(this.game,100, 700);
+    this.player = new Lingo.Player(this.game,100, 500);
     this.add.existing(this.player);
     this.add.existing(this.player.tounges);
     this.camera.follow(this.player);
+    this.player.debug = true;
 
+    this.tester = new Lingo.Enemy(this.game, this.map, 1);
+    this.add.existing(this.tester);
+    console.log(this.tester);
     //------------------------------
     //-----------Enemy--------------
     this.enemy = this.add.group();
@@ -94,6 +99,7 @@ Lingo.Level2.prototype = {
     this.physics.enable(this.enemy, Phaser.Physics.ARCADE);
     console.log(this.enemy.children[0]);
 
+
     for (var i = 0; i < this.enemy.children.length; i++)
         {
             var aEnemy = this.enemy.children[i];
@@ -101,8 +107,9 @@ Lingo.Level2.prototype = {
             aEnemy.body.bounce.x = 1;
             aEnemy.body.gravity.y = 100;
             aEnemy.anchor.setTo(.5,.5);
+            isWithinRange[i] = false;
         }
-
+    console.log(isWithinRange);
     //8==========================================D
     $.ajax({
         type: 'GET',
@@ -126,7 +133,7 @@ Lingo.Level2.prototype = {
             array[i] = dictionary[i].islenska;
         }
         return array;
-    }
+    } 
 
     function shuffleWords(array){
         for(let i = array.length; i; i--){
@@ -157,7 +164,7 @@ Lingo.Level2.prototype = {
     this.text1 = this.add.group();
     for(var i = 0; i < this.enemy.children.length; i++){
         this.text1.add(this.add.text(this.enemy.children[i].body.x, this.enemy.children[i].body.y, dictionary[i].enska,  
-        { font: "14px Arial", fill: this.generateHexColor}));
+        { font: "14px Arial", fill: this.generateHexColor()}));
     }
     this.text1.setAll('anchor.x', 0.5);
     this.text1.setAll('anchor.y', 0.5);
@@ -219,13 +226,13 @@ Lingo.Level2.prototype = {
             this.hideScript();
         }
         //var að hugsa eitthað í þessa áttina dnno
-        /*for (var i = 0; i < this.enemy.children.length; i++){
+        for (var i = 0; i < this.enemy.children.length; i++){
             isWithinRange = (
                 (this.player.body.x > this.enemy.children[i].body.x - 400) && 
                 (this.player.body.x < this.enemy.children[i].body.x + 200) && 
                 (this.player.body.y < this.enemy.children[i].body.y +500) && 
                 (this.player.body.y > this.enemy.children[i].body.y - 500))
-            }*/
+        }
 
         if(isWithinRange && (this.button1.alpha === 0)){
             this.makeVisible(true);
@@ -310,6 +317,6 @@ Lingo.Level2.prototype = {
         this.text2.alpha = 0;
     },
     generateHexColor: function() { 
-    return '#' + ((0.5 + 0.5 * Math.random()) * 0xFFFFFF << 0).toString(16);
+        return '#' + ((0.5 + 0.5 * Math.random()) * 0xFFFFFF << 0).toString(16);
     }
 };
