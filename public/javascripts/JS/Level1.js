@@ -93,7 +93,6 @@ Lingo.Level1.prototype = {
     this.enemy.callAll('animations.play', 'animations', 'walk');
 
     this.physics.enable(this.enemy, Phaser.Physics.ARCADE);
-    console.log(this.enemy.children[0]);
 
     for (var i = 0; i < this.enemy.children.length; i++)
         {
@@ -139,7 +138,6 @@ Lingo.Level1.prototype = {
 
     var wordArray = setArray();
     shuffleWords(wordArray);
-    console.log(wordArray);
     this.button1 = new Lingo.Button(this.game, 0, 550, wordArray[0]);
     this.add.existing(this.button1);
     this.button1.alpha = 0;
@@ -178,7 +176,6 @@ Lingo.Level1.prototype = {
     this.dButton = this.input.keyboard.addKey(Phaser.Keyboard.D);
     this.fButton = this.input.keyboard.addKey(Phaser.Keyboard.F);
     //8===============================================================D
-    console.log(this.pauseButton);
 	},
     //game update loop
 	update: function() {
@@ -231,15 +228,15 @@ Lingo.Level1.prototype = {
         }else if(!(isWithinRange[0]||isWithinRange[1]||isWithinRange[2]) && this.button1.alpha === 1){
             this.makeVisible(false);
         }
+
         
         this.physics.arcade.collide(this.enemy, this.layer);
         this.physics.arcade.collide(this.enemy,this.player, function(player, enemy) {
             this.player.looseLife();
-            console.log("bluh");
+
         },null, this);
         this.physics.arcade.overlap(this.player, this.script, this.collectScript, null, this);
         this.physics.arcade.collide(this.player, this.layer3, function(player, layer3){
-            console.log(this.time.now)
             this.player.looseLife(this.time.now);
         },null, this);
         this.physics.arcade.overlap(this.player, this.door, function(player, door){
@@ -279,7 +276,6 @@ Lingo.Level1.prototype = {
             this.button3.alpha = 1;
             this.button4.alpha = 1;
         } else{
-            console.log('asdf');
             this.button1.alpha = 0;
             this.button2.alpha = 0;
             this.button3.alpha = 0;
@@ -287,7 +283,6 @@ Lingo.Level1.prototype = {
         }
     },
     isCorrect: function(){
-        console.log("getFUUUUUUUUUkkt")
         var buttonText = this.buttonText._text;
         if(buttonText===dictionary[0].islenska){
             console.log('réttur takki');
@@ -297,7 +292,6 @@ Lingo.Level1.prototype = {
     },
     collectScript: function(player, script) {
         script.destroy();
-        console.log(textNumber);
         this.text2.setText(dictionary[textNumber].enska+" = "+dictionary[textNumber].islenska,true);
         this.text2.setStyle({font: "22px Comic Sans MS", fontStyle: "bold", fill: this.generateHexColor()},true);
         //this.tempScriptTime = this.time.now + 3000;
