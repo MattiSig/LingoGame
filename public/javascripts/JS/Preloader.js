@@ -19,13 +19,10 @@ Lingo.Preloader.prototype ={
 	    this.load.image('script', '../../images/script.png');
 	    this.load.spritesheet('ms', '../../images/mummy.png', 37, 45, 18);
 	    this.load.image('city', '../../images/city.jpg');
-	    this.load.spritesheet('main-button', '../../images/button_sprite_sheet.png',193, 71);
+	    this.load.spritesheet('main-button', '../../images/spilaleik.png',193, 70);
 	    this.load.image('button', '../../images/button_blue.png', 200, 50);
 	    this.load.spritesheet('rundog', '../../images/runnDog.png', 78, 55, 22);
 	    this.load.spritesheet('items', '../../images/tiles.png', 32, 32);
-	    this.load.spritesheet('main-button', '../../images/button_sprite_sheet.png',193, 71);
-	    this.load.image('background-image', '../../images/lassie.jpg');
-
 
 	},
 	//when preload finishes start game state (Game.js)
