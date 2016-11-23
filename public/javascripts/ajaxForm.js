@@ -8,15 +8,31 @@ $(document).ready(function() {
 		$("#emailWarning").empty();
 		$("#password1Warning").empty();
 		// $("#password2Warning").empty();
-
 	 });
+
+	 $(document).on('click', '#signUpUser', function() {
+		 $.ajax({
+			 type: 'POST',
+			 url: '/signup',
+			 async: false,
+			 data:  {email: $('#email').val(), password1: $('#password1').val(), password2: $('#password2').val()},
+			 success: function(data){
+				 if(data){
+					 console.log("api");
+				 }
+			 }
+
+		 });
+
+
+ 	 });
+
 
 	 $(document).on('click', '#logIn', function() {
  		$('#loginform').load('login #loginform');
 		$("#emailWarning").empty();
 		$("#password1Warning").empty();
 		// $("#password2Warning").empty();
-
  	 });
 
 	$("#signUp").click(function(){
