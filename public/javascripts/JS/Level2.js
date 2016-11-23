@@ -52,29 +52,33 @@ Lingo.Level2.prototype = {
 
     this.time.advancedTiming = true;
     
-    this.stage.backgroundColor = '#989898';
+    this.stage.backgroundColor = '#526ec4';
     
     //------------------------
     //---------Level----------
-    this.map = this.add.tilemap('tilemap');
-    this.map.addTilesetImage('baseSet','tiles');
+    this.map = this.add.tilemap('level2');
+    this.map.addTilesetImage('baseSet','tiles2');
     
-    this.layer2 = this.map.createLayer('background');
+    this.layer2 = this.map.createLayer('Background');
     this.layer3 = this.map.createLayer('bgMountains');
-    this.layer = this.map.createLayer('base');
+    this.layer = this.map.createLayer('Base');
     this.layer.resizeWorld();
 
     //this.layer.debug = true;
-    this.map.setCollision([1,2,3,4,5,8,9,10,11,12,15,16,17],true,'base');
+    this.map.setCollision([1,2,3,4,5,8,9,10,11,12,15,16,17],true,'Base');
     this.map.setCollision([36,37,38,39,40],true,'bgMountains');
     //-------Items(scripts)--------
     this.script = this.add.group();
     this.script.enableBody = true;
+    console.log(this.map.objects)
+    this.door = this.add.group();
+    this.door.enableBody=true;
 
     this.map.createFromObjects('objectsSpawn', 27, 'script', 0, true, false, this.script);
+    this.map.createFromObjects('objectsSpawn', 7, 'items', 41, true, false, this.door);
     //------------------------------
     //-----------player-------------
-    this.player = new Lingo.Player(this.game,250, 2800);
+    this.player = new Lingo.Player(this.game,100, 700);
     this.add.existing(this.player);
     this.add.existing(this.player.tounges);
     this.camera.follow(this.player);
@@ -152,10 +156,23 @@ Lingo.Level2.prototype = {
 
     //------------------------------
     //-----------text-------------
-    this.text1 = this.add.text(this.enemy.children[0].body.x, this.enemy.children[0].body.y, dictionary[0].enska, { font: "14px Arial Black", fill: "#FFFFFF" });
+    this.text1 = this.add.group();
+    for(var i = 0; i < this.enemy.children.length; i++){
+        this.text1.add(this.add.text(this.enemy.children[i].body.x, this.enemy.children[i].body.y, dictionary[i].enska,  
+        { font: "14px Arial", fill: this.generateHexColor}));
+    }
+    this.text1.setAll('anchor.x', 0.5);
+    this.text1.setAll('anchor.y', 0.5);
+    /*
+    this.text1 = this.add.text(this.enemy.body.x, this.enemy.body.y, dictionary[0].enska, { font: "14px Arial Black", fill: "#FFFFFF" });
     this.text1.anchor.setTo(0.5, 0.5);
+<<<<<<< HEAD
     console.log(this.textNumber);
     this.text2 = this.add.text(700, 2700,dictionary[this.textNumber].enska+" = "+dictionary[this.textNumber].islenska,{ font: "18px Arial Black", fill: "#FFFFFF" });
+=======
+    */
+    this.text2 = this.add.text(700, 2700,dictionary[textNumber].enska+" = "+dictionary[textNumber].islenska,{ font: "18px Arial Black", fill: "#FFFFFF" });
+
     this.text2.alpha = 0;
 
     //------------------------------
@@ -178,8 +195,8 @@ Lingo.Level2.prototype = {
         
         //this.player.body.velocity.x = 0; -----------------------------------
         //stick text to enemy
-        this.text1.x = this.enemy.children[0].body.x ;
-        this.text1.y = this.enemy.children[0].body.y - 40;
+        //this.text1.x = this.enemy.body.x ;
+        //this.text1.y = this.enemy.body.y - 40;
         //handle controler events
         if (this.cursors.left.isDown){
             this.player.moveLeft(this.deltaTime);
@@ -208,13 +225,15 @@ Lingo.Level2.prototype = {
         if((this.time.now > this.tempScriptTime) && this.text2.alpha){
             this.hideScript();
         }
+        //var að hugsa eitthað í þessa áttina dnno
+        /*for (var i = 0; i < this.enemy.children.length; i++){
+            isWithinRange = (
+                (this.player.body.x > this.enemy.children[i].body.x - 400) && 
+                (this.player.body.x < this.enemy.children[i].body.x + 200) && 
+                (this.player.body.y < this.enemy.children[i].body.y +500) && 
+                (this.player.body.y > this.enemy.children[i].body.y - 500))
+            }*/
 
-        isWithinRange = (
-            (this.player.body.x > this.enemy.children[0].body.x - 400) && 
-            (this.player.body.x < this.enemy.children[0].body.x + 200) && 
-            (this.player.body.y < this.enemy.children[0].body.y +500) && 
-            (this.player.body.y > this.enemy.children[0].body.y - 500)
-        )
         if(isWithinRange && (this.button1.alpha === 0)){
             this.makeVisible(true);
         }else if(!isWithinRange && (this.button1.alpha === 1)) {
@@ -231,15 +250,20 @@ Lingo.Level2.prototype = {
             console.log(this.time.now)
             this.player.looseLife(this.time.now);
         },null, this);
+        this.physics.arcade.overlap(this.player, this.door, function(player, door){
+            this.player.nextlevel();
+        }, null, this);
         
         this.pauseButton.onDown.add(this.pause, this);        
         //8====================================D
-        this.aButton.onDown.add(this.isCorrect, this, 0, this.button1, this.enemy.children[0]);
-        this.sButton.onDown.add(this.isCorrect, this, 0, this.button2, this.enemy.children[0]);
-        this.dButton.onDown.add(this.isCorrect, this, 0, this.button3, this.enemy.children[0]);
-        this.fButton.onDown.add(this.isCorrect, this, 0, this.button4, this.enemy.children[0]);
+        this.aButton.onDown.add(this.isCorrect, this.button1);
+        this.sButton.onDown.add(this.isCorrect, this.button2);
+        this.dButton.onDown.add(this.isCorrect, this.button3);
+        this.fButton.onDown.add(this.isCorrect, this.button4);
 
         for (var i = 0; i < this.enemy.children.length; i++){
+            this.text1.children[i].x = this.enemy.children[i].x;
+            this.text1.children[i].y = this.enemy.children[i].y - 50;
             if(this.enemy.children[i].body.blocked.left === true || this.enemy.children[i].body.blocked.right === true){
                 this.enemy.children[i].scale.x *= -1;
             }
@@ -247,6 +271,7 @@ Lingo.Level2.prototype = {
     },
     //render debug text
     render: function(){
+        this.game.debug.spriteInfo(this.player, 32, 32);
         this.game.debug.text("FPS: " + this.game.time.fps, 2, 14,"#00ff00");
         this.game.debug.text("ms.time: " +  this.deltaTime, 2, 42, "#00ff00" );
         this.game.debug.text(this.game.time.now, 2, 70, "#00ff00");
@@ -269,13 +294,11 @@ Lingo.Level2.prototype = {
             this.button4.alpha = 0;
         }
     },
-    isCorrect: function(arg1, button, enemy){
-        console.log(arg1);
-        // console.log(arg2);
-        // console.log(arg3);
-        var buttonText = button.buttonText._text;
+
+    isCorrect: function(){
+        console.log("getFUUUUUUUUUkkt")
+        var buttonText = this.buttonText._text;
         if(buttonText===dictionary[0].islenska){
-            enemy.destroy();
             console.log('réttur takki');
         } else {
             console.log('vitlaus takki');
@@ -283,7 +306,7 @@ Lingo.Level2.prototype = {
     },
     collectScript: function(player, script) {
         script.destroy();
-        this.text2 = this.add.text(700, 2700, 'level 2 bitch',{ font: "18px Arial Black", fill: "#FFFFFF" });
+        this.text2 = this.add.text(700, 2700,dictionary[textNumber].enska+" = "+dictionary[textNumber].islenska,{ font: "18px Arial Black", fill: "#FFFFFF" });
         this.tempScriptTime = this.time.now + 3000;
         this.text2.x = script.x -100;
         this.text2.y = script.y -200;
@@ -293,6 +316,8 @@ Lingo.Level2.prototype = {
     },
     hideScript: function(){
         this.text2.alpha = 0;
+    },
+    generateHexColor: function() { 
+    return '#' + ((0.5 + 0.5 * Math.random()) * 0xFFFFFF << 0).toString(16);
     }
-
 };

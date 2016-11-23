@@ -78,6 +78,7 @@ router.post('/addword', loggedInStatus.isLoggedIn, addWordHandler);
 router.get('/getword', getWordHandler);
 router.post('/updatelevel', updateLevel);
 router.get('/getLevel', getLevel);
+router.get('/getScore', getScore);
 
 
 /**
@@ -161,6 +162,16 @@ function getLevel(req, res){
 			console.log('not success');
 		}
 	})
+}
+
+function getScore(req, res){
+	sqlUser.getUserScore(function(err, result){
+		if(result){
+			res.send(result.rows);
+		} else{
+			res.send('shit')
+		}
+	});
 }
 
 module.exports = router;

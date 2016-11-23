@@ -9,8 +9,8 @@ var passwordHash = require('password-hash');
 */
 module.exports.addUser =
 function addUser(email, password, cb){
-	var values = [email, passwordHash.generate(password), 1];
-	var q ='INSERT INTO users(email, hash, level) values($1, $2, $3)'
+	var values = [email, passwordHash.generate(password), 1, 0];
+	var q ='INSERT INTO users(email, hash, level, score) values($1, $2, $3, $4)'
 
 	query(q, values, function(err, result){
 		if(err){
@@ -51,7 +51,22 @@ function getUserLevel(email, cb){
 		} else {
 			cb(null, result);
 		}
-	})
+	});
+}
+
+module.exports.getUserScore =
+function getUserScore(cb){
+	var q = 'SELECT email, score FROM users ORDER BY score DESC';
+
+	query(q, null, function(err, result){
+		if(err){
+			console.log('1');
+			return cb(err);
+		} else{
+			console.log('2');
+			cb(null, result);
+		}
+	});
 }
 
 module.exports.updateUserLevel = 
@@ -69,5 +84,5 @@ function updateUserLevel(email, toIncrement, cb){
 		} else {
 			cb (null, result);
 		}
-	})
+	});
 }

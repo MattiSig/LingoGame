@@ -51,7 +51,7 @@ Lingo.Player.prototype.restart = function(){
 Lingo.Player.prototype.looseLife = function(timeNow){
     if(this.lifeTimer < timeNow){
       this.lifeTimer = timeNow + 1000;  
-      console.log('braaaaaaaaaa'+this.lifeTimer);
+      console.log('braaaaaaaaaa'+ this.lifeTimer);
       this.body.velocity.y = -200;
       this.life -= 1;
       this.tounges.kill();
@@ -60,4 +60,7 @@ Lingo.Player.prototype.looseLife = function(timeNow){
         this.game.state.restart();
       }
     }
+}
+Lingo.Player.prototype.nextlevel = function(){
+    this.game.state.start('Level2');
 }
