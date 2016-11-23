@@ -11,27 +11,33 @@ var form = [
   {
     name: 'email',
     id: 'email',
-    label: 'Email',
+    // label: 'Email',
     type: 'email',
     required: true,
     value: '',
     valid: false,
+    placeholder: 'Email',
+    class: 'input'
   },
   {
     name: 'password1',
     id: 'password1',
-    label: 'Lykilorð',
+    // label: 'Lykilorð',
     type: 'password',
     required: true,
     valid: false,
+    placeholder: 'Password',
+    class: 'input'
   },
   {
   	name: 'password2',
   	id: 'password2',
-  	label: 'Lykilorð aftur',
+  	// label: 'Lykilorð aftur',
   	type: 'password',
   	required: true,
-  	valid: false
+  	valid: false,
+    placeholder: 'Retype password',
+    class: 'input'
   }
 ];
 var loginForm = [form[0], form[1]];
@@ -87,7 +93,7 @@ function logoutHandler(req, res){
 function formHandler(req, res){
 	var subject = req.body.value;
 	var id = req.body.id;
-	
+
 	if(id==='email'){
 		if(validation.isEmail(subject)){
 			res.send(true);
@@ -117,8 +123,8 @@ function loginHandler(req, res){
 	var validatedForm = data.processedForm;
 
 	var info = {
-		title: 'Login', 
-		form: validatedForm, 
+		title: 'Login',
+		form: validatedForm,
 		submitted: true,
 		errors: formErrors,
 		errorMessage: ''
@@ -135,18 +141,18 @@ function loginHandler(req, res){
   		      			res.redirect('/game');
   		      		});
   		      	} else {
-  		      		info.errorMessage = 'Rangt lykilorð';
+  		      		info.errorMessage = 'Wrong password';
   		      		info.form = loginForm;
   		      		res.render('login', info);
   		    	}
   		    } else {
-  		    	info.errorMessage = 'Notandi fannst ekki';
+  		    	info.errorMessage = 'This user cannot be found.';
   		    	info.form = loginForm;
   		    	res.render('login', info)
   		    }
 	    });
 	} else {
-		info.errorMessage = 'Villa í formi';
+		info.errorMessage = 'Wrong email or password!';
 		info.form = loginForm;
 		res.render('login', info)
 	}
@@ -182,18 +188,24 @@ function signUpHandler(req, res){
 		if(password1 === password2){
 			sqlUsers.addUser(email, password1, function (err, result) {
 			      if (result) {
-			        res.redirect('login');
+              console.log("1");
+			        //res.send(true);
+              console.log(req.body);
+
 			      } else {
-			      	info.errorMessage = 'Email er þegar í notkun';
+			      	info.errorMessage = 'This email is already in use.';
+              console.log("2");
 			        res.render('signup', info);
 			      }
 			    });
 		} else {
-			info.errorMessage = 'Mismunandi lykilorð slegin inn';
+			info.errorMessage = 'You have typed two different passwords.';
+      console.log("3");
 			res.render('signup', info);
 		}
 	} else {
-		info.errorMessage = 'Villa í formi';
+		info.errorMessage = 'Something went wrong';
+    console.log("4");
 		res.render('signup', info)
 	}
 }
