@@ -175,7 +175,7 @@ function getLevel(req, res){
 function getScore(req, res){
 	sqlUser.getUserScore(function(err, result){
 		if(result){
-			res.send('virkar');
+			res.send(result.rows);
 		} else{
 			res.send('shit')
 		}

@@ -58,7 +58,7 @@ router.post('/validate', formHandler);
 * @param {Object} res - response object
 */
 function login(req, res){
-	var info = {title: 'Login', form: loginForm, submitted: false};
+	var info = {title: 'Login', form: loginForm, submitted: false, isLogin: true};
 	res.render('login', info);
 }
 
@@ -68,10 +68,9 @@ function login(req, res){
 * @param {Object} res - response object
 */
 function signup(req, res){
-	var info = {title:'SignUp', form: form, submitted: false};
-	res.render('signup', info);
+	var info = {title:'SignUp', form: form, submitted: false, isLogin: false};
+	res.render('login', info);
 }
-
 
 /**
 * Ends user session when logging out
@@ -189,7 +188,7 @@ function signUpHandler(req, res){
 			sqlUsers.addUser(email, password1, function (err, result) {
 			      if (result) {
               console.log("1");
-			        //res.send(true);
+			        res.send(true);
               console.log(req.body);
 
 			      } else {

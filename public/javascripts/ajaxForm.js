@@ -1,12 +1,19 @@
 $(document).ready(function() {
 
 
-	$(document).on('click', '#signUp', function() {
+/*	$('#signUp').unbind("click").click(function() {
 		$('#loginform').load('signup');
 		$("#emailWarning").empty();
 		$("#password1Warning").empty();
 		// $("#password2Warning").empty();
 	 });
+
+	$('#logIn').unbind("click").click(function() {
+ 		$('#loginform').load('login #loginform');
+		$("#emailWarning").empty();
+		$("#password1Warning").empty();
+		// $("#password2Warning").empty();
+ 	 });
 
 	 $(document).on('click', '#signUpUser', function() {
 		 $.ajax({
@@ -23,23 +30,7 @@ $(document).ready(function() {
 		 });
 
 
- 	 });
-
-
-	 $(document).on('click', '#logIn', function() {
- 		$('#loginform').load('login #loginform');
-		$("#emailWarning").empty();
-		$("#password1Warning").empty();
-		// $("#password2Warning").empty();
- 	 });
-
-	$("#signUp").click(function(){
-
-		// segjum bakendanum að það sé signup mode og birtum signup formið.
-		$('#loginform').load('signup');
-
-		console.log("fjandinn");
-		});
+ 	 });*/
 
 	// $("#logIn").click(function(){
 
@@ -48,6 +39,21 @@ $(document).ready(function() {
 		// 	console.log(this.id);
 		//
 		// });
+/*	$('#loginChange').click(function(){
+		$.ajax({
+			type: 'GET',
+			url: 'loginswitch'
+		});
+	});
+
+	$('#signupChange').click(function(){
+		$.ajax({
+			type: 'GET',
+			url: 'signupswitch'
+		});
+	});
+*/
+
 
 	$('input').focusout(function() {
 
