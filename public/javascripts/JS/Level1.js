@@ -253,10 +253,10 @@ Lingo.Level1.prototype = {
         
         this.pauseButton.onDown.add(this.pause, this);        
         //8====================================D
-        this.aButton.onDown.add(this.isCorrect, this.button1, null, this.enemy, this.text1);
-        this.sButton.onDown.add(this.isCorrect, this.button2, null, this.enemy, this.text1);
-        this.dButton.onDown.add(this.isCorrect, this.button3, null, this.enemy, this.text1);
-        this.fButton.onDown.add(this.isCorrect, this.button4, null, this.enemy, this.text1);
+        this.aButton.onDown.add(this.isCorrect, this.button1, null, this.enemy, this.text1, this.updateScore);
+        this.sButton.onDown.add(this.isCorrect, this.button2, null, this.enemy, this.text1, this.updateScore);
+        this.dButton.onDown.add(this.isCorrect, this.button3, null, this.enemy, this.text1, this.updateScore);
+        this.fButton.onDown.add(this.isCorrect, this.button4, null, this.enemy, this.text1, this.updateScore);
 
         for (var i = 0; i < this.enemy.children.length; i++){
             this.text1.children[i].x = this.enemy.children[i].x;
@@ -290,14 +290,14 @@ Lingo.Level1.prototype = {
             this.button4.alpha = 0;
         }
     },
-    isCorrect: function(vondur, enemy, texti){
+    isCorrect: function(btn, enemy, texti, update){
         var buttonText = this.buttonText._text;
         console.log(texti);
         if(buttonText===dictionary[myEnemyText].islenska){
             console.log('réttur takki');
             enemy.children[myEnemyText/4].kill();
             texti.children[myEnemyText/4].kill();
-            this.updateScore(100);
+            update(100);
         } else {
             console.log('vitlaus takki');
         }
