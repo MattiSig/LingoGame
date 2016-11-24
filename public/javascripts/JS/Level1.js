@@ -239,8 +239,8 @@ Lingo.Level1.prototype = {
         this.physics.arcade.collide(this.player, this.layer3, function(player, layer3){
             this.player.looseLife(this.time.now);
         },null, this);
-        this.physics.arcade.overlap(this.player, this.door, function(player, door){
-            this.player.nextlevel();
+        this.physics.arcade.collide(this.player, this.door, function(player, door){
+            this.player.nextlevel(false, this.time.now);
         }, null, this);
         
         this.pauseButton.onDown.add(this.pause, this);        

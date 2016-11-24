@@ -19,6 +19,7 @@ Lingo.Level2 = function(game) {
     this.text2;
     this.game = game;
     this.button;
+    this.door;
     
     this.pauseButton;
     this.deltaTime;
@@ -258,8 +259,9 @@ Lingo.Level2.prototype = {
             console.log(this.time.now)
             this.player.looseLife(this.time.now);
         },null, this);
-        this.physics.arcade.overlap(this.player, this.door, function(player, door){
-            this.player.nextlevel();
+        this.physics.arcade.collide(this.player, this.door, function(player, door){
+            console.log('þarna er það')
+            this.player.nextlevel(true, this.time.now);
         }, null, this);
         
         this.pauseButton.onDown.add(this.pause, this);        

@@ -72,9 +72,12 @@ function getUserScore(cb){
 module.exports.updateUserLevel =
 function updateUserLevel(email, toIncrement, cb){
 	var values = [email]
+
 	if(toIncrement){
+		console.log('heftari');
 		var q = 'UPDATE users SET level = level + 1 WHERE email = $1 AND level != 5';
 	} else {
+		console.log('gatari');
 		var q = 'UPDATE users SET level = level - 1 WHERE email = $1 AND level != 1';
 	}
 

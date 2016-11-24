@@ -61,6 +61,31 @@ Lingo.Player.prototype.looseLife = function(timeNow){
       }
     }
 }
-Lingo.Player.prototype.nextlevel = function(){
-    this.game.state.start('Level2');
+Lingo.Player.prototype.nextlevel = function(gameFinished, timeNow){
+    if(this.lifeTimer < timeNow){
+      this.lifeTimer = timeNow + 1000;
+      if(gameFinished){
+          $.ajax({
+              type: 'POST',
+              url: '/updateLevel',
+              data: {toIncrement: 0},
+              async: false,
+              success: function(){
+                console.log('fer í borð 2');
+              }
+            });
+          this.game.state.start('MainMenu');
+        } else{
+          $.ajax({
+            type: 'POST',
+            url: '/updateLevel',
+            data: {toIncrement: 1},
+            async: false,
+            success: function(){
+              console.log('fer í main menu');
+            }
+          });
+        this.game.state.start('Level2');
+        }
+      }
 }
