@@ -9,3 +9,6 @@ Lingo.Button = function(game, posX, posY, text){
 
 Lingo.Button.prototype = Object.create(Phaser.Sprite.prototype);
 Lingo.Button.prototype.constructor = Lingo.Button;
+Lingo.Button.prototype.setText = function(text){
+	this.buttonText.setText(text);
+}

@@ -165,7 +165,7 @@ function loginHandler(req, res){
 * @param {Object} res - response object
 */
 function signUpHandler(req, res){
-	console.log(req.body);
+	// console.log(req.body);
 	var data = formValidator(form, req.body);
 
 	var formErrors = data.hasErrors;
@@ -187,24 +187,18 @@ function signUpHandler(req, res){
 		if(password1 === password2){
 			sqlUsers.addUser(email, password1, function (err, result) {
 			      if (result) {
-              console.log("1");
-			        res.send(true);
-              console.log(req.body);
-
+			        res.send(true)
 			      } else {
 			      	info.errorMessage = 'This email is already in use.';
-              console.log("2");
 			        res.render('signup', info);
 			      }
 			    });
 		} else {
 			info.errorMessage = 'You have typed two different passwords.';
-      console.log("3");
 			res.render('signup', info);
 		}
 	} else {
 		info.errorMessage = 'Something went wrong';
-    console.log("4");
 		res.render('signup', info)
 	}
 }
