@@ -8,17 +8,17 @@ body {
 }
 
 a {
-  color: #20B7FF;
+  font-size:
+  /*color: #20B7FF;*/
 }
 
 h1{
   color: white;
-
 }
 
-p {
+/*p {
   color: white;
-}
+}*/
 
 h2{
   color: #333333;
@@ -28,8 +28,17 @@ h2{
 }
 
 .input-error {
-	background-color: #ff4d4d;
-	border-color: #ff4d4d;
+	/*background-color: red;*/
+  border-color: red;
+  border-width: 4px;
+  animation: blink-animation 1s steps(5, start) 4;
+}
+
+@keyframes blink-animation {
+  to {
+    border-color: inherit;;
+
+  }
 }
 
 .titill{
@@ -43,11 +52,11 @@ img {
 }
 
 .login {
-  background-color: inherit;;
   border: 2px;
   border-color: black;
   border-radius: 20px;
   font-size: 20px;
+  font-
   opacity: 1;
 }
 
@@ -57,22 +66,85 @@ div{
 }
 
 .card{
-  background-color: black;
+  background-color: inherit;;
   /*opacity: 0.3;*/
   /* just in case there no content*/
   padding: 20px 25px 30px;
   margin: 0 0 0;
-  margin-top: 1%;
+  margin-top: 3%;
   border-radius: 20px;
   /* shadows and rounded borders */
   -moz-border-radius: 20px;
   -webkit-border-radius: 20px;
   -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 10px 15px 15px rgba(0, 0, 0, 0.3);
 }
 
-.innskra-button{
-  opacity: 0.5;
+.input{
+  margin: 3%;
+  border-radius: 5px;
+}
 
+.top-buffer{
+  border-radius: 10px;
+  margin: 2%;
+  padding:2%;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.glyphicon{
+  /*margin-left: 2%;*/
+  /*font-style: italic;*/
+  margin-right: 5%;
+}
+
+.message{
+    display:none;
+    /*color: blue;*/
+}
+
+#emailWarning{
+  margin: 1%;
+  font-family: Century Gothic, sans-serif;
+  font-weight: bold;
+  text-align: center;
+  font-size: 23px;
+  color: black;
+  /*display: none;*/
+}
+
+#password1Warning{
+  font-size: 23px;
+  color: black;
+  margin: 2%;
+  font-family: Century Gothic, sans-serif;
+  font-weight: bold;
+  text-align: center;
+  /*display: none;*/
+}
+
+#password2Warning{
+  font-size: 23px;
+  color: black;
+  margin: 2%;
+  font-family: Century Gothic, sans-serif;
+  font-weight: bold;
+  text-align: center;
+
+}
+
+#signupForm{
+  /*display: none;*/
+}
+
+.hidesignup{
+  display: none;
+}
+
+
+
+.hideform{
+  display: none;
 }

@@ -26,7 +26,7 @@ function addUser(email, password, cb){
 * @param {String} email - email address
 * @param {function} cb - callback function
 */
-module.exports.findUser = 
+module.exports.findUser =
 function findUser(email, cb){
 	var values = [email];
 	var q = 'SELECT email, hash FROM users WHERE email = $1';
@@ -69,12 +69,29 @@ function getUserScore(cb){
 	});
 }
 
+module.exports.updateUserScore =
+function updateUserScore(email, score, cb){
+	var values = [score, email];
+	var q = 'UPDATE users SET score = score + $1 WHERE email = $2';
+
+	query(q, values, function(err, result){
+		if(err){
+			return cb(err);
+		} else{
+			cb(null, result);
+		}
+	});
+}
+
 module.exports.updateUserLevel = 
 function updateUserLevel(email, toIncrement, cb){
 	var values = [email]
+
 	if(toIncrement){
+		console.log('heftari');
 		var q = 'UPDATE users SET level = level + 1 WHERE email = $1 AND level != 5';
 	} else {
+		console.log('gatari');
 		var q = 'UPDATE users SET level = level - 1 WHERE email = $1 AND level != 1';
 	}
 
@@ -84,5 +101,6 @@ function updateUserLevel(email, toIncrement, cb){
 		} else {
 			cb (null, result);
 		}
+
 	});
 }

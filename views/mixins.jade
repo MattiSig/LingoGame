@@ -1,5 +1,6 @@
 mixin field(f, submitted)
 
   .field(class=submitted && !f.valid ? 'invalid' : undefined)
-    label(for=f.name)= f.label
-    input(type=f.type, name=f.name, value=f.value, id=f.name)
+    //- label(for=f.name)=   f.label
+    input(type=f.type, name=f.name, value=f.value, id=f.name, placeholder=f.placeholder, class=f.class)
+  

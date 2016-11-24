@@ -32,6 +32,7 @@ Lingo.MainMenu.prototype = {
 		this.mainButton1.anchor.setTo(0.5,0.5);	
 		this.mainButton1.alpha = 1;
 
+
 		this.mainButton2 =  this.add.button(this.world.centerX, this.world.centerY + 50, 'main-button', this.toScore, this, 2, 1, 0);
 		this.mainButton2.anchor.setTo(0.5,0.5);	
 		this.mainButton2.alpha = 1;
@@ -59,7 +60,7 @@ Lingo.MainMenu.prototype = {
 			level = userLevel;
 		
 		}
-		this.state.start('Level1');
+		this.state.start(level);
 
 	},
 	clickScore: function(){

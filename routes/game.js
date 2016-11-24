@@ -67,7 +67,6 @@ router.get('/game', loggedInStatus.isLoggedIn, function(req, res) {
   res.render('game', { title: 'LingoDick' });
 });
 
-//router.get('/game', loggedInStatus.isLoggedIn, getWordHandler);
 
 router.get('/addword', loggedInStatus.isLoggedIn, function(req, res){
 	var info = {title: 'Bæta við orði', form: form, submitted: false};
@@ -77,6 +76,7 @@ router.get('/addword', loggedInStatus.isLoggedIn, function(req, res){
 router.post('/addword', loggedInStatus.isLoggedIn, addWordHandler);
 router.get('/getword', getWordHandler);
 router.post('/updatelevel', updateLevel);
+router.post('/updatescore', updateScore);
 router.get('/getLevel', getLevel);
 router.get('/getScore', getScore);
 
@@ -140,16 +140,24 @@ function getWordHandler(req, res){
 }
 
 function updateLevel(req, res){
-	var testBool = true; //Math.random() < 0.5;
-	sqlUser.updateUserLevel(req.session.user, testBool, function(err, result){
+	var booleIncrement = new Boolean(true);
+	console.log(req.body.toIncrement);
+	if(req.body.toIncrement==='1'){
+		booleIncrement = true;
+	} else{
+		booleIncrement = false;
+	}
+	console.log(booleIncrement.typeOf);
+	console.log(booleIncrement);
+	sqlUser.updateUserLevel(req.session.user, booleIncrement, function(err, result){
 		if(result){
-			console.log(testBool);
+			console.log(booleIncrement);
 			res.send('success');
 		} else{
 			console.log('eitthvað er að');
 			res.send('not success');
 		}
-	})
+	});
 }
 
 function getLevel(req, res){
@@ -167,9 +175,20 @@ function getLevel(req, res){
 function getScore(req, res){
 	sqlUser.getUserScore(function(err, result){
 		if(result){
-			res.send(result.rows);
+			res.send('virkar');
 		} else{
 			res.send('shit')
+		}
+	});
+}
+
+function updateScore(req, res){
+	var score = req.body.score;
+	sqlUser.updateUserScore(req.session.user, score, function(err, result){
+		if(result){
+			res.send(result.rows);
+		} else{
+			res.send('shit');
 		}
 	});
 }
