@@ -1,5 +1,5 @@
 Lingo = {
-
+    
     orientated: false
 
 };

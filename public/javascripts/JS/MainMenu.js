@@ -29,7 +29,7 @@ Lingo.MainMenu.prototype = {
 		this.mainButton2.anchor.setTo(0.5,0.5);	
 		this.mainButton2.alpha = 1;
 
-		this.mainButton3 =  this.add.button(this.world.centerX - 250, this.world.centerY + 150, 'main-button', this.back, this, 2, 1, 0);
+		this.mainButton3 =  this.add.button(this.world.centerX - 250, this.world.centerY + 150, 'back-button', this.back, this, 2, 1, 0);
 		this.mainButton3.anchor.setTo(0.5,0.5);	
 		this.mainButton3.alpha = 0;
 		this.mainButton3.input.enabled = false;
@@ -74,15 +74,15 @@ Lingo.MainMenu.prototype = {
 			console.log(highScoreText);
 		}
 
-		this.highScoreText1 = this.add.text(this.world.centerX - 250, this.world.centerY-100, highScoreText[0].email+" - "+highScoreText[0].score,{ font: "24px Comic Sans MS", fill: this.getRandomColor() });
+		this.highScoreText1 = this.add.text(this.world.centerX - 350, this.world.centerY-100, highScoreText[0].email+" - "+highScoreText[0].score,{ font: "24px Comic Sans MS", fill: this.getRandomColor() });
 		//this.highScoreText1.anchor.setTo(0.5, 0.5);
-		this.highScoreText2 = this.add.text(this.world.centerX - 250, this.world.centerY-75, highScoreText[1].email+" - "+highScoreText[1].score,{ font: "24px Comic Sans MS", fill: this.getRandomColor() });
+		this.highScoreText2 = this.add.text(this.world.centerX - 350, this.world.centerY-75, highScoreText[1].email+" - "+highScoreText[1].score,{ font: "24px Comic Sans MS", fill: this.getRandomColor() });
 		//this.highScoreText2.anchor.setTo(0.5, 0.5);
-		this.highScoreText3 = this.add.text(this.world.centerX - 250, this.world.centerY-50, highScoreText[2].email+" - "+highScoreText[2].score,{ font: "24px Comic Sans MS", fill: this.getRandomColor() });
+		this.highScoreText3 = this.add.text(this.world.centerX - 350, this.world.centerY-50, highScoreText[2].email+" - "+highScoreText[2].score,{ font: "24px Comic Sans MS", fill: this.getRandomColor() });
 		//this.highScoreText3.anchor.setTo(0.5, 0.5);
-		this.highScoreText4 = this.add.text(this.world.centerX - 250, this.world.centerY-25, highScoreText[3].email+" - "+highScoreText[3].score,{ font: "24px Comic Sans MS", fill: this.getRandomColor() });
+		this.highScoreText4 = this.add.text(this.world.centerX - 350, this.world.centerY-25, highScoreText[3].email+" - "+highScoreText[3].score,{ font: "24px Comic Sans MS", fill: this.getRandomColor() });
 		//this.highScoreText4.anchor.setTo(0.5, 0.5);
-		this.highScoreText5 = this.add.text(this.world.centerX - 250, this.world.centerY, highScoreText[4].email+" - "+highScoreText[4].score,{ font: "24px Comic Sans MS", fill: this.getRandomColor() });
+		this.highScoreText5 = this.add.text(this.world.centerX - 350, this.world.centerY, highScoreText[4].email+" - "+highScoreText[4].score,{ font: "24px Comic Sans MS", fill: this.getRandomColor() });
 		//this.highScoreText5.anchor.setTo(0.5, 0.5);
 
 	},
