@@ -235,7 +235,7 @@ Lingo.Level1.prototype = {
             this.player.looseLife();
 
         },null, this);
-        this.physics.arcade.overlap(this.player, this.script, this.collectScript, null, this);
+        this.physics.arcade.collide(this.player, this.script, this.collectScript, null, this);
         this.physics.arcade.collide(this.player, this.layer3, function(player, layer3){
             this.player.looseLife(this.time.now);
         },null, this);
@@ -286,12 +286,14 @@ Lingo.Level1.prototype = {
         var buttonText = this.buttonText._text;
         if(buttonText===dictionary[0].islenska){
             console.log('réttur takki');
+            this.updateScore(100);
         } else {
             console.log('vitlaus takki');
         }
     },
     collectScript: function(player, script) {
         script.destroy();
+        this.updateScore(10)
         this.text2.setText(dictionary[textNumber].enska+" = "+dictionary[textNumber].islenska,true);
         this.text2.setStyle({font: "22px Comic Sans MS", fontStyle: "bold", fill: this.generateHexColor()},true);
         //this.tempScriptTime = this.time.now + 3000;
@@ -301,6 +303,13 @@ Lingo.Level1.prototype = {
         if(textNumber<dictionary.length){
             textNumber++;
         }
+    },
+    updateScore: function(score){
+        $.ajax({
+            type: 'POST',
+            url: '/updatescore',
+            data: {score: score}
+        });
     },
     hideScript: function(){
         this.text2.alpha = 0;

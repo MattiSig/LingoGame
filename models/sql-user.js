@@ -69,6 +69,20 @@ function getUserScore(cb){
 	});
 }
 
+module.exports.updateUserScore =
+function updateUserScore(email, score, cb){
+	var values = [score, email];
+	var q = 'UPDATE users SET score = score + $1 WHERE email = $2';
+
+	query(q, values, function(err, result){
+		if(err){
+			return cb(err);
+		} else{
+			cb(null, result);
+		}
+	});
+}
+
 module.exports.updateUserLevel = 
 function updateUserLevel(email, toIncrement, cb){
 	var values = [email]

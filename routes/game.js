@@ -76,6 +76,7 @@ router.get('/addword', loggedInStatus.isLoggedIn, function(req, res){
 router.post('/addword', loggedInStatus.isLoggedIn, addWordHandler);
 router.get('/getword', getWordHandler);
 router.post('/updatelevel', updateLevel);
+router.post('/updatescore', updateScore);
 router.get('/getLevel', getLevel);
 router.get('/getScore', getScore);
 
@@ -174,9 +175,20 @@ function getLevel(req, res){
 function getScore(req, res){
 	sqlUser.getUserScore(function(err, result){
 		if(result){
-			res.send(result.rows);
+			res.send('virkar');
 		} else{
 			res.send('shit')
+		}
+	});
+}
+
+function updateScore(req, res){
+	var score = req.body.score;
+	sqlUser.updateUserScore(req.session.user, score, function(err, result){
+		if(result){
+			res.send(result.rows);
+		} else{
+			res.send('shit');
 		}
 	});
 }
