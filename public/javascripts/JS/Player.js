@@ -74,7 +74,8 @@ Lingo.Player.prototype.nextlevel = function(gameFinished, timeNow){
                 console.log('fer í borð 2');
               }
             });
-          this.game.state.start('MainMenu');
+          //this.game.signal.removeAll();
+          this.game.state.restart('MainMenu');
         } else{
           $.ajax({
             type: 'POST',

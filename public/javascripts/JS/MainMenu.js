@@ -17,23 +17,15 @@ var highScoreText = new Array(5);
 Lingo.MainMenu.prototype = {
 
 	create: function() {
-		function getRandomColor() {
-	    	var letters = '0123456789ABCDEF';
-	    	var color = '#';
-	    	for (var i = 0; i < 6; i++ ) {
-	        	color += letters[Math.floor(Math.random() * 16)];
-	    	}
-	    	return color;
-		}
 
 		this.stage.backgroundColor = this.getRandomColor();
 
-		this.mainButton1 =  this.add.button(this.world.centerX, this.world.centerY - 50, 'main-button', this.clickNewGame, this, 2, 1, 0);
+		this.mainButton1 =  this.add.button(this.world.centerX-250, this.world.centerY - 50, 'main-button', this.clickNewGame, this, 2, 1, 0);
 		this.mainButton1.anchor.setTo(0.5,0.5);	
 		this.mainButton1.alpha = 1;
 
 
-		this.mainButton2 =  this.add.button(this.world.centerX, this.world.centerY + 50, 'main-button', this.toScore, this, 2, 1, 0);
+		this.mainButton2 =  this.add.button(this.world.centerX-250, this.world.centerY + 50, 'score-button', this.toScore, this, 2, 1, 0);
 		this.mainButton2.anchor.setTo(0.5,0.5);	
 		this.mainButton2.alpha = 1;
 
@@ -41,6 +33,8 @@ Lingo.MainMenu.prototype = {
 		this.mainButton3.anchor.setTo(0.5,0.5);	
 		this.mainButton3.alpha = 0;
 		this.mainButton3.input.enabled = false;
+
+		this.mainBack = this.add.sprite(0,0,'background');
 
 	},
 	clickNewGame: function() {
