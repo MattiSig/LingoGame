@@ -4,9 +4,9 @@ include mixins
 block content
 
   if errors && submitted
-    h2 Error!
-    h2= errorMessage
-
+    h3 Error!
+    h3= errorMessage
+    
   div.container.background
     div.row
       div.col-md-1
@@ -26,8 +26,7 @@ block content
       div(class="col-md-4 card" style="background-color:rgba(0, 0, 0, 0.5);")
         form(id="loginform" method='post' action='/login' class="login")
           each field in form
-            +field(field, submitted)
-            
+            +field(field, submitted)  
           div: button(class="btn btn-danger top-buffer" role="button" id="logInUser")
             span.glyphicon.glyphicon-ok-circle 
             |  Login

@@ -166,7 +166,7 @@ function loginHandler(req, res){
 * @param {Object} res - response object
 */
 function signUpHandler(req, res){
-	// console.log(req.body);
+	console.log(req.body);
 	var data = formValidator(form, req.body);
 
 	var formErrors = data.hasErrors;
@@ -180,20 +180,17 @@ function signUpHandler(req, res){
 		errorMessage: ''
 	};
 
+// ekki villa hér
 	var email = validatedForm[0].value;
 	var password1 = validatedForm[1].value;
 	var password2 = validatedForm[2].value;
 
 	if(!formErrors){
-    console.log("emalid er: "+email);
-
-    console.log("passwordid er: "+password1);
-    console.log("password2 er: "+password2);
 		if(password1 === password2){
 			sqlUsers.addUser(email, password1, function (err, result) {
 			      if (result) {
               console.log("nu erum vid i if pw = pw og if result og req.body er...");
-			        res.send(true);
+			        res.redirect('/login');
               console.log(req.body);
 
 			      } else {

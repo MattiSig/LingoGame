@@ -2,28 +2,40 @@ extends layout
 include mixins
 
 block content
-  //- h1= title
-  //- p Welcome to #{title}
-  //- if errorMessage
-  //-   p= errorMessage
-  div(id='emailWarning' class='message')
-  div(id='password1Warning' class='message')
-  div(id='password2Warning' class='message')
 
-  form(id="signupForm" class="login")
-    each field in form
-      +field(field, submitted)
-    div: button(class="btn btn-danger top-buffer" role="button" id="signUpUser")
-      span.glyphicon.glyphicon-user
-      |  Sign up
-    a(role="button" class="btn btn-primary top-buffer" id="logIn")
-      span.glyphicon.glyphicon-menu-left
-      | Back to login
+  if errors && submitted
+    h3 Error!
+    h3= errorMessage
     
+  div.container.background
+    div.row
+      div.col-md-1
+      div.col-md-10
+        img(src='/../images/lingo2.png', alt='Lingo Logo', style='width:348px;height:318px;')
+        h2.titill Lingo Dingo is all about having fun and learning languages at the same time!
+      div.col-md-1
+    div.col-xs-12(style='height:60px;')
+      ul
+        row
+          div(id='emailWarning' class='message')
+          div(id='password1Warning' class='message')
+          div(id='password2Warning' class='message')
+    div.row
+      div.col-md-4
+      div(class="col-md-4 card" style="background-color:rgba(0, 0, 0, 0.5);")
+        form(method='post', action='/signup' id="signupForm" class="login")
+          each field in form
+            +field(field, submitted)
+          div: button(class="btn btn-danger top-buffer" role="button" id="signUp")
+            span.glyphicon.glyphicon-user
+            |  Sign up
+          a(role="button" class="btn btn-primary top-buffer" id="logIn")
+            span.glyphicon.glyphicon-menu-left
+            | Back to login
+        //- p: a(id="backToLogin") Innskrá notanda
+        
 
-  //- p: a(id="backToLogin") Innskrá notanda
-  
-  
+          
     
   script(src='/javascripts/jquery-3.1.1.min.js')
   script(src='/javascripts/ajaxForm.js')

@@ -5,48 +5,51 @@ $(document).ready(function() {
 	// });
 
 	$(document).on('click', '#signUp', function() {
-		$('#loginform').load('signup #signupForm');
 		// $('#loginform').load('#logIn');
 		$("#emailWarning").empty();
 		$("#password1Warning").empty();
-	// $("#password2Warning").empty();
+	 	$("#password2Warning").empty();
+		$('#loginform').load('signup #signupForm');
+
 	 });
 
-	 $(document).on('click', '#signUpUser', function() {
-		//  document.getElementById("signUpUser").disabled = true;
-		 console.log("virkar takkinn?");
-		 $.ajax({
-			 type: 'POST',
-			 url: '/signup',
-			 async: false,
-			 data:  {email: $('#email').val(), password1: $('#password1').val(), password2: $('#password2').val()},
-			 success: function(data){
-				 if(data){
-						 console.log(data);
-				 }
-			 }
+	//  $(document).on('click', '#signUpUser', function() {
+	// 	//  document.getElementById("signUpUser").disabled = true;
+	// 	 console.log("virkar takkinn?");
+	// 	 $.ajax({
+	// 		 type: 'POST',
+	// 		 url: '/signup',
+	// 		 async: false,
+	// 		 data:  {email: $('#email').val(), password1: $('#password1').val(), password2: $('#password2').val()},
+	// 		 success: function(data){
+	// 			 if(data){
+	// 					 console.log(data);
+	// 			 }
+	// 		 }
+	 //
+	// 	 });
+	 //
+	 //
+ // 	 });
 
-		 });
 
-
- 	 });
-
-
-	//  $('#logIn').on('click', '#logIn', function() {
-		$("#logIn").unbind("click").click(function() {
-			$('#loginform').load('login #loginform');
-			$("#emailWarning").empty();
-			$("#password1Warning").empty();
-			$("#password2Warning").empty();
- 	 	});
+	// //  $('#logIn').on('click', '#logIn', function() {
+	// 	$("#logIn").unbind("click").click(function() {
+	// 		$("#emailWarning").empty();
+	// 		$("#password1Warning").empty();
+	// 		$("#password2Warning").empty();
+	// 		$('#loginform').load('login #loginform');
+	//
+ // 	 	});
 
 
 		$(document).on('click', '#logIn', function() {
-			$('#loginform').load('login #loginform');
 			// $('#loginform').load('#logIn');
 			$("#emailWarning").empty();
 			$("#password1Warning").empty();
-		// $("#password2Warning").empty();
+		// $("#password2Warning").empty();+
+			$('#loginform').load('login #loginform');
+
 		 });
 		// var counter = 0;
 
