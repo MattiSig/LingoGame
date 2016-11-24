@@ -26,7 +26,7 @@ function addUser(email, password, cb){
 * @param {String} email - email address
 * @param {function} cb - callback function
 */
-module.exports.findUser = 
+module.exports.findUser =
 function findUser(email, cb){
 	var values = [email];
 	var q = 'SELECT email, hash FROM users WHERE email = $1';
@@ -101,5 +101,6 @@ function updateUserLevel(email, toIncrement, cb){
 		} else {
 			cb (null, result);
 		}
+
 	});
 }
