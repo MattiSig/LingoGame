@@ -53,6 +53,7 @@ Lingo.Level1.prototype = {
     //create game objects to be renderd on screen
 	create: function () {
 
+    textNumber = 0;
     this.time.advancedTiming = true;
 	
     this.stage.backgroundColor = '#526ec4';
@@ -83,7 +84,8 @@ Lingo.Level1.prototype = {
     //-----------player-------------
     this.player = new Lingo.Player(this.game, 231, 2800);
     this.add.existing(this.player);
-    this.add.existing(this.player.tounges);
+    this.add.existing(this.player.tounges1);
+    this.add.existing(this.player.tounges2);
     this.camera.follow(this.player);
 
     //------------------------------
@@ -200,7 +202,7 @@ Lingo.Level1.prototype = {
 
         if (this.jumpButton.isDown && this.player.body.onFloor() && this.time.now > this.jumpTimer)
         {
-            this.player.body.velocity.y = -750;
+            this.player.body.velocity.y = -600;
             this.jumpTimer = this.time.now + 750;
             this.player.frame = 5;
         }
@@ -253,10 +255,10 @@ Lingo.Level1.prototype = {
         
         this.pauseButton.onDown.add(this.pause, this);        
         //8====================================D
-        this.aButton.onDown.add(this.isCorrect, this.button1, null, this.enemy, this.text1, this.updateScore);
-        this.sButton.onDown.add(this.isCorrect, this.button2, null, this.enemy, this.text1, this.updateScore);
-        this.dButton.onDown.add(this.isCorrect, this.button3, null, this.enemy, this.text1, this.updateScore);
-        this.fButton.onDown.add(this.isCorrect, this.button4, null, this.enemy, this.text1, this.updateScore);
+        this.aButton.onDown.add(this.isCorrect, this.button1, null, this.enemy, this.text1, this.updateScore, this.player);
+        this.sButton.onDown.add(this.isCorrect, this.button2, null, this.enemy, this.text1, this.updateScore, this.player);
+        this.dButton.onDown.add(this.isCorrect, this.button3, null, this.enemy, this.text1, this.updateScore, this.player);
+        this.fButton.onDown.add(this.isCorrect, this.button4, null, this.enemy, this.text1, this.updateScore, this.player);
 
         for (var i = 0; i < this.enemy.children.length; i++){
             this.text1.children[i].x = this.enemy.children[i].x;
@@ -268,11 +270,11 @@ Lingo.Level1.prototype = {
 	},
     //render debug text
     render: function(){
-        this.game.debug.spriteInfo(this.player, 32, 32);
+        /*this.game.debug.spriteInfo(this.player, 32, 32);
         this.game.debug.text("FPS: " + this.game.time.fps, 2, 14,"#00ff00");
         this.game.debug.text("ms.time: " +  this.deltaTime, 2, 42, "#00ff00" );
         this.game.debug.text(this.game.time.now, 2, 70, "#00ff00");
-        this.game.debug.text(this.jumpTimer, 2, 85, "#00ff00");
+        this.game.debug.text(this.jumpTimer, 2, 85, "#00ff00");*/
     },
     pause: function(){
         this.physics.arcade.isPaused = (this.physics.arcade.isPaused) ? false : true;
@@ -290,7 +292,7 @@ Lingo.Level1.prototype = {
             this.button4.alpha = 0;
         }
     },
-    isCorrect: function(btn, enemy, texti, update){
+    isCorrect: function(btn, enemy, texti, update, player){
         var buttonText = this.buttonText._text;
         console.log(texti);
         if(buttonText===dictionary[myEnemyText].islenska){
@@ -299,6 +301,7 @@ Lingo.Level1.prototype = {
             texti.children[myEnemyText/4].kill();
             update(100);
         } else {
+            player.looseLife();
             console.log('vitlaus takki');
         }
     },
