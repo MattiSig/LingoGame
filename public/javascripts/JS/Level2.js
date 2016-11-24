@@ -264,10 +264,10 @@ Lingo.Level2.prototype = {
         
         this.pauseButton.onDown.add(this.pause, this);        
         //8====================================D
-        this.aButton.onDown.add(this.isCorrect, this.button1);
-        this.sButton.onDown.add(this.isCorrect, this.button2);
-        this.dButton.onDown.add(this.isCorrect, this.button3);
-        this.fButton.onDown.add(this.isCorrect, this.button4);
+        this.aButton.onDown.add(this.isCorrect, {button: this.button1, enemy: this.enemy});
+        this.sButton.onDown.add(this.isCorrect, {button: this.button2, enemy: this.enemy});
+        this.dButton.onDown.add(this.isCorrect, {button: this.button3, enemy: this.enemy});
+        this.fButton.onDown.add(this.isCorrect, {button: this.button4, enemy: this.enemy});
 
         for (var i = 0; i < this.enemy.children.length; i++){
             this.text1.children[i].x = this.enemy.children[i].x;
@@ -305,7 +305,7 @@ Lingo.Level2.prototype = {
 
     isCorrect: function(){
         console.log("getFUUUUUUUUUkkt")
-        var buttonText = this.buttonText._text;
+        var buttonText = this.button._text;
         if(buttonText===dictionary[0].islenska){
             console.log('réttur takki');
         } else {

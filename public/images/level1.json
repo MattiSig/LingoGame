@@ -207,18 +207,6 @@
                  "y":2867.33
                 }, 
                 {
-                 "gid":35,
-                 "height":32,
-                 "id":42,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":4739.33,
-                 "y":2431.33
-                }, 
-                {
                  "gid":27,
                  "height":32,
                  "id":43,
@@ -291,18 +279,6 @@
                  "y":2438
                 }, 
                 {
-                 "gid":35,
-                 "height":32,
-                 "id":52,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":3390.67,
-                 "y":2425.33
-                }, 
-                {
                  "gid":7,
                  "height":32,
                  "id":58,
@@ -349,6 +325,30 @@
                  "width":32,
                  "x":3648,
                  "y":2464
+                }, 
+                {
+                 "gid":35,
+                 "height":32,
+                 "id":62,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":3424,
+                 "y":2400
+                }, 
+                {
+                 "gid":35,
+                 "height":32,
+                 "id":63,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":4736,
+                 "y":2400
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -357,7 +357,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":62,
+ "nextobjectid":64,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tileheight":32,

@@ -33,7 +33,7 @@ module.exports.findWord =
 function findWord(email, cb){
 	var values = [email];
 	var q = 'SELECT enska, islenska FROM dictionary WHERE difficulty = (SELECT level from users WHERE email = $1) ' +
-			'ORDER BY RANDOM() LIMIT 16';
+			'ORDER BY RANDOM() LIMIT 12';
 
 	query(q, values, function(err, result){
 		if(err){
