@@ -58,7 +58,7 @@ router.post('/validate', formHandler);
 * @param {Object} res - response object
 */
 function login(req, res){
-	var info = {title: 'Login', form: loginForm, submitted: false, isLogin: true};
+	var info = {title: 'Login', form: loginForm, submitted: false};
 	res.render('login', info);
 }
 
@@ -68,7 +68,7 @@ function login(req, res){
 * @param {Object} res - response object
 */
 function signup(req, res){
-	var info = {title:'SignUp', form: form, submitted: false, isLogin: false};
+	var info = {title:'SignUp', form: form, submitted: false};
 	res.render('login', info);
 }
 

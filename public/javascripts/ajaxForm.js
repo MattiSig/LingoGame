@@ -5,19 +5,13 @@ $(document).ready(function() {
 	// });
 
 	$(document).on('click', '#signUp', function() {
-		$('#loginform').load('signup #signupForm');
+		$('#loginform').load('signup', '#signupForm');
 		// $('#loginform').load('#logIn');
 		$("#emailWarning").empty();
 		$("#password1Warning").empty();
 	// $("#password2Warning").empty();
 	 });
 
-	$('#logIn').unbind("click").click(function() {
- 		$('#loginform').load('login #loginform');
-		$("#emailWarning").empty();
-		$("#password1Warning").empty();
-		$("#password2Warning").empty();
- 	 });
 
 	 $(document).on('click', '#signUpUser', function() {
 		//  document.getElementById("signUpUser").disabled = true;
@@ -40,7 +34,7 @@ $(document).ready(function() {
 
 	//  $('#logIn').on('click', '#logIn', function() {
 		$("#logIn").unbind("click").click(function() {
-			$('#loginform').load('login #loginform');
+			$('#loginform').load('login', '#loginform');
 			$("#emailWarning").empty();
 			$("#password1Warning").empty();
 			$("#password2Warning").empty();
@@ -48,7 +42,7 @@ $(document).ready(function() {
 
 
 		$(document).on('click', '#logIn', function() {
-			$('#loginform').load('login #loginform');
+			$('#loginform').load('login', '#loginform');
 			// $('#loginform').load('#logIn');
 			$("#emailWarning").empty();
 			$("#password1Warning").empty();
