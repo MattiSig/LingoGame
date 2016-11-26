@@ -165,7 +165,7 @@ function loginHandler(req, res){
 * @param {Object} res - response object
 */
 function signUpHandler(req, res){
-	// console.log(req.body);
+	console.log(req.body);
 	var data = formValidator(form, req.body);
 
 	var formErrors = data.hasErrors;
@@ -187,7 +187,7 @@ function signUpHandler(req, res){
 		if(password1 === password2){
 			sqlUsers.addUser(email, password1, function (err, result) {
 			      if (result) {
-			        res.send(true)
+			        res.redirect('/login');
 			      } else {
 			      	info.errorMessage = 'This email is already in use.';
 			        res.render('signup', info);

@@ -21,6 +21,7 @@ Lingo.Preloader.prototype ={
 	    this.load.image('city', '../../images/city.jpg');
 	    this.load.spritesheet('main-button', '../../images/spilaleik.png',193, 70);
 	    this.load.spritesheet('score-button', '../../images/stig.png',193, 70);
+	    this.load.spritesheet('back-button', '../../images/tilbaka.png',193, 70);
 			this.load.image('background', '../../images/menuBackground.png');
 	    this.load.image('button', '../../images/button_blue.png', 200, 50);
 	    this.load.spritesheet('rundog', '../../images/runnDog.png', 78, 55, 22);

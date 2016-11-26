@@ -85,7 +85,8 @@ Lingo.Level2.prototype = {
     //-----------player-------------
     this.player = new Lingo.Player(this.game, 100, 500);
     this.add.existing(this.player);
-    this.add.existing(this.player.tounges);
+    this.add.existing(this.player.tounges1);
+    this.add.existing(this.player.tounges2);
     this.camera.follow(this.player);
 
     //------------------------------
@@ -200,7 +201,7 @@ Lingo.Level2.prototype = {
 
         if (this.jumpButton.isDown && this.player.body.onFloor() && this.time.now > this.jumpTimer)
         {
-            this.player.body.velocity.y = -750;
+            this.player.body.velocity.y = -550;
             this.jumpTimer = this.time.now + 750;
             this.player.frame = 5;
         }
@@ -268,11 +269,11 @@ Lingo.Level2.prototype = {
     },
     //render debug text
     render: function(){
-        this.game.debug.spriteInfo(this.player, 32, 32);
+        /*this.game.debug.spriteInfo(this.player, 32, 32);
         this.game.debug.text("FPS: " + this.game.time.fps, 2, 14,"#00ff00");
         this.game.debug.text("ms.time: " +  this.deltaTime, 2, 42, "#00ff00" );
         this.game.debug.text(this.game.time.now, 2, 70, "#00ff00");
-        this.game.debug.text(this.jumpTimer, 2, 85, "#00ff00");
+        this.game.debug.text(this.jumpTimer, 2, 85, "#00ff00");*/
     },
     pause: function(){
         this.physics.arcade.isPaused = (this.physics.arcade.isPaused) ? false : true;
