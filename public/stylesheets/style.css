@@ -156,8 +156,39 @@ div{
   display: none;
 }
 
-
-
 .hideform{
   display: none;
+}
+
+.radio{
+  /*margin: 10%;*/
+  text-align: left;
+}
+
+
+
+#button5{
+  margin: 25%;
+}
+
+#logOut{
+  margin-top: 3%;
+}
+
+#islenska{
+  padding-left: 20px;
+  padding-right: 20px;
+  width: 200px;
+  text-align: center;
+}
+
+#enska{
+  padding-left: 20px;
+  padding-right: 20px;
+  width: 200px;
+  text-align: center;
+}
+
+.addwords{
+
 }
