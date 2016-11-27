@@ -14,4 +14,4 @@ npm install
 
 npm start
 
-open link: localhost:3000 in a browser
+open link localhost:3000 in a browser.
