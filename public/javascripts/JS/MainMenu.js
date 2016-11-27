@@ -1,4 +1,7 @@
 'use strict'
+//MainMenu is a new state of Phaser.game. Takes Phaser.game as input
+//creates "private" variables to be called privately within this
+//game.prototype object
 Lingo.MainMenu = function(game) {
 	this.mainButton1;
 	this.mainButton2;
