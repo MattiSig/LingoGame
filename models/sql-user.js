@@ -1,3 +1,5 @@
+'use strict';
+
 var query = require('./query');
 var passwordHash = require('password-hash');
 
@@ -40,6 +42,11 @@ function findUser(email, cb){
 	});
 }
 
+/**
+* Finds level for a given user in database
+* @param {String} email - email address
+* @param {function} cb - callback function
+*/
 module.exports.getUserLevel =
 function getUserLevel(email, cb){
 	var values = [email];
@@ -54,6 +61,10 @@ function getUserLevel(email, cb){
 	});
 }
 
+/**
+* Finds top 5 users by score in database
+* @param {function} cb - callback function
+*/
 module.exports.getUserScore =
 function getUserScore(cb){
 	var q = 'SELECT email, score FROM users ORDER BY score DESC LIMIT 5';
@@ -69,6 +80,12 @@ function getUserScore(cb){
 	});
 }
 
+/**
+* Updates user score in database
+* @param {String} email - email address
+* @param {integer} score - user score to increment
+* @param {function} cb - callback function
+*/
 module.exports.updateUserScore =
 function updateUserScore(email, score, cb){
 	var values = [score, email];
@@ -83,6 +100,12 @@ function updateUserScore(email, score, cb){
 	});
 }
 
+/**
+* Updates user level in database
+* @param {String} email - email address
+* @param {boolean} toIncrement - decides wether to increment or decrement
+* @param {function} cb - callback function
+*/
 module.exports.updateUserLevel = 
 function updateUserLevel(email, toIncrement, cb){
 	var values = [email]

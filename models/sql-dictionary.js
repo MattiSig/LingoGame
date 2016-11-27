@@ -1,3 +1,5 @@
+'use strict';
+
 var query = require('./query');
 
 /**

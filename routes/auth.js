@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express');
 var router = express.Router();
 var passwordHash = require('password-hash');
@@ -62,7 +64,7 @@ var loginRender = {
 	submitButton: 'Login',
 	switchButton: 'Sign up',
 	action: '/login',
-	isHidden: true
+	isHidden: true,
 };
 var signupRender = {
 	title:'SignUp', 
@@ -71,7 +73,7 @@ var signupRender = {
 	submitButton: 'Sign up',
 	switchButton: 'Back to Login',
 	action: '/signup',
-	isHidden: true
+	isHidden: true,
 };
 
 /**
@@ -80,6 +82,10 @@ var signupRender = {
 * @param {Object} res - response object
 */
 function login(req, res){
+	loginRender.submitted = false;
+	loginRender.errors = false;
+	loginRender.errorMessage = '';
+
 	res.render('login', loginRender);
 }
 
@@ -89,6 +95,7 @@ function login(req, res){
 * @param {Object} res - response object
 */
 function switchForm(req, res){
+
 	if(req.body.switch==='toLogin'){
 		res.render('login', loginRender);
 	} else{
@@ -102,6 +109,10 @@ function switchForm(req, res){
 * @param {Object} res - response object
 */
 function signup(req, res){
+	signupRender.submitted = false;
+	signupRender.errors = false;
+	signupRender.errorMessage = '';
+
 	res.render('login', signupRender);
 }
 

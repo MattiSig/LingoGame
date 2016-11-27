@@ -4,6 +4,7 @@ $(document).ready(function() {
 	$(document).on('click', '#toSignUp', function() {
 		$("#emailWarning").empty();
 		$("#password1Warning").empty();
+		$('#formErrorMessage').empty();
 		$('#loginContainer').load('switchform #signupForm', {switch: 'toSignup'}, function(){
 			document.title = 'Sign Up';
 		});
@@ -14,6 +15,7 @@ $(document).ready(function() {
 		$("#emailWarning").empty();
 		$("#password1Warning").empty();
 		$("#password2Warning").empty();
+		$('#formErrorMessage').empty();
 		$('#loginContainer').load('switchform #loginForm', {switch: 'toLogin'}, function(){
 			document.title = 'Login';
 		});
@@ -32,6 +34,7 @@ $(document).ready(function() {
 			success: function(data){
 				console.log(id);
 				if(!data){
+					$('#formErrorMessage').empty();
 					$('#'+id).addClass('input-error');
 					if(isEmpty($('#' + id + 'Warning'))){
 						$('#' + id + 'Warning').append('<p>' + message(id) + '<p>');
@@ -40,6 +43,9 @@ $(document).ready(function() {
 						}
 						if(id === 'password1'){
 							$('#password1Warning').fadeIn(500);
+						}
+						if(id === 'password2'){
+							$('#password2Warning').fadeIn(500);
 						}
 					}
 				} else{

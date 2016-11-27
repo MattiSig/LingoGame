@@ -6,10 +6,10 @@ block content
   form(method='post', action=action, id="signupForm" class="login")
     each field in form
       +field(field, submitted)
-    button(type='submit', class="btn btn-danger top-buffer" role="button" id="signUp")
+    div.row: button(type='submit', class="btn btn-danger top-buffer" role="button" id="signUp")
       span.glyphicon.glyphicon-user
       |  #{submitButton}
-    button(type='button' class="btn btn-primary top-buffer" id='toLogIn')
+    div.row: button(type='button' class="btn btn-primary top-buffer" id='toLogIn')
       span.glyphicon.glyphicon-menu-left
       | #{switchButton}
 

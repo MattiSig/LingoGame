@@ -6,7 +6,7 @@ block content
       h1= title
 
       form(method='post', action='/addword')
-        div.form-group
+        div(class=).form-group
           each field in form
             +field(field, submitted)
         button() Bæta við orði
