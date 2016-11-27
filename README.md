@@ -15,3 +15,8 @@ npm install
 npm start
 
 open link localhost:3000 in a browser.
+
+## Database
+The Database is hosted on Heroku.com
+
+Information about the database can be found in the sql-schema.sql file.
