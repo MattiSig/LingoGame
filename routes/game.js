@@ -1,3 +1,4 @@
+'use strict'
 var express = require('express');
 var router = express.Router();
 var loggedInStatus = require('../lib/middleware/loggedInStatus');
@@ -87,16 +88,17 @@ function getWordHandler(req, res){
 * @param {Object} res - response object
 */
 function updateLevel(req, res){
-
+	console.log(typeof(req.body.toIncrement));
 	if(req.body.toIncrement==='1'){
-		var booleIncrement = new Boolean(true);
+		var booleIncrement = true;
 	} else{
-		var booleIncrement = new Boolean(false);
+		var booleIncrement = false;
 	}
+	console.log(booleIncrement);
+	console.log(typeof(booleIncrement));
 
 	sqlUser.updateUserLevel(req.session.user, booleIncrement, function(err, result){
 		if(result){
-			console.log(booleIncrement);
 			res.send('success');
 		} else{
 			console.log('eitthvað er að');

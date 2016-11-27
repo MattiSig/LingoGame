@@ -35,7 +35,7 @@
         }, 
         {
          "draworder":"topdown",
-         "height":25,
+         "height":0,
          "name":"objectsSpawn",
          "objects":[
                 {
@@ -112,20 +112,8 @@
                 }, 
                 {
                  "gid":7,
-                 "height":32,
+                 "height":64,
                  "id":11,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":2048,
-                 "y":672
-                }, 
-                {
-                 "gid":7,
-                 "height":32,
-                 "id":12,
                  "name":"",
                  "rotation":0,
                  "type":"",
@@ -137,7 +125,7 @@
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":75,
+         "width":0,
          "x":0,
          "y":0
         }],

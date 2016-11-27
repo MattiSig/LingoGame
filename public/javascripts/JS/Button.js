@@ -1,3 +1,4 @@
+'use strict'
 Lingo.Button = function(game, posX, posY, text){
 	Phaser.Sprite.call(this, game, posX, posY, 'button');
 

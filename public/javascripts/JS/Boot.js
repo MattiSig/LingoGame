@@ -1,4 +1,5 @@
-Lingo = {
+'use strict'
+var Lingo = {
     
     orientated: false
 
