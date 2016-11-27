@@ -156,8 +156,20 @@ div{
   display: none;
 }
 
+#loginContainer{
+  background-color: rgba(0, 0, 0, 0.5);
+  margin-top: 40%;
+
+}
+
 
 
 .hideform{
   display: none;
+}
+
+@media (max-width: 992px) {
+  #loginContainer {
+    margin-top: : 0%;
+  }
 }
