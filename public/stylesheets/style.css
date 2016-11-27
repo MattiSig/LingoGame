@@ -87,6 +87,17 @@ div{
   border-radius: 5px;
 }
 
+.flexcontainer {
+   display: -webkit-flex;
+   display: flex;
+   -webkit-flex-direction: row
+   flex-direction: row;
+   -webkit-align-items: center;
+   align-items: center;
+   -webkit-justify-content: center;
+   justify-content: center;
+}
+
 .top-buffer{
   border-radius: 10px;
   margin: 2%;

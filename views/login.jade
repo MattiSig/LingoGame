@@ -20,7 +20,7 @@ block content
 
     div.col-md-6
       div.col-md-2
-      div(class="col-md-8 card" style="background-color:rgba(0, 0, 0, 0.5);", id='loginContainer')
+      div(class="col-md-8 card flexcontainer" style="background-color:rgba(0, 0, 0, 0.5);", id='loginContainer')
         form(id="loginForm" method='post' action=action, class="login")
           each field in form
             +field(field, submitted)  

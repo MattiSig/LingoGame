@@ -61,7 +61,8 @@ var loginRender = {
 	submitted: false,
 	submitButton: 'Login',
 	switchButton: 'Sign up',
-	action: '/login'
+	action: '/login',
+	isHidden: true
 };
 var signupRender = {
 	title:'SignUp', 
@@ -69,7 +70,8 @@ var signupRender = {
 	submitted: false,
 	submitButton: 'Sign up',
 	switchButton: 'Back to Login',
-	action: '/signup'
+	action: '/signup',
+	isHidden: true
 };
 
 /**
