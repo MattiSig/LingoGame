@@ -1,4 +1,6 @@
 'use strict'
+//Object constructor for player
+//creates object of type Phaser.sprite
 Lingo.Player = function (game, x, y) {
 	this.playerFacing = 'right';
 	Phaser.Sprite.call(this, game, x, y, 'rundog');
@@ -7,8 +9,6 @@ Lingo.Player = function (game, x, y) {
   this.lifeTimer = 0;
   this.game = game;
 
-
-  //  Handy physics ref
   this.physics = game.physics.arcade;
 
   this.physics.enable(this);
@@ -16,7 +16,7 @@ Lingo.Player = function (game, x, y) {
   this.body.tilePadding.set(32);
   this.body.collideWorldBounds = true;
   this.body.gravity.y = 1000;
-  this.body.setSize(64, 32, 7, 20);
+  this.body.setSize(54, 32, 12, 20);
 
   this.animations.add('right',[0,1,2,3,4,5,6,7], 12, true);
   this.animations.add('left',[15,14,13,12,11,10,9,8], 12, true);
@@ -24,15 +24,17 @@ Lingo.Player = function (game, x, y) {
 
   this.tounges1 = new Phaser.Sprite(game, 760, 12, 'items', 43),
   this.tounges2 = new Phaser.Sprite(game, 720, 12, 'items', 43);
-  //this.tounges.frame = 42;
+
   this.tounges1.fixedToCamera = true;
   this.tounges2.fixedToCamera = true;
 }
 Lingo.Player.prototype = Object.create(Phaser.Sprite.prototype);
 Lingo.Player.prototype.constructor = Lingo.Player;
-
+//update loop called automaticly by Phaser.game
+//state restarts when player
 Lingo.Player.prototype.update = function () {
-  if(this.body.y > this.world.height - 100){
+  //state (level) restarts when player hits bottom of level
+  if(this.body.y > this.game.world.height - 40){
     this.game.state.restart();
   }
 
@@ -47,6 +49,7 @@ Lingo.Player.prototype.moveLeft = function(deltaTime){
     this.animations.play('left');
 		this.playerFacing = 'left';
 }
+//resets player to original spawn
 Lingo.Player.prototype.restart = function(){
 		this.body.x =250;
 		this.body.y = 2800;
@@ -56,9 +59,10 @@ Lingo.Player.prototype.looseLife = function(timeNow){
     var tempBool = false;
     if(timeNow == undefined){tempBool = true};
     if(this.lifeTimer < timeNow || tempBool){
-      
+
       if(timeNow !== undefined){
-        this.lifeTimer = timeNow + 1000; }
+        this.lifeTimer = timeNow + 1000; 
+      }
 
       this.body.velocity.y = -200;
       this.life -= 1;
@@ -67,38 +71,35 @@ Lingo.Player.prototype.looseLife = function(timeNow){
         this.tounges2.kill();        
       }else if(this.life === 1){
         this.tounges1.kill();
-      }
-      if(this.life <= 0){
+      }else if(this.life <= 0){
         this.game.state.restart();
       }
     }
 }
+//goes to next level and updates database for user
 Lingo.Player.prototype.nextlevel = function(gameFinished, timeNow){
     if(this.lifeTimer < timeNow){
       this.lifeTimer = timeNow + 1000;
       if(gameFinished){
-          $.ajax({
-              type: 'POST',
-              url: '/updateLevel',
-              data: {toIncrement: 0},
-              async: false,
-              success: function(){
-                console.log('fer í main');
-              }
-            });
-          this.game.state.start('MainMenu');
-        } else{
-          console.log()
-          $.ajax({
+        $.ajax({
             type: 'POST',
             url: '/updateLevel',
-            data: {toIncrement: 1},
+            data: {toIncrement: 0},
             async: false,
             success: function(){
-              console.log('hækka borð');
             }
           });
+        this.game.state.start('MainMenu');
+      }else{
+        $.ajax({
+          type: 'POST',
+          url: '/updateLevel',
+          data: {toIncrement: 1},
+          async: false,
+          success: function(){
+          }
+        });
         this.game.state.start('Level2');
-        }
       }
+    }
 }

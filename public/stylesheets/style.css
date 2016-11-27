@@ -156,10 +156,22 @@ div{
   display: none;
 }
 
+<<<<<<< HEAD
+=======
+#loginContainer{
+  background-color: rgba(0, 0, 0, 0.5);
+  margin-top: 40%;
+
+}
+
+
+
+>>>>>>> f235d2019a10a9b12ac287cf55999e6e3bddbe46
 .hideform{
   display: none;
 }
 
+<<<<<<< HEAD
 .radio{
   /*margin: 10%;*/
   text-align: left;
@@ -192,3 +204,10 @@ div{
 .addwords{
 
 }
+=======
+@media (max-width: 992px) {
+  #loginContainer {
+    margin-top: : 0%;
+  }
+}
+>>>>>>> f235d2019a10a9b12ac287cf55999e6e3bddbe46
