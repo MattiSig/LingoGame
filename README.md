@@ -9,12 +9,19 @@ open terminal
 navigate in the terminal to the system folder.
 
 type into the command line:
-
+'''sh
 npm install
+'''
 
+'''sh
 npm start
+'''
 
 open link localhost:3000 in a browser.
+
+## Gameplay - instructions
+
+
 
 ## Database
 The Database is hosted on Heroku.com
