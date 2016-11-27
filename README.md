@@ -21,8 +21,8 @@ $ npm start
 open link localhost:3000 in a browser.
 
 ## Gameplay - instructions
-<kbd>A</kbd> + <kbd>S</kbd> + <kbd>D</kbd> + <kbd>F</kbd>
-represent buttons 1-4 on screen respectively 
+Keyboard buttons <kbd>A</kbd> + <kbd>S</kbd> + <kbd>D</kbd> + <kbd>F</kbd>
+represent buttons 1 - 4 on screen respectively 
 
 ## Database
 The Database is hosted on Heroku.com
