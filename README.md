@@ -10,11 +10,19 @@ navigate in the terminal to the system folder.
 
 type into the command line:
 
-npm install
+```sh
+$ npm install
+```
 
-npm start
+```sh
+$ npm start
+```
 
 open link localhost:3000 in a browser.
+
+## Gameplay - instructions
+Keyboard buttons <kbd>A</kbd> + <kbd>S</kbd> + <kbd>D</kbd> + <kbd>F</kbd>
+represent buttons 1 - 4 on screen respectively 
 
 ## Database
 The Database is hosted on Heroku.com
