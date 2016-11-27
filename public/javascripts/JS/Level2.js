@@ -28,7 +28,6 @@ Lingo.Level2 = function(game) {
     this.script;
     this.showScript = false;
     this.tempScriptTime =0;
-    //8===========================D
     this.button1;
     this.button2;
     this.button3;
@@ -38,17 +37,14 @@ Lingo.Level2 = function(game) {
     this.sButton;
     this.dButton;
     this.fButton;
-    //8==============================D
 
     this.wordArray = [[],[],[]];
     this.buttonInRange;
 };
-//8===========================D
 var dictionary;
 var textNumber = 0;
 var isWithinRange = [];
 var myEnemyText;
-//8===========================D
 
 Lingo.Level2.prototype = {
     //create game objects to be renderd on screen
@@ -70,7 +66,6 @@ Lingo.Level2.prototype = {
     this.layer = this.map.createLayer('Base');
     this.layer.resizeWorld();
 
-    //this.layer.debug = true;
     this.map.setCollision([1,2,3,4,5,8,9,10,11,12,15,16,17],true,'Base');
     this.map.setCollision([36,37,38,39,40],true,'bgMountains');
     //-------Items(scripts)--------
@@ -111,7 +106,6 @@ Lingo.Level2.prototype = {
             isWithinRange[i] = false;
         }
 
-    //8==========================================D
     $.ajax({
         type: 'GET',
         url: '/getword',
@@ -127,14 +121,11 @@ Lingo.Level2.prototype = {
         dictionary = data;
     }
 
-
-
     this.wordArray[0] = this.setArray(0);
 
     this.button1 = new Lingo.Button(this.game, 0, 550, "");
     this.add.existing(this.button1);
     this.button1.alpha = 0;
-    console.log(this.button1.alpha);
     this.button2 = new Lingo.Button(this.game, 200, 550, "");
     this.add.existing(this.button2);
     this.button2.alpha = 0;
@@ -144,7 +135,6 @@ Lingo.Level2.prototype = {
     this.button4 = new Lingo.Button(this.game, 600, 550, "");
     this.add.existing(this.button4);
     this.button4.alpha = 0;
-    //8==============================================================D
 
     //------------------------------
     //-----------text-------------
@@ -153,7 +143,6 @@ Lingo.Level2.prototype = {
         this.text1.add(this.add.text(this.enemy.children[i].body.x, this.enemy.children[i].body.y, dictionary[i*4].enska,  
         { font: "14px Arial", fill: this.generateHexColor()}));
     }
-    //console.log(dictionary);
     this.text1.setAll('anchor.x', 0.5);
     this.text1.setAll('anchor.y', 0.5);
 
@@ -170,7 +159,6 @@ Lingo.Level2.prototype = {
     this.sButton = this.input.keyboard.addKey(Phaser.Keyboard.S);
     this.dButton = this.input.keyboard.addKey(Phaser.Keyboard.D);
     this.fButton = this.input.keyboard.addKey(Phaser.Keyboard.F);
-    //8===============================================================D
     var buttonInRange = new Phaser.Signal();
     },
     //game update loop
@@ -178,10 +166,6 @@ Lingo.Level2.prototype = {
 
         this.deltaTime = this.time.elapsedMS / 1000;
         
-        //this.player.body.velocity.x = 0; -----------------------------------
-        //stick text to enemy
-        //this.text1.x = this.enemy.body.x ;
-        //this.text1.y = this.enemy.body.y - 40;
         //handle controler events
         if (this.cursors.left.isDown){
             this.player.moveLeft(this.deltaTime);
@@ -207,10 +191,7 @@ Lingo.Level2.prototype = {
             this.jumpTimer = this.time.now + 750;
             this.player.frame = 5;
         }
-        /*if((this.time.now > this.tempScriptTime) && this.text2.alpha){
-            this.hideScript();
-        }*/
-        
+
         for (var i = 0; i < this.enemy.children.length; i++){
             isWithinRange[i] = (
                 (this.player.body.x > this.enemy.children[i].body.x - 400) && 
@@ -229,8 +210,6 @@ Lingo.Level2.prototype = {
                     if(textNumber + 4 < 12){
                         textNumber=((i+1)*4)};
 
-                    console.log(textNumber);
-
                 }
             }
             this.makeVisible(true);
@@ -240,23 +219,23 @@ Lingo.Level2.prototype = {
 
         }
 
-        
         this.physics.arcade.collide(this.enemy, this.layer);
         this.physics.arcade.collide(this.enemy,this.player, function(player, enemy) {
             this.player.looseLife();
-
         },null, this);
+
         this.physics.arcade.collide(this.player, this.script, this.collectScript, null, this);
         this.physics.arcade.collide(this.player, this.layer3, function(player, layer3){
             this.player.looseLife(this.time.now);
         },null, this);
+
         this.physics.arcade.collide(this.player, this.door, function(player, door){
             this.player.nextlevel(true, this.time.now);
             
         }, null, this);
         
         this.pauseButton.onDown.add(this.pause, this);        
-        //8====================================D
+
         this.aButton.onDown.add(this.isCorrect, this.button1, null, this.enemy, this.text1, this.updateScore);
         this.sButton.onDown.add(this.isCorrect, this.button2, null, this.enemy, this.text1, this.updateScore);
         this.dButton.onDown.add(this.isCorrect, this.button3, null, this.enemy, this.text1, this.updateScore);
@@ -272,20 +251,14 @@ Lingo.Level2.prototype = {
     },
     //render debug text
     render: function(){
-        /*this.game.debug.spriteInfo(this.player, 32, 32);
-        this.game.debug.text("FPS: " + this.game.time.fps, 2, 14,"#00ff00");
-        this.game.debug.text("ms.time: " +  this.deltaTime, 2, 42, "#00ff00" );
-        this.game.debug.text(this.game.time.now, 2, 70, "#00ff00");
-        this.game.debug.text(this.jumpTimer, 2, 85, "#00ff00");*/
-        this.door.forEach(this.game.debug.body, this.game.debug, '#dd00dd', false);
-
+        //this is used for debuging e.g:
+        //this.game.debug.text("FPS: " + this.game.time.fps, 2, 14,"#00ff00");
     },
     pause: function(){
         this.physics.arcade.isPaused = (this.physics.arcade.isPaused) ? false : true;
     },
     makeVisible: function(isHidden){
         if(isHidden){
-            console.log("takkar birtast");
             this.button1.alpha = 1;
             this.button2.alpha = 1;
             this.button3.alpha = 1;
@@ -301,12 +274,11 @@ Lingo.Level2.prototype = {
         var buttonText = this.buttonText._text;
 
         if(buttonText===dictionary[myEnemyText].islenska){
-            console.log('réttur takki');
             enemy.children[myEnemyText/4].kill();
             texti.children[myEnemyText/4].kill();
             update(100);
         } else {
-            console.log('vitlaus takki');
+            player.looseLife();
         }
     },
     collectScript: function(player, script) {
@@ -314,7 +286,6 @@ Lingo.Level2.prototype = {
         this.updateScore(10)
         this.text2.setText(dictionary[textNumber].enska+" = "+dictionary[textNumber].islenska,true);
         this.text2.setStyle({font: "22px Comic Sans MS", fontStyle: "bold", fill: this.generateHexColor()},true);
-        //this.tempScriptTime = this.time.now + 3000;
         this.text2.x = script.x -100;
         this.text2.y = script.y -200;
         this.text2.alpha = 1;

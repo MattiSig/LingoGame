@@ -1,7 +1,5 @@
 'use strict'
 var Lingo = {
-    
-    orientated: false
 
 };
 //Starts the Boot state, takes in Phaser.game
@@ -35,18 +33,7 @@ Lingo.Boot.prototype = {
         //posible canvas edits to play on phone
         else
         {
-            /*this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-            this.scale.minWidth = 480;
-            this.scale.minHeight = 260;
-            this.scale.maxWidth = 1024;
-            this.scale.maxHeight = 768;
-            this.scale.pageAlignHorizontally = true;
-            this.scale.pageAlignVertically = true;
-            this.scale.forceOrientation(true, false);
-            this.scale.hasResized.add(this.gameResized, this);
-            this.scale.enterIncorrectOrientation.add(this.enterIncorrectOrientation, this);
-            this.scale.leaveIncorrectOrientation.add(this.leaveIncorrectOrientation, this);
-            this.scale.setScreenSize();*/
+
         }
         //start new state Preloader.js
         this.state.start('Preloader');
