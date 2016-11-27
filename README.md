@@ -31,6 +31,8 @@ open link localhost:3000 in a browser.
 Keyboard buttons <kbd>A</kbd> + <kbd>S</kbd> + <kbd>D</kbd> + <kbd>F</kbd>
 represent buttons 1 - 4 on screen respectively 
 
+<kbd>P</kbd> to pause game
+
 ---
 
 ## Database
