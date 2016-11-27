@@ -2,14 +2,22 @@ extends layout
 include mixins
 
 block content
-    h1= title
+    div.col-md-4
+      h1= title
 
-    form(method='post', action='/addword')
-        each field in form
+      form(method='post', action='/addword')
+        div(class=).form-group
+          each field in form
             +field(field, submitted)
         button() Bæta við orði
 
-    form(method='post', action='/getword')
+      form(method='post', action='/getword')
         button() Ná í orð
+<<<<<<< HEAD
     form(method='post', action='/updatelevel')
         button() Uppfæra stig
+=======
+      form(method='post', action='/updatelevel')
+        button() Uppfæra stig
+    div.col-md-8
+>>>>>>> origin/master

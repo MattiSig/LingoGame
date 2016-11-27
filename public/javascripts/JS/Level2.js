@@ -1,8 +1,9 @@
+'use strict'
 //game is a new state of Phaser.game. Takes Phaser.game as input
 //creates "private" variables to be called privately within 
 //game.prototype object
 Lingo.Level2 = function(game) {
-   this.map;
+    this.map;
     this.layer;
     this.layer2;
     this.layer3;
@@ -45,7 +46,7 @@ Lingo.Level2 = function(game) {
 //8===========================D
 var dictionary;
 var textNumber = 0;
-var isWithinRange = new Array();
+var isWithinRange = [];
 var myEnemyText;
 //8===========================D
 
@@ -133,6 +134,7 @@ Lingo.Level2.prototype = {
     this.button1 = new Lingo.Button(this.game, 0, 550, "");
     this.add.existing(this.button1);
     this.button1.alpha = 0;
+    console.log(this.button1.alpha);
     this.button2 = new Lingo.Button(this.game, 200, 550, "");
     this.add.existing(this.button2);
     this.button2.alpha = 0;
@@ -151,7 +153,7 @@ Lingo.Level2.prototype = {
         this.text1.add(this.add.text(this.enemy.children[i].body.x, this.enemy.children[i].body.y, dictionary[i*4].enska,  
         { font: "14px Arial", fill: this.generateHexColor()}));
     }
-    console.log(dictionary);
+    //console.log(dictionary);
     this.text1.setAll('anchor.x', 0.5);
     this.text1.setAll('anchor.y', 0.5);
 
@@ -217,7 +219,7 @@ Lingo.Level2.prototype = {
                 (this.player.body.y > this.enemy.children[i].body.y - 500)
             )
         }
-        if((isWithinRange[0]||isWithinRange[1]||isWithinRange[2]) && this.button1.alpha === 0){                
+        if((isWithinRange[0]) && this.button1.alpha === 0){                
             
             for (var i = 0; i < this.enemy.children.length; i++){
                 if(isWithinRange[i] && this.button1.alpha === 0){
@@ -233,7 +235,7 @@ Lingo.Level2.prototype = {
             }
             this.makeVisible(true);
 
-        }else if(!(isWithinRange[0]||isWithinRange[1]||isWithinRange[2]) && this.button1.alpha === 1){
+        }else if(!(isWithinRange[0]) && this.button1.alpha === 1){
             this.makeVisible(false);
 
         }
@@ -250,6 +252,7 @@ Lingo.Level2.prototype = {
         },null, this);
         this.physics.arcade.collide(this.player, this.door, function(player, door){
             this.player.nextlevel(true, this.time.now);
+            
         }, null, this);
         
         this.pauseButton.onDown.add(this.pause, this);        
@@ -274,12 +277,15 @@ Lingo.Level2.prototype = {
         this.game.debug.text("ms.time: " +  this.deltaTime, 2, 42, "#00ff00" );
         this.game.debug.text(this.game.time.now, 2, 70, "#00ff00");
         this.game.debug.text(this.jumpTimer, 2, 85, "#00ff00");*/
+        this.door.forEach(this.game.debug.body, this.game.debug, '#dd00dd', false);
+
     },
     pause: function(){
         this.physics.arcade.isPaused = (this.physics.arcade.isPaused) ? false : true;
     },
     makeVisible: function(isHidden){
         if(isHidden){
+            console.log("takkar birtast");
             this.button1.alpha = 1;
             this.button2.alpha = 1;
             this.button3.alpha = 1;
@@ -293,7 +299,7 @@ Lingo.Level2.prototype = {
     },
     isCorrect: function(btn, enemy, texti, update){
         var buttonText = this.buttonText._text;
-        console.log(texti);
+
         if(buttonText===dictionary[myEnemyText].islenska){
             console.log('réttur takki');
             enemy.children[myEnemyText/4].kill();
@@ -330,7 +336,6 @@ Lingo.Level2.prototype = {
         return '#' + ((0.5 + 0.5 * Math.random()) * 0xFFFFFF << 0).toString(16);
     },
     updateButtons: function(array){
-        //console.log(this.wordArray[0]);
         this.button1.setText(array[0]);
         this.button2.setText(array[1]);
         this.button3.setText(array[2]);

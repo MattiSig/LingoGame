@@ -1,3 +1,5 @@
+'use strict';
+
 var query = require('./query');
 var passwordHash = require('password-hash');
 
@@ -35,11 +37,16 @@ function findUser(email, cb){
 		if(err){
 			return cb(err);
 		} else {
-			cb(null, result.rows);
+			return cb(null, result.rows);
 		}
 	});
 }
 
+/**
+* Finds level for a given user in database
+* @param {String} email - email address
+* @param {function} cb - callback function
+*/
 module.exports.getUserLevel =
 function getUserLevel(email, cb){
 	var values = [email];
@@ -49,14 +56,18 @@ function getUserLevel(email, cb){
 		if(err){
 			return cb(err);
 		} else {
-			cb(null, result);
+			return cb(null, result);
 		}
 	});
 }
 
+/**
+* Finds top 5 users by score in database
+* @param {function} cb - callback function
+*/
 module.exports.getUserScore =
 function getUserScore(cb){
-	var q = 'SELECT email, score FROM users ORDER BY score DESC';
+	var q = 'SELECT email, score FROM users ORDER BY score DESC LIMIT 5';
 
 	query(q, null, function(err, result){
 		if(err){
@@ -64,11 +75,17 @@ function getUserScore(cb){
 			return cb(err);
 		} else{
 			console.log('2');
-			cb(null, result);
+			return cb(null, result);
 		}
 	});
 }
 
+/**
+* Updates user score in database
+* @param {String} email - email address
+* @param {integer} score - user score to increment
+* @param {function} cb - callback function
+*/
 module.exports.updateUserScore =
 function updateUserScore(email, score, cb){
 	var values = [score, email];
@@ -78,11 +95,17 @@ function updateUserScore(email, score, cb){
 		if(err){
 			return cb(err);
 		} else{
-			cb(null, result);
+			return cb(null, result);
 		}
 	});
 }
 
+/**
+* Updates user level in database
+* @param {String} email - email address
+* @param {boolean} toIncrement - decides wether to increment or decrement
+* @param {function} cb - callback function
+*/
 module.exports.updateUserLevel = 
 function updateUserLevel(email, toIncrement, cb){
 	var values = [email]
@@ -99,7 +122,7 @@ function updateUserLevel(email, toIncrement, cb){
 		if(err){
 			return cb(err);
 		} else {
-			cb (null, result);
+			return cb (null, result);
 		}
 
 	});

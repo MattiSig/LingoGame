@@ -1,3 +1,4 @@
+'use strict'
 Lingo.Player = function (game, x, y) {
 	this.playerFacing = 'right';
 	Phaser.Sprite.call(this, game, x, y, 'rundog');
@@ -15,6 +16,7 @@ Lingo.Player = function (game, x, y) {
   this.body.tilePadding.set(32);
   this.body.collideWorldBounds = true;
   this.body.gravity.y = 1000;
+  this.body.setSize(64, 32, 7, 20);
 
   this.animations.add('right',[0,1,2,3,4,5,6,7], 12, true);
   this.animations.add('left',[15,14,13,12,11,10,9,8], 12, true);
@@ -54,10 +56,13 @@ Lingo.Player.prototype.looseLife = function(timeNow){
     var tempBool = false;
     if(timeNow == undefined){tempBool = true};
     if(this.lifeTimer < timeNow || tempBool){
-      this.lifeTimer = timeNow + 1000;  
-      console.log('braaaaaaaaaa'+ this.lifeTimer);
+      
+      if(timeNow !== undefined){
+        this.lifeTimer = timeNow + 1000; }
+
       this.body.velocity.y = -200;
       this.life -= 1;
+      
       if(this.life === 2){
         this.tounges2.kill();        
       }else if(this.life === 1){
@@ -78,18 +83,19 @@ Lingo.Player.prototype.nextlevel = function(gameFinished, timeNow){
               data: {toIncrement: 0},
               async: false,
               success: function(){
-                console.log('fer í borð 2');
+                console.log('fer í main');
               }
             });
-          this.game.state.restart('MainMenu');
+          this.game.state.start('MainMenu');
         } else{
+          console.log()
           $.ajax({
             type: 'POST',
             url: '/updateLevel',
             data: {toIncrement: 1},
             async: false,
             success: function(){
-              console.log('fer í main menu');
+              console.log('hækka borð');
             }
           });
         this.game.state.start('Level2');

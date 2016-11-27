@@ -1,3 +1,4 @@
+'use strict'
 //game is a new state of Phaser.game. Takes Phaser.game as input
 //creates "private" variables to be called privately within 
 //game.prototype object
@@ -52,7 +53,7 @@ var myEnemyText;
 Lingo.Level1.prototype = {
     //create game objects to be renderd on screen
 	create: function () {
-
+ 
     textNumber = 0;
     this.time.advancedTiming = true;
 	
@@ -69,8 +70,9 @@ Lingo.Level1.prototype = {
     this.layer.resizeWorld();
 
     //this.layer.debug = true;
+    this.layer3.debug = true;
     this.map.setCollision([1,2,3,4,5,8,9,10,11,12,15,16,17],true,'base');
-    this.map.setCollision([36, 37, 38, 39, 40],true,'bgMountains');
+    this.map.setCollision([37, 38, 39],true,'bgMountains');
     //-------Items(scripts)--------
     this.script = this.add.group();
     this.script.enableBody = true;
@@ -217,6 +219,8 @@ Lingo.Level1.prototype = {
                 (this.player.body.y < this.enemy.children[i].body.y +500) && 
                 (this.player.body.y > this.enemy.children[i].body.y - 500)
             )
+            if(isWithinRange[i]){
+            console.log(isWithinRange[i]);}
         }
         if((isWithinRange[0]||isWithinRange[1]||isWithinRange[2]) && this.button1.alpha === 0){                
             
@@ -250,6 +254,9 @@ Lingo.Level1.prototype = {
             this.player.looseLife(this.time.now);
         },null, this);
         this.physics.arcade.collide(this.player, this.door, function(player, door){
+            console.log('einhverju þarna');
+            isWithinRange = [];
+            this.makeVisible(false);    
             this.player.nextlevel(false, this.time.now);
         }, null, this);
         
@@ -270,6 +277,9 @@ Lingo.Level1.prototype = {
 	},
     //render debug text
     render: function(){
+        this.game.debug.body(this.player);
+        this.game.debug.body(this.door);
+        this.door.forEach(this.game.debug.body, this.game.debug, '#dd00dd', false);
         /*this.game.debug.spriteInfo(this.player, 32, 32);
         this.game.debug.text("FPS: " + this.game.time.fps, 2, 14,"#00ff00");
         this.game.debug.text("ms.time: " +  this.deltaTime, 2, 42, "#00ff00" );
@@ -351,5 +361,23 @@ Lingo.Level1.prototype = {
             let j = Math.floor(Math.random()*i);
             [array[i-1], array[j]] = [array[j], array[i-1]];
         }
+    },
+    shutdown: function(){
+        console.log('shutdown enemy: og button1:');
+        this.button1.destroy();
+        this.button1 = null;
+        this.button2.destroy();
+        this.button2 = null;
+        this.button3.destroy();
+        this.button3 = null;
+        this.button4.destroy();
+        this.button4 = null;
+        this.enemy.removeAll(true);
+        this.enemy = null;
+        this.player.destroy();
+        this.player = null;
+        console.log(this.enemy);
+        console.log(this.button1);
+        console.log(this.player);
     }
 };

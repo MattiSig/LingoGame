@@ -3,45 +3,34 @@ include mixins
 
 block content
 
-  if errors && submitted
-    h3 Error!
-    h3= errorMessage
-    
   div.container.background
-    div.row
+    div.col-md-6
       div.col-md-1
       div.col-md-10
         img(src='/../images/lingo2.png', alt='Lingo Logo', style='width:348px;height:318px;')
         h2.titill Lingo Dingo is all about having fun and learning languages at the same time!
       div.col-md-1
-    div.col-xs-12(style='height:60px;')
-      ul
-        row
-          div(id='emailWarning' class="message")
-          div(id='password1Warning' class="message")
-          //- if errors && submitted
+      div.col-xs-12(style='height:60px;')
 
-    div.row
-      div.col-md-4
-      div(class="col-md-4 card" style="background-color:rgba(0, 0, 0, 0.5);")
-        form(id="loginform" method='post' action='/login' class="login")
-          each field in form
-            +field(field, submitted)  
-          div: button(class="btn btn-danger top-buffer" role="button" id="logInUser")
-            span.glyphicon.glyphicon-ok-circle 
-            |  Login
 
-          //- p: a(href='/signup' class="btn-primary") Búa til notanda
-          a(role="button" class="btn btn-primary top-buffer" id="signUp")
-            span.glyphicon.glyphicon-user
-            |    Sign up
-        //- form(method='post', action='/signup' id="signupForm" class="hidesignup")
-        //-   each field in form
-        //-     +field(field, submitted)
-        //-   div: button() Útbúa
-        //-   div(id='emailWarning')
-        //-   div(id='password1Warning')
-        //-   div(id='password2Warning')
+    div.col-md-6
+      div.row
+        div.row: if errors && submitted
+            h4(id='formErrorMessage')= errorMessage
+        div.row: div(id='emailWarning' class="message")
+        div.row: div(id='password1Warning' class="message")
+        div.row: div(id='password2Warning' class="message")
+      div.row
+        div.col-md-2
+        div(class="col-md-8 card" style="background-color:rgba(0, 0, 0, 0.5); margin-top: 40%;", id='loginContainer')
+          form(id="loginForm" method='post' action=action, class="login")
+            each field in form
+              +field(field, submitted)  
+            div.row: button(class="btn btn-danger top-buffer" role="button" id="logInUser")
+              span.glyphicon.glyphicon-ok-circle 
+              |  #{submitButton}
+            div.row: button(type='button' class="btn btn-primary top-buffer" id='toSignUp')
+              span(class=submitButton==='Login' ? 'glyphicon glyphicon-user' : 'glyphicon glyphicon-menu-left')
+              |    #{switchButton}
 
-    script(src='/javascripts/jquery-3.1.1.min.js')
-    script(src='/javascripts/ajaxForm.js')
+        div.col-md-2

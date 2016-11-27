@@ -1,74 +1,29 @@
 $(document).ready(function() {
 
-	// $("#signUp").click(function(event){
-	//     event.preventDefault();
-	// });
-
-	$(document).on('click', '#signUp', function() {
-		// $('#loginform').load('#logIn');
+	//Changes form to signup
+	$(document).on('click', '#toSignUp', function() {
 		$("#emailWarning").empty();
 		$("#password1Warning").empty();
-	 	$("#password2Warning").empty();
-		$('#loginform').load('signup #signupForm');
-
+		$('#formErrorMessage').empty();
+		$('#loginContainer').load('switchform #signupForm', {switch: 'toSignup'}, function(){
+			document.title = 'Sign Up';
+		});
 	 });
 
-	//  $(document).on('click', '#signUpUser', function() {
-	// 	//  document.getElementById("signUpUser").disabled = true;
-	// 	 console.log("virkar takkinn?");
-	// 	 $.ajax({
-	// 		 type: 'POST',
-	// 		 url: '/signup',
-	// 		 async: false,
-	// 		 data:  {email: $('#email').val(), password1: $('#password1').val(), password2: $('#password2').val()},
-	// 		 success: function(data){
-	// 			 if(data){
-	// 					 console.log(data);
-	// 			 }
-	// 		 }
-	 //
-	// 	 });
-	 //
-	 //
- // 	 });
+	//Changes form to login
+	$(document).on('click', '#toLogIn', function() {
+		$("#emailWarning").empty();
+		$("#password1Warning").empty();
+		$("#password2Warning").empty();
+		$('#formErrorMessage').empty();
+		$('#loginContainer').load('switchform #loginForm', {switch: 'toLogin'}, function(){
+			document.title = 'Login';
+		});
+	 });
 
-
-	// //  $('#logIn').on('click', '#logIn', function() {
-	// 	$("#logIn").unbind("click").click(function() {
-	// 		$("#emailWarning").empty();
-	// 		$("#password1Warning").empty();
-	// 		$("#password2Warning").empty();
-	// 		$('#loginform').load('login #loginform');
-	//
- // 	 	});
-
-
-		$(document).on('click', '#logIn', function() {
-			// $('#loginform').load('#logIn');
-			$("#emailWarning").empty();
-			$("#password1Warning").empty();
-		// $("#password2Warning").empty();+
-			$('#loginform').load('login #loginform');
-
-		 });
-		// var counter = 0;
-
-		// $("#signUp").unbind("click").click(function() {
-		// document.getElementById("signUp").disabled = true;
-		// segjum bakendanum að það sé signup mode og birtum signup formið.
-		// $('#loginform').load('signup');
-		// console.log("fjandinn");
-		// });
-
-	// $("#logIn").click(function(){
-
-			// $('#signupForm').load('login #loginform');
-			// $(this).attr('id', '#signUp');
-		// 	console.log(this.id);
-		//
-		// });
-
-	$('input').focusout(function() {
+	// Checks wether a given string meets a certain criteria
+	// when user focuses out on an element
+	$(document).on('focusout', 'input', function() {
 
 		var id = $(this).attr('id');
 
@@ -79,6 +34,7 @@ $(document).ready(function() {
 			success: function(data){
 				console.log(id);
 				if(!data){
+					$('#formErrorMessage').empty();
 					$('#'+id).addClass('input-error');
 					if(isEmpty($('#' + id + 'Warning'))){
 						$('#' + id + 'Warning').append('<p>' + message(id) + '<p>');
@@ -88,19 +44,23 @@ $(document).ready(function() {
 						if(id === 'password1'){
 							$('#password1Warning').fadeIn(500);
 						}
-						// if(id === 'errorMsg'){
-						// 	$('#errorMsg').fadeIn(500);
-						// }
+						if(id === 'password2'){
+							$('#password2Warning').fadeIn(500);
+						}
 					}
 				} else{
 					$('#' + id ).removeClass('input-error');
-					$('p', '#' + id ).empty().remove();
+					$('#' + id + 'Warning').empty();
 				}
 			},
 
 		});
 	});
 
+	/**
+	* Returns a error message
+	* @param {String} id - string to identify id of element
+	*/
 	function message(id){
 		if(id === 'email'){
 			return 'Check if your email is correct'
@@ -113,6 +73,10 @@ $(document).ready(function() {
 		}
 	}
 
+	/**
+	* Takes an element object and returns true if empty
+	* @param {Object} element - jQuery element object
+	*/
 	function isEmpty(element){
     	return !$.trim(element.html())
   }
