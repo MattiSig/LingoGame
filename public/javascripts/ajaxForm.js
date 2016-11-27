@@ -1,20 +1,27 @@
 $(document).ready(function() {
 
-	$(document).on('click', '#signUp', function() {
-		$('#loginform').load('signup', '#signupForm');
+	//Changes form to signup
+	$(document).on('click', '#toSignUp', function() {
 		$("#emailWarning").empty();
 		$("#password1Warning").empty();
+		$('#loginContainer').load('switchform #signupForm', {switch: 'toSignup'}, function(){
+			document.title = 'Sign Up';
+		});
 	 });
 
-	$(document).on('click', '#logIn', function() {
-		$('#loginform').load('login #loginform');
+	//Changes form to login
+	$(document).on('click', '#toLogIn', function() {
 		$("#emailWarning").empty();
 		$("#password1Warning").empty();
 		$("#password2Warning").empty();
+		$('#loginContainer').load('switchform #loginForm', {switch: 'toLogin'}, function(){
+			document.title = 'Login';
+		});
 	 });
 
-
-	$('input').focusout(function() {
+	// Checks wether a given string meets a certain criteria
+	// when user focuses out on an element
+	$(document).on('focusout', 'input', function() {
 
 		var id = $(this).attr('id');
 
@@ -34,19 +41,20 @@ $(document).ready(function() {
 						if(id === 'password1'){
 							$('#password1Warning').fadeIn(500);
 						}
-						// if(id === 'errorMsg'){
-						// 	$('#errorMsg').fadeIn(500);
-						// }
 					}
 				} else{
 					$('#' + id ).removeClass('input-error');
-					$('p', '#' + id ).empty().remove();
+					$('#' + id + 'Warning').empty();
 				}
 			},
 
 		});
 	});
 
+	/**
+	* Returns a error message
+	* @param {String} id - string to identify id of element
+	*/
 	function message(id){
 		if(id === 'email'){
 			return 'Check if your email is correct'
@@ -59,6 +67,10 @@ $(document).ready(function() {
 		}
 	}
 
+	/**
+	* Takes an element object and returns true if empty
+	* @param {Object} element - jQuery element object
+	*/
 	function isEmpty(element){
     	return !$.trim(element.html())
   }

@@ -15,6 +15,7 @@ Lingo.Player = function (game, x, y) {
   this.body.tilePadding.set(32);
   this.body.collideWorldBounds = true;
   this.body.gravity.y = 1000;
+  this.body.setSize(64, 32, 7, 20);
 
   this.animations.add('right',[0,1,2,3,4,5,6,7], 12, true);
   this.animations.add('left',[15,14,13,12,11,10,9,8], 12, true);
@@ -81,7 +82,7 @@ Lingo.Player.prototype.nextlevel = function(gameFinished, timeNow){
                 console.log('fer í borð 2');
               }
             });
-          this.game.state.restart('MainMenu');
+          this.game.state.start('MainMenu');
         } else{
           $.ajax({
             type: 'POST',

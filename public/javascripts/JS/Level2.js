@@ -274,6 +274,8 @@ Lingo.Level2.prototype = {
         this.game.debug.text("ms.time: " +  this.deltaTime, 2, 42, "#00ff00" );
         this.game.debug.text(this.game.time.now, 2, 70, "#00ff00");
         this.game.debug.text(this.jumpTimer, 2, 85, "#00ff00");*/
+        this.door.forEach(this.game.debug.body, this.game.debug, '#dd00dd', false);
+
     },
     pause: function(){
         this.physics.arcade.isPaused = (this.physics.arcade.isPaused) ? false : true;

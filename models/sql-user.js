@@ -35,7 +35,7 @@ function findUser(email, cb){
 		if(err){
 			return cb(err);
 		} else {
-			cb(null, result.rows);
+			return cb(null, result.rows);
 		}
 	});
 }
@@ -49,14 +49,14 @@ function getUserLevel(email, cb){
 		if(err){
 			return cb(err);
 		} else {
-			cb(null, result);
+			return cb(null, result);
 		}
 	});
 }
 
 module.exports.getUserScore =
 function getUserScore(cb){
-	var q = 'SELECT email, score FROM users ORDER BY score DESC';
+	var q = 'SELECT email, score FROM users ORDER BY score DESC LIMIT 5';
 
 	query(q, null, function(err, result){
 		if(err){
@@ -64,7 +64,7 @@ function getUserScore(cb){
 			return cb(err);
 		} else{
 			console.log('2');
-			cb(null, result);
+			return cb(null, result);
 		}
 	});
 }
@@ -78,7 +78,7 @@ function updateUserScore(email, score, cb){
 		if(err){
 			return cb(err);
 		} else{
-			cb(null, result);
+			return cb(null, result);
 		}
 	});
 }
@@ -99,7 +99,7 @@ function updateUserLevel(email, toIncrement, cb){
 		if(err){
 			return cb(err);
 		} else {
-			cb (null, result);
+			return cb (null, result);
 		}
 
 	});

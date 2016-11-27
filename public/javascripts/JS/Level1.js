@@ -69,8 +69,9 @@ Lingo.Level1.prototype = {
     this.layer.resizeWorld();
 
     //this.layer.debug = true;
+    this.layer3.debug = true;
     this.map.setCollision([1,2,3,4,5,8,9,10,11,12,15,16,17],true,'base');
-    this.map.setCollision([36, 37, 38, 39, 40],true,'bgMountains');
+    this.map.setCollision([37, 38, 39],true,'bgMountains');
     //-------Items(scripts)--------
     this.script = this.add.group();
     this.script.enableBody = true;
@@ -250,6 +251,7 @@ Lingo.Level1.prototype = {
             this.player.looseLife(this.time.now);
         },null, this);
         this.physics.arcade.collide(this.player, this.door, function(player, door){
+            console.log('einhverju þarna');
             this.player.nextlevel(false, this.time.now);
         }, null, this);
         
@@ -270,6 +272,9 @@ Lingo.Level1.prototype = {
 	},
     //render debug text
     render: function(){
+        this.game.debug.body(this.player);
+        this.game.debug.body(this.door);
+        this.door.forEach(this.game.debug.body, this.game.debug, '#dd00dd', false);
         /*this.game.debug.spriteInfo(this.player, 32, 32);
         this.game.debug.text("FPS: " + this.game.time.fps, 2, 14,"#00ff00");
         this.game.debug.text("ms.time: " +  this.deltaTime, 2, 42, "#00ff00" );

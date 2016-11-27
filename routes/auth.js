@@ -11,7 +11,7 @@ var form = [
   {
     name: 'email',
     id: 'email',
-    // label: 'Email',
+    label: 'Email',
     type: 'email',
     required: true,
     value: '',
@@ -22,7 +22,7 @@ var form = [
   {
     name: 'password1',
     id: 'password1',
-    // label: 'Lykilorð',
+    label: 'Lykilorð',
     type: 'password',
     required: true,
     valid: false,
@@ -32,7 +32,7 @@ var form = [
   {
   	name: 'password2',
   	id: 'password2',
-  	// label: 'Lykilorð aftur',
+  	label: 'Lykilorð aftur',
   	type: 'password',
   	required: true,
   	valid: false,
@@ -45,12 +45,32 @@ var loginForm = [form[0], form[1]];
 router.get('/', loggedInStatus.redirectIfLoggedIn, login);
 router.get('/login', loggedInStatus.redirectIfLoggedIn, login);
 
-router.get('/signUp', loggedInStatus.redirectIfLoggedIn, signup);
+router.get('/signup', loggedInStatus.redirectIfLoggedIn, signup);
 router.get('/logout', logoutHandler);
 
 router.post('/login', loginHandler);
 router.post('/signup', signUpHandler);
 router.post('/validate', formHandler);
+
+router.post('/switchform', switchForm);
+
+//Variables passed to view for rendering
+var loginRender = {
+	title: 'Login', 
+	form: loginForm, 
+	submitted: false,
+	submitButton: 'Login',
+	switchButton: 'Sign up',
+	action: '/login'
+};
+var signupRender = {
+	title:'SignUp', 
+	form: form, 
+	submitted: false,
+	submitButton: 'Sign up',
+	switchButton: 'Back to Login',
+	action: '/signup'
+};
 
 /**
 * Renders login site
@@ -58,8 +78,20 @@ router.post('/validate', formHandler);
 * @param {Object} res - response object
 */
 function login(req, res){
-	var info = {title: 'Login', form: loginForm, submitted: false};
-	res.render('login', info);
+	res.render('login', loginRender);
+}
+
+/**
+* Switches between login and signup form upon request
+* @param {Object} req - request object
+* @param {Object} res - response object
+*/
+function switchForm(req, res){
+	if(req.body.switch==='toLogin'){
+		res.render('login', loginRender);
+	} else{
+		res.render('signup', signupRender);
+	}
 }
 
 /**
@@ -68,8 +100,7 @@ function login(req, res){
 * @param {Object} res - response object
 */
 function signup(req, res){
-	var info = {title:'SignUp', form: form, submitted: false};
-	res.render('login', info);
+	res.render('login', signupRender);
 }
 
 /**
@@ -121,16 +152,10 @@ function loginHandler(req, res){
 	var formErrors = data.hasErrors;
 	var validatedForm = data.processedForm;
 
-	var info = {
-		title: 'Login',
-		form: validatedForm,
-		submitted: true,
-		errors: formErrors,
-		errorMessage: ''
-	};
+	loginRender.submitted = true;
+	loginRender.errors = formErrors;
 
 	var email = validatedForm[0].value;
-
 	if(!formErrors){
 		sqlUsers.findUser(email, function (err, result) {
 	      	if(result.length > 0){
@@ -140,20 +165,22 @@ function loginHandler(req, res){
   		      			res.redirect('/game');
   		      		});
   		      	} else {
-  		      		info.errorMessage = 'Wrong password';
-  		      		info.form = loginForm;
-  		      		res.render('login', info);
+  		      		loginRender.errors = true;
+  		      		loginRender.errorMessage = 'Wrong password';
+  		      		loginRender.form = loginForm;
+  		      		res.render('login', loginRender);
   		    	}
   		    } else {
-  		    	info.errorMessage = 'This user cannot be found.';
-  		    	info.form = loginForm;
-  		    	res.render('login', info)
+  		    	loginRender.errors = true;
+  		    	loginRender.errorMessage = 'This user cannot be found.';
+  		    	loginRender.form = loginForm;
+  		    	res.render('login', loginRender)
   		    }
 	    });
 	} else {
-		info.errorMessage = 'Wrong email or password!';
-		info.form = loginForm;
-		res.render('login', info)
+		loginRender.errorMessage = 'Form Error';
+		loginRender.form = loginForm;
+		res.render('login', loginRender)
 	}
 
 }
@@ -165,41 +192,36 @@ function loginHandler(req, res){
 * @param {Object} res - response object
 */
 function signUpHandler(req, res){
-	console.log(req.body);
 	var data = formValidator(form, req.body);
 
 	var formErrors = data.hasErrors;
 	var validatedForm = data.processedForm;
 
-	var info = {
-		title: 'SignUp',
-		form: validatedForm,
-		submitted: true,
-		errors: formErrors,
-		errorMessage: ''
-	};
+	signupRender.submitted = true;
+	signupRender.errors = formErrors;
 
 	var email = validatedForm[0].value;
 	var password1 = validatedForm[1].value;
 	var password2 = validatedForm[2].value;
-
 	if(!formErrors){
 		if(password1 === password2){
 			sqlUsers.addUser(email, password1, function (err, result) {
 			      if (result) {
 			        res.redirect('/login');
 			      } else {
-			      	info.errorMessage = 'This email is already in use.';
-			        res.render('signup', info);
+			      	signupRender.errors = true;
+			      	signupRender.errorMessage = 'This email is already in use.';
+			        res.render('login', signupRender);
 			      }
 			    });
 		} else {
-			info.errorMessage = 'You have typed two different passwords.';
-			res.render('signup', info);
+			signupRender.errors = true;
+			signupRender.errorMessage = 'You have typed two different passwords.';
+			res.render('login', signupRender);
 		}
 	} else {
-		info.errorMessage = 'Something went wrong';
-		res.render('signup', info)
+		signupRender.errorMessage = 'Form Error';
+		res.render('login', signupRender)
 	}
 }
 
