@@ -107,33 +107,45 @@ div{
 }
 
 #emailWarning{
-  margin: 1%;
+  margin-top: 10%;
   font-family: Century Gothic, sans-serif;
   font-weight: bold;
   text-align: center;
   font-size: 23px;
   color: black;
+  position: absolute;
   /*display: none;*/
 }
 
 #password1Warning{
   font-size: 23px;
   color: black;
-  margin: 2%;
+  margin-top: 15%;
   font-family: Century Gothic, sans-serif;
   font-weight: bold;
   text-align: center;
+  position: absolute;
   /*display: none;*/
 }
 
 #password2Warning{
   font-size: 23px;
   color: black;
-  margin: 2%;
+  margin-top: 20%;
   font-family: Century Gothic, sans-serif;
   font-weight: bold;
   text-align: center;
+  position: absolute;
+}
 
+#formErrorMessage{
+  font-size: 23px;
+  color: black;
+  margin-top: 20%;
+  font-family: Century Gothic, sans-serif;
+  font-weight: bold;
+  text-align: center;
+  position: absolute;
 }
 
 #signupForm{

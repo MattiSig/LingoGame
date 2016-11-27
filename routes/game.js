@@ -1,4 +1,6 @@
-'use strict'
+
+'use strict';
+
 var express = require('express');
 var router = express.Router();
 var loggedInStatus = require('../lib/middleware/loggedInStatus');
@@ -44,7 +46,8 @@ function addWordHandler(req, res){
 		title: 'Bæta við öðru orði',
 		form: validatedForm,
 		submitted: true,
-		errors: formErrors
+		errors: formErrors,
+		isHidden: false
 	};
 
 	if(!formErrors){
@@ -161,35 +164,40 @@ var form = [
 		label: '1',
 		type: 'radio',
 		value: 1,
-		id: 'button1'
+		id: 'button1',
+		class: 'radio'
 	},
 	{
 		name: 'difficulty',
 		label: '2',
 		type: 'radio',
 		value: 2,
-		id: 'button2'
+		id: 'button2',
+		class: 'radio'
 	},
 	{
 		name: 'difficulty',
 		label: '3',
 		type: 'radio',
 		value: 3,
-		id: 'button3'
+		id: 'button3',
+		class: 'radio'
 	},
 	{
 		name: 'difficulty',
 		label: '4',
 		type: 'radio',
 		value: 4,
-		id: 'button4'
+		id: 'button4',
+		class: 'radio'
 	},
 	{
 		name: 'difficulty',
 		label: '5',
 		type: 'radio',
 		value: 5,
-		id: 'button5'
+		id: 'button5',
+		class: 'radio'
 	},
 	{
 		name: 'islenska',
@@ -198,7 +206,8 @@ var form = [
 		required: true,
 		value: '',
 		valid: false,
-		id: 'islenska'
+		id: 'islenska',
+		class: 'form-control'
 	},
 	{
 		name: 'enska',
@@ -207,7 +216,8 @@ var form = [
 		required: true,
 		value: '',
 		valid: false,
-		id: 'enska'
+		id: 'enska',
+		class: 'form-control'
 	}
 ];
 

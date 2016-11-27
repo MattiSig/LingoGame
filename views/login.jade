@@ -11,23 +11,26 @@ block content
         h2.titill Lingo Dingo is all about having fun and learning languages at the same time!
       div.col-md-1
       div.col-xs-12(style='height:60px;')
-        ul
-          row
-            if errors && submitted
-              h4(style='color: red;')= errorMessage
-            div(id='emailWarning' class="message")
-            div(id='password1Warning' class="message")
+
 
     div.col-md-6
-      div.col-md-2
-      div(class="col-md-8 card" style="background-color:rgba(0, 0, 0, 0.5);", id='loginContainer')
-        form(id="loginForm" method='post' action=action, class="login")
-          each field in form
-            +field(field, submitted)  
-          button(class="btn btn-danger top-buffer" role="button" id="logInUser")
-            span.glyphicon.glyphicon-ok-circle 
-            |  #{submitButton}
-          button(type='button' class="btn btn-primary top-buffer" id='toSignUp')
-            span(class=submitButton==='Login' ? 'glyphicon glyphicon-user' : 'glyphicon glyphicon-menu-left')
-            |    #{switchButton}
-      div.col-md-2
+      div.row
+        div.row: if errors && submitted
+            h4(id='formErrorMessage')= errorMessage
+        div.row: div(id='emailWarning' class="message")
+        div.row: div(id='password1Warning' class="message")
+        div.row: div(id='password2Warning' class="message")
+      div.row
+        div.col-md-2
+        div(class="col-md-8 card" style="background-color:rgba(0, 0, 0, 0.5); margin-top: 40%;", id='loginContainer')
+          form(id="loginForm" method='post' action=action, class="login")
+            each field in form
+              +field(field, submitted)  
+            div.row: button(class="btn btn-danger top-buffer" role="button" id="logInUser")
+              span.glyphicon.glyphicon-ok-circle 
+              |  #{submitButton}
+            div.row: button(type='button' class="btn btn-primary top-buffer" id='toSignUp')
+              span(class=submitButton==='Login' ? 'glyphicon glyphicon-user' : 'glyphicon glyphicon-menu-left')
+              |    #{switchButton}
+
+        div.col-md-2
