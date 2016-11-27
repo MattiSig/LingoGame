@@ -3,13 +3,11 @@ include mixins
 
 block content
     div.col-md-4
+    div.col-md-4
       h1= title
-
-      form(method='post', action='/addword')
-        div(class=).form-group
+      h2 Difficulty
+      form(method='post', action='/addword' class='addwords')
+        div.form-group
           each field in form
             +field(field, submitted)
-        button() Bæta við orði
-
-      form(method='post', action='/getword')
-        button() Ná í orð
+        div.row: button(class="btn btn-primary top-buffer") Add word
