@@ -23,7 +23,7 @@ open link localhost:3000 in a browser.
 ---
 
 ## Gameplay - instructions
-<kbd>&leftarrow</kbd> and <kbd>&rightarrow</kbd> for right and left movement
+<kbd><-</kbd> and <kbd>-></kbd> for right and left movement
 
 <kbd>space</kbd> to jump
 
