@@ -1,4 +1,6 @@
 'use strict'
+//Object constructor for player
+//creates object of type Phaser.sprite
 Lingo.Player = function (game, x, y) {
 	this.playerFacing = 'right';
 	Phaser.Sprite.call(this, game, x, y, 'rundog');
@@ -28,8 +30,10 @@ Lingo.Player = function (game, x, y) {
 }
 Lingo.Player.prototype = Object.create(Phaser.Sprite.prototype);
 Lingo.Player.prototype.constructor = Lingo.Player;
-
+//update loop called automaticly by Phaser.game
+//state restarts when player
 Lingo.Player.prototype.update = function () {
+  //state (level) restarts when player hits bottom of level
   if(this.body.y > this.game.world.height - 40){
     this.game.state.restart();
   }
@@ -45,6 +49,7 @@ Lingo.Player.prototype.moveLeft = function(deltaTime){
     this.animations.play('left');
 		this.playerFacing = 'left';
 }
+//resets player to original spawn
 Lingo.Player.prototype.restart = function(){
 		this.body.x =250;
 		this.body.y = 2800;
@@ -71,6 +76,7 @@ Lingo.Player.prototype.looseLife = function(timeNow){
       }
     }
 }
+//goes to next level and updates database for user
 Lingo.Player.prototype.nextlevel = function(gameFinished, timeNow){
     if(this.lifeTimer < timeNow){
       this.lifeTimer = timeNow + 1000;

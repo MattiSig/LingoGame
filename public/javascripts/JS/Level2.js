@@ -1,5 +1,5 @@
 'use strict'
-//game is a new state of Phaser.game. Takes Phaser.game as input
+//Level2 is a new state of Phaser.game. Takes Phaser.game as input
 //creates "private" variables to be called privately within 
 //game.prototype object
 Lingo.Level2 = function(game) {
@@ -41,6 +41,7 @@ Lingo.Level2 = function(game) {
     this.wordArray = [[],[],[]];
     this.buttonInRange;
 };
+//some global variables that needed to be used trough states
 var dictionary;
 var textNumber = 0;
 var isWithinRange = [];
@@ -67,7 +68,7 @@ Lingo.Level2.prototype = {
     this.layer.resizeWorld();
 
     this.map.setCollision([1,2,3,4,5,8,9,10,11,12,15,16,17],true,'Base');
-    this.map.setCollision([36,37,38,39,40],true,'bgMountains');
+    this.map.setCollision([37,38,39],true,'bgMountains');
     //-------Items(scripts)--------
     this.script = this.add.group();
     this.script.enableBody = true;
@@ -95,7 +96,7 @@ Lingo.Level2.prototype = {
     this.enemy.callAll('animations.play', 'animations', 'walk');
 
     this.physics.enable(this.enemy, Phaser.Physics.ARCADE);
-
+    //loop throught enemy group and give enemy attributes
     for (var i = 0; i < this.enemy.children.length; i++)
         {
             var aEnemy = this.enemy.children[i];
@@ -105,22 +106,22 @@ Lingo.Level2.prototype = {
             aEnemy.anchor.setTo(.5,.5);
             isWithinRange[i] = false;
         }
-
+    //Fetches 12 words form
+    //sql-dictionary.js
     $.ajax({
         type: 'GET',
         url: '/getword',
         async: false,
         success: function(data){
             setDictionary(data);
-            //Sækir 12 orð, til að sækja fleir þarf að breyta fjölda
-            //í sql-dictionary
+
         }
     });
 
     function setDictionary(data){
         dictionary = data;
     }
-
+    //3 word arrays initialized one for each enemy
     this.wordArray[0] = this.setArray(0);
 
     this.button1 = new Lingo.Button(this.game, 0, 550, "");
@@ -141,7 +142,7 @@ Lingo.Level2.prototype = {
     this.text1 = this.add.group();
     for(var i = 0; i < this.enemy.children.length; i++){
         this.text1.add(this.add.text(this.enemy.children[i].body.x, this.enemy.children[i].body.y, dictionary[i*4].enska,  
-        { font: "14px Arial", fill: this.generateHexColor()}));
+        { font: "16px Comic Sans MS", fill: this.generateHexColor()}));
     }
     this.text1.setAll('anchor.x', 0.5);
     this.text1.setAll('anchor.y', 0.5);
@@ -154,7 +155,7 @@ Lingo.Level2.prototype = {
     this.cursors = this.input.keyboard.createCursorKeys();
     this.jumpButton = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     this.pauseButton = this.input.keyboard.addKey(Phaser.Keyboard.P);
-    //8===============================================================D
+    
     this.aButton = this.input.keyboard.addKey(Phaser.Keyboard.A);
     this.sButton = this.input.keyboard.addKey(Phaser.Keyboard.S);
     this.dButton = this.input.keyboard.addKey(Phaser.Keyboard.D);
@@ -163,7 +164,7 @@ Lingo.Level2.prototype = {
     },
     //game update loop
     update: function() {
-
+        //delta time is the amount of time in millisec between eatch update
         this.deltaTime = this.time.elapsedMS / 1000;
         
         //handle controler events
@@ -182,7 +183,7 @@ Lingo.Level2.prototype = {
                 this.player.playerFacing = 'idle';
             }
         }    
-        
+        //collition for player and map
         this.physics.arcade.collide(this.player, this.layer);
 
         if (this.jumpButton.isDown && this.player.body.onFloor() && this.time.now > this.jumpTimer)
@@ -219,6 +220,8 @@ Lingo.Level2.prototype = {
 
         }
 
+        //----collition detection for various events----
+        //----------------------------------------------
         this.physics.arcade.collide(this.enemy, this.layer);
         this.physics.arcade.collide(this.enemy,this.player, function(player, enemy) {
             this.player.looseLife();
@@ -241,6 +244,7 @@ Lingo.Level2.prototype = {
         this.dButton.onDown.add(this.isCorrect, this.button3, null, this.enemy, this.text1, this.updateScore);
         this.fButton.onDown.add(this.isCorrect, this.button4, null, this.enemy, this.text1, this.updateScore);
 
+        //text is set to follow enemy
         for (var i = 0; i < this.enemy.children.length; i++){
             this.text1.children[i].x = this.enemy.children[i].x;
             this.text1.children[i].y = this.enemy.children[i].y - 50;
@@ -249,14 +253,18 @@ Lingo.Level2.prototype = {
             }
         }
     },
-    //render debug text
+    //render debugs
     render: function(){
         //this is used for debuging e.g:
         //this.game.debug.text("FPS: " + this.game.time.fps, 2, 14,"#00ff00");
     },
+    //pause the game
     pause: function(){
         this.physics.arcade.isPaused = (this.physics.arcade.isPaused) ? false : true;
     },
+    //make buttons on bottom of screen visable
+    //disclamer: within the Phaser game engine objects with alpha=0 
+    //are not renderd
     makeVisible: function(isHidden){
         if(isHidden){
             this.button1.alpha = 1;
@@ -270,6 +278,7 @@ Lingo.Level2.prototype = {
             this.button4.alpha = 0;
         }
     },
+    //Did the user press the right button to kill enemy
     isCorrect: function(btn, enemy, texti, update){
         var buttonText = this.buttonText._text;
 
@@ -281,6 +290,7 @@ Lingo.Level2.prototype = {
             player.looseLife();
         }
     },
+    //when player and scripts collide
     collectScript: function(player, script) {
         script.destroy();
         this.updateScore(10)
@@ -293,25 +303,30 @@ Lingo.Level2.prototype = {
             textNumber++;
         }
     },
+    //update players score in database
     updateScore: function(score){
         $.ajax({
             type: 'POST',
             url: '/updatescore',
             data: {score: score}
         });
-    },
+    },    
+    //hide text that is learnd with each script
     hideScript: function(){
         this.text2.alpha = 0;
     },
+    //Generate random color
     generateHexColor: function() { 
         return '#' + ((0.5 + 0.5 * Math.random()) * 0xFFFFFF << 0).toString(16);
     },
+    //update text on buttons
     updateButtons: function(array){
         this.button1.setText(array[0]);
         this.button2.setText(array[1]);
         this.button3.setText(array[2]);
         this.button4.setText(array[3]);
     },
+    //initalize array with text from dictionary    
     setArray: function(pos){
         var array = [];
 
@@ -320,6 +335,7 @@ Lingo.Level2.prototype = {
         }
         return array;
     },
+    //shuffle strings in array
     shuffleWords: function(array){
         for(let i = array.length; i; i--){
             let j = Math.floor(Math.random()*i);

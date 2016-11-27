@@ -1,6 +1,6 @@
 'use strict'
-//game is a new state of Phaser.game. Takes Phaser.game as input
-//creates "private" variables to be called privately within 
+//Level1 is a new state of Phaser.game. Takes Phaser.game as input
+//creates "private" variables to be called privately within this
 //game.prototype object
 Lingo.Level1 = function(game) {
 	this.map;
@@ -97,7 +97,8 @@ Lingo.Level1.prototype = {
     this.enemy.callAll('animations.play', 'animations', 'walk');
 
     this.physics.enable(this.enemy, Phaser.Physics.ARCADE);
-
+    
+    //loop throught group
     for (var i = 0; i < this.enemy.children.length; i++)
         {
             var aEnemy = this.enemy.children[i];
@@ -107,26 +108,27 @@ Lingo.Level1.prototype = {
             aEnemy.anchor.setTo(.5,.5);
             isWithinRange[i] = false;
         }
-
+    //Fetches 12 words form
+    //sql-dictionary.js
     $.ajax({
         type: 'GET',
         url: '/getword',
         async: false,
         success: function(data){
             setDictionary(data);
-            //Sækir 12 orð, til að sækja fleir þarf að breyta fjölda
-            //í sql-dictionary
         }
     });
-
+    //helper
     function setDictionary(data){
         dictionary = data;
     }
 
+    //3 word arrays initialized one for each enemy
     this.wordArray[0] = this.setArray(0);
     this.wordArray[1] = this.setArray(4);
     this.wordArray[2] = this.setArray(8);
 
+    //Creates buttons and sets alpha to zero which does not render them
     this.button1 = new Lingo.Button(this.game, 0, 550, "");
     this.add.existing(this.button1);
     this.button1.alpha = 0;
@@ -145,7 +147,7 @@ Lingo.Level1.prototype = {
     this.text1 = this.add.group();
     for(var i = 0; i < this.enemy.children.length; i++){
         this.text1.add(this.add.text(this.enemy.children[i].body.x, this.enemy.children[i].body.y, dictionary[i*4].enska,  
-        { font: "14px Arial", fill: this.generateHexColor()}));
+        { font: "16px Comic Sans MS", fill: this.generateHexColor()}));
     }
     this.text1.setAll('anchor.x', 0.5);
     this.text1.setAll('anchor.y', 0.5);
@@ -166,9 +168,9 @@ Lingo.Level1.prototype = {
 
     var buttonInRange = new Phaser.Signal();
 	},
-    //game update loop
+    //is automaticly called by Phaser.game every Game Loop
 	update: function() {
-
+        //delta time is the amount of time in millisec between eatch update
         this.deltaTime = this.time.elapsedMS / 1000;
 		
         //handle controler events
@@ -187,7 +189,7 @@ Lingo.Level1.prototype = {
                 this.player.playerFacing = 'idle';
             }
         }    
-        
+        //collition for player and map
         this.physics.arcade.collide(this.player, this.layer);
 
         if (this.jumpButton.isDown && this.player.body.onFloor() && this.time.now > this.jumpTimer)
@@ -205,7 +207,9 @@ Lingo.Level1.prototype = {
                 (this.player.body.y > this.enemy.children[i].body.y - 500)
             )
             if(isWithinRange[i]){
+            }
         }
+
         if((isWithinRange[0]||isWithinRange[1]||isWithinRange[2]) && this.button1.alpha === 0){                
             
             for (var i = 0; i < this.enemy.children.length; i++){
@@ -222,19 +226,20 @@ Lingo.Level1.prototype = {
 
         }else if(!(isWithinRange[0]||isWithinRange[1]||isWithinRange[2]) && this.button1.alpha === 1){
             this.makeVisible(false);
-
         }
 
-        
+        //----collition detection for various events----
+        //----------------------------------------------
         this.physics.arcade.collide(this.enemy, this.layer);
         this.physics.arcade.collide(this.enemy,this.player, function(player, enemy) {
             this.player.looseLife();
-
         },null, this);
+
         this.physics.arcade.collide(this.player, this.script, this.collectScript, null, this);
         this.physics.arcade.collide(this.player, this.layer3, function(player, layer3){
             this.player.looseLife(this.time.now);
         },null, this);
+
         this.physics.arcade.collide(this.player, this.door, function(player, door){
             isWithinRange = [];
             this.makeVisible(false);    
@@ -242,12 +247,13 @@ Lingo.Level1.prototype = {
         }, null, this);
         
         this.pauseButton.onDown.add(this.pause, this);        
-        //8====================================D
+
         this.aButton.onDown.add(this.isCorrect, this.button1, null, this.enemy, this.text1, this.updateScore, this.player);
         this.sButton.onDown.add(this.isCorrect, this.button2, null, this.enemy, this.text1, this.updateScore, this.player);
         this.dButton.onDown.add(this.isCorrect, this.button3, null, this.enemy, this.text1, this.updateScore, this.player);
         this.fButton.onDown.add(this.isCorrect, this.button4, null, this.enemy, this.text1, this.updateScore, this.player);
 
+        //text is set to follow enemy
         for (var i = 0; i < this.enemy.children.length; i++){
             this.text1.children[i].x = this.enemy.children[i].x;
             this.text1.children[i].y = this.enemy.children[i].y - 50;
@@ -261,9 +267,13 @@ Lingo.Level1.prototype = {
         //this was used for debuging e.g:
         //this.game.debug.text("FPS: " + this.game.time.fps, 2, 14,"#00ff00");
     },
+    //pause the game
     pause: function(){
         this.physics.arcade.isPaused = (this.physics.arcade.isPaused) ? false : true;
     },
+    //make buttons on bottom of screen visable
+    //disclamer: within the Phaser game engine objects with alpha=0 
+    //are not renderd
     makeVisible: function(isHidden){
         if(isHidden){
             this.button1.alpha = 1;
@@ -277,6 +287,7 @@ Lingo.Level1.prototype = {
             this.button4.alpha = 0;
         }
     },
+    //Did the user press the right button to kill enemy
     isCorrect: function(btn, enemy, texti, update, player){
         var buttonText = this.buttonText._text;
         if(buttonText===dictionary[myEnemyText].islenska){
@@ -287,6 +298,7 @@ Lingo.Level1.prototype = {
             player.looseLife();
         }
     },
+    //when player and scripts collide
     collectScript: function(player, script) {
         script.destroy();
         this.updateScore(10)
@@ -300,6 +312,7 @@ Lingo.Level1.prototype = {
             textNumber++;
         }
     },
+    //update players score in database
     updateScore: function(score){
         $.ajax({
             type: 'POST',
@@ -307,18 +320,22 @@ Lingo.Level1.prototype = {
             data: {score: score}
         });
     },
+    //hide text that is learnd with each script
     hideScript: function(){
         this.text2.alpha = 0;
     },
+    //Generate random color
     generateHexColor: function() { 
         return '#' + ((0.5 + 0.5 * Math.random()) * 0xFFFFFF << 0).toString(16);
     },
+    //update text on buttons
     updateButtons: function(array){
         this.button1.setText(array[0]);
         this.button2.setText(array[1]);
         this.button3.setText(array[2]);
         this.button4.setText(array[3]);
     },
+    //initalize array with text from dictionary
     setArray: function(pos){
         var array = [];
 
@@ -327,12 +344,15 @@ Lingo.Level1.prototype = {
         }
         return array;
     },
+    //shuffle strings in array
     shuffleWords: function(array){
         for(let i = array.length; i; i--){
             let j = Math.floor(Math.random()*i);
             [array[i-1], array[j]] = [array[j], array[i-1]];
         }
     },
+    //called when user switches states
+    //that is player goes from lvl 1 to lvl 2
     shutdown: function(){
         this.button1.destroy();
         this.button1 = null;
