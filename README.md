@@ -20,9 +20,20 @@ $ npm start
 
 open link localhost:3000 in a browser.
 
+---
+
 ## Gameplay - instructions
+<kbd><-</kbd> and <kbd>-></kbd> for right and left movement
+
+<kbd>space</kbd> to jump
+
+
 Keyboard buttons <kbd>A</kbd> + <kbd>S</kbd> + <kbd>D</kbd> + <kbd>F</kbd>
 represent buttons 1 - 4 on screen respectively 
+
+<kbd>P</kbd> to pause game
+
+---
 
 ## Database
 The Database is hosted on Heroku.com

@@ -34,7 +34,7 @@ router.get('/getScore', getScore);
 */
 function addWordHandler(req, res){
 	var body = {
-		islenska: req.body.islenska, 
+		islenska: req.body.islenska,
 		enska: req.body.enska
 	};
 	var formToValidate = [form[5], form[6]];
@@ -51,7 +51,7 @@ function addWordHandler(req, res){
 	};
 
 	if(!formErrors){
-		sqlDictionary.addWord(req.body.difficulty, validatedForm[0].value, validatedForm[1].value, 
+		sqlDictionary.addWord(req.body.difficulty, validatedForm[0].value, validatedForm[1].value,
 			function (err, result){
 				if(result){
 					info.form[0].value = '';
@@ -126,8 +126,8 @@ function getLevel(req, res){
 }
 
 /**
-* Receives an array with 5 objects containing email and 
-* user score for top 5 score results 
+* Receives an array with 5 objects containing email and
+* user score for top 5 score results
 * @param {Object} req - request object
 * @param {Object} res - response object
 */
@@ -159,13 +159,14 @@ function updateScore(req, res){
 
 //Variable passed to view for rendering and handling data
 var form = [
+
 	{
 		name: 'difficulty',
 		label: '1',
 		type: 'radio',
 		value: 1,
 		id: 'button1',
-		class: 'radio'
+		class: 'wrap'
 	},
 	{
 		name: 'difficulty',
@@ -173,7 +174,7 @@ var form = [
 		type: 'radio',
 		value: 2,
 		id: 'button2',
-		class: 'radio'
+		class: 'wrap'
 	},
 	{
 		name: 'difficulty',
@@ -181,7 +182,7 @@ var form = [
 		type: 'radio',
 		value: 3,
 		id: 'button3',
-		class: 'radio'
+		class: 'wrap'
 	},
 	{
 		name: 'difficulty',
@@ -189,7 +190,7 @@ var form = [
 		type: 'radio',
 		value: 4,
 		id: 'button4',
-		class: 'radio'
+		class: 'wrap'
 	},
 	{
 		name: 'difficulty',
@@ -197,28 +198,29 @@ var form = [
 		type: 'radio',
 		value: 5,
 		id: 'button5',
-		class: 'radio'
+		class: 'wrap'
 	},
-	{
-		name: 'islenska',
-		label: 'Íslenska',
-		type: 'text',
-		required: true,
-		value: '',
-		valid: false,
-		id: 'islenska',
-		class: 'form-control'
-	},
-	{
-		name: 'enska',
-		label: 'Enska',
-		type: 'text',
-		required: true,
-		value: '',
-		valid: false,
-		id: 'enska',
-		class: 'form-control'
-	}
+  {
+    name: 'islenska',
+    label: 'Íslenska',
+    type: 'text',
+    required: true,
+    value: '',
+    valid: false,
+    id: 'islenska',
+    // class: 'form-control'
+  },
+  {
+    name: 'enska',
+    label: 'Enska',
+    type: 'text',
+    required: true,
+    value: '',
+    valid: false,
+    id: 'enska',
+    // class: 'form-control'
+  }
+
 ];
 
 module.exports = router;
