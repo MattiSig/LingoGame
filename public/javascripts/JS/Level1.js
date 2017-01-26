@@ -67,7 +67,7 @@ Lingo.Level1.prototype = {
     this.layer = this.map.createLayer('base');
     this.layer.resizeWorld();
 
-    this.layer3.debug = true;
+    //this.layer3.debug = true;
     this.map.setCollision([1,2,3,4,5,8,9,10,11,12,15,16,17],true,'base');
     this.map.setCollision([37, 38, 39],true,'bgMountains');
     //-------Items(scripts)--------
